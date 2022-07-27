@@ -1,0 +1,16 @@
+# ignore env
+*.env
+# ignore folder
+/dbdata/
+/tests/
+/vendor/
+/var/
+
+.idea
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
