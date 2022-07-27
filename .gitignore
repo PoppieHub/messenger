@@ -2,9 +2,9 @@
 *.env
 # ignore folder
 /dbdata/
-/tests/
-/vendor/
-/var/
+/code/tests/
+/code/vendor/
+/code/var/
 
 .idea
 
