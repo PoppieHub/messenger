@@ -2,7 +2,6 @@
 *.env
 # ignore folder
 /dbdata/
-/code/tests/
 /code/vendor/
 /code/var/
 
@@ -13,4 +12,9 @@
 .DS_Store
 .AppleDouble
 .LSOverride
+
+###> friendsofphp/php-cs-fixer ###
+.php-cs-fixer.php
+.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
 

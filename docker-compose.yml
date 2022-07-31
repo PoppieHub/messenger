@@ -60,6 +60,9 @@ services:
     container_name: db
     ports:
       - "3306:3306"
+    # Интеграция Symfony с Docker
+    labels:
+      com.symfony.server.service-prefix: 'DATABASE'
     # описываем, какую БД мы создаём
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
