@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -30,6 +32,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     private bool $verified;
+
+    #[ORM\OneToMany(mappedBy: 'to_user', targetEntity: Contact::class)]
+    private Collection $to_user_contact;
+
+    #[ORM\OneToMany(mappedBy: 'from_user', targetEntity: Contact::class)]
+    private Collection $from_user_contact;
+
+    public function __construct()
+    {
+        $this->to_user_contact = new ArrayCollection();
+        $this->from_user_contact = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -101,4 +115,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->verified = $verified;
     }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getToUserContact(): Collection
+    {
+        return $this->to_user_contact;
+    }
+
+    public function addToUserContact(Contact $toUserContact): self
+    {
+        if (!$this->to_user_contact->contains($toUserContact)) {
+            $this->to_user_contact->add($toUserContact);
+            $toUserContact->addToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToUserContact(Contact $toUserContact): self
+    {
+        if ($this->to_user_contact->removeElement($toUserContact)) {
+            $toUserContact->removeToUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getFromUserContact(): Collection
+    {
+        return $this->from_user_contact;
+    }
+
+    public function addFromUserContact(Contact $fromUserContact): self
+    {
+        if (!$this->from_user_contact->contains($fromUserContact)) {
+            $this->from_user_contact->add($fromUserContact);
+            $fromUserContact->addToUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFromUserContact(Contact $fromUserContact): self
+    {
+        if ($this->from_user_contact->removeElement($fromUserContact)) {
+            $fromUserContact->removeToUser($this);
+        }
+
+        return $this;
+    }
+
 }
