@@ -13,6 +13,7 @@ services:
         - INSTALL_XDEBUG=${INSTALL_XDEBUG}
     image: myapp/php # имя будущего образа
     container_name: app # имя контейнера после запуска
+    restart: always # перезагружать после падения - всегда
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"
     volumes:
@@ -28,6 +29,9 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: myapp/nginx
+    restart: always # перезагружать после падения - всегда
+    depends_on:  # завист от включенного php
+      - app
     container_name: webserver
     volumes:
       - ./code:/data/messenger.local
@@ -39,30 +43,15 @@ services:
     networks:
       - app-network
 
-  # контейнер с PhpMyAdmin
-  # строим на базе стандартного образа
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=db
-      - PMA_PORT=3306
-    ports:
-      - "81:80"
-    networks:
-      - app-network
-
   # контейнер с MySQL
   # строим на базе стандартного образа
-  db:
+  database:
     platform: linux/x86_64
     image: mysql:8
-    container_name: db
+    container_name: database
+    restart: always # перезагружать после падения - всегда
     ports:
       - "3306:3306"
-    # Интеграция Symfony с Docker
-    labels:
-      com.symfony.server.service-prefix: 'DATABASE'
     # описываем, какую БД мы создаём
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -70,6 +59,25 @@ services:
     volumes:
       - ./dbdata:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+  # контейнер с PhpMyAdmin
+  # строим на базе стандартного образа
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always # перезагружать после падения - всегда
+    container_name: phpmyadmin
+    depends_on: # завист от включенного php и mysql и nginx
+      - app
+      - database
+      - webserver
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=database
+      - PMA_PORT=3306
+    ports:
+      - "81:80"
     networks:
       - app-network
 
