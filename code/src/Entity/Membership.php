@@ -17,11 +17,11 @@ class Membership
     #[ORM\Column]
     private ?bool $notification = null;
 
-    #[ORM\ManyToOne(inversedBy: 'chat_id_membership')]
+    #[ORM\ManyToOne(inversedBy: 'memberships')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user_id_membership')]
+    #[ORM\ManyToOne(inversedBy: 'membership')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 
@@ -42,24 +42,24 @@ class Membership
         return $this;
     }
 
-    public function getChatId(): ?Chat
+    public function getChat(): ?Chat
     {
         return $this->chat_id;
     }
 
-    public function setChatId(?Chat $chat_id): self
+    public function setChat(?Chat $chat_id): self
     {
         $this->chat_id = $chat_id;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
         return $this->user_id;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user_id): self
     {
         $this->user_id = $user_id;
 

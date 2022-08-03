@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $from_user_contact;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Membership::class)]
-    private Collection $user_id_membership;
+    private Collection $membership;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Message::class)]
     private Collection $messages;
@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->to_user_contact = new ArrayCollection();
         $this->from_user_contact = new ArrayCollection();
-        $this->user_id_membership = new ArrayCollection();
+        $this->membership = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -188,27 +188,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Membership>
      */
-    public function getUserIdMembership(): Collection
+    public function getMembership(): Collection
     {
-        return $this->user_id_membership;
+        return $this->membership;
     }
 
-    public function addUserIdMembership(Membership $userIdMembership): self
+    public function addMembership(Membership $membership): self
     {
-        if (!$this->user_id_membership->contains($userIdMembership)) {
-            $this->user_id_membership->add($userIdMembership);
-            $userIdMembership->setUserId($this);
+        if (!$this->membership->contains($membership)) {
+            $this->membership->add($membership);
+            $membership->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeUserIdMembership(Membership $userIdMembership): self
+    public function removeMembership(Membership $membership): self
     {
-        if ($this->user_id_membership->removeElement($userIdMembership)) {
+        if ($this->membership->removeElement($membership)) {
             // set the owning side to null (unless already changed)
-            if ($userIdMembership->getUserId() === $this) {
-                $userIdMembership->setUserId(null);
+            if ($membership->getUser() === $this) {
+                $membership->setUser(null);
             }
         }
 

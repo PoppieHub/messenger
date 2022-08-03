@@ -23,14 +23,14 @@ class Chat
     private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'chat_id', targetEntity: Membership::class)]
-    private Collection $chat_id_membership;
+    private Collection $memberships;
 
     #[ORM\OneToMany(mappedBy: 'chat_id', targetEntity: Message::class)]
     private Collection $messages;
 
     public function __construct()
     {
-        $this->chat_id_membership = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -66,27 +66,27 @@ class Chat
     /**
      * @return Collection<int, Membership>
      */
-    public function getChatIdMembership(): Collection
+    public function getMemberships(): Collection
     {
-        return $this->chat_id_membership;
+        return $this->memberships;
     }
 
-    public function addChatIdMembership(Membership $chatIdMembership): self
+    public function addMemberships(Membership $memberships): self
     {
-        if (!$this->chat_id_membership->contains($chatIdMembership)) {
-            $this->chat_id_membership->add($chatIdMembership);
-            $chatIdMembership->setChatId($this);
+        if (!$this->memberships->contains($memberships)) {
+            $this->memberships->add($memberships);
+            $memberships->setChat($this);
         }
 
         return $this;
     }
 
-    public function removeChatIdMembership(Membership $chatIdMembership): self
+    public function removeMemberships(Membership $memberships): self
     {
-        if ($this->chat_id_membership->removeElement($chatIdMembership)) {
+        if ($this->memberships->removeElement($memberships)) {
             // set the owning side to null (unless already changed)
-            if ($chatIdMembership->getChatId() === $this) {
-                $chatIdMembership->setChatId(null);
+            if ($memberships->getChat() === $this) {
+                $memberships->setChat(null);
             }
         }
 
