@@ -13,7 +13,7 @@ class Type
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, unique: true)]
     private ?string $name = null;
 
     public function getId(): ?int
