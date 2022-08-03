@@ -22,13 +22,13 @@ class Chat
     #[ORM\Column(type: Types::TEXT, length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'chat_id', targetEntity: Membership::class)]
+    #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Membership::class)]
     private Collection $memberships;
 
-    #[ORM\OneToMany(mappedBy: 'chat_id', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class)]
     private Collection $messages;
 
-    #[ORM\OneToMany(mappedBy: 'chat_id', targetEntity: Content::class)]
+    #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Content::class)]
     private Collection $contents;
 
     public function __construct()

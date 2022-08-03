@@ -18,11 +18,11 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Chat $chat_id = null;
+    private ?Chat $chat = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body_message = null;
@@ -36,7 +36,7 @@ class Message
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'message_id', targetEntity: Content::class)]
+    #[ORM\OneToMany(mappedBy: 'message', targetEntity: Content::class)]
     private Collection $contents;
 
     public function __construct()
@@ -51,24 +51,24 @@ class Message
 
     public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUser(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getChat(): ?Chat
     {
-        return $this->chat_id;
+        return $this->chat;
     }
 
-    public function setChat(?Chat $chat_id): self
+    public function setChat(?Chat $chat): self
     {
-        $this->chat_id = $chat_id;
+        $this->chat = $chat;
 
         return $this;
     }

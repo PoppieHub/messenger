@@ -39,13 +39,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'from_user', targetEntity: Contact::class)]
     private Collection $from_user_contact;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Membership::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Membership::class)]
     private Collection $membership;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class)]
     private Collection $messages;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Content::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Content::class)]
     private Collection $contents;
 
     public function __construct()

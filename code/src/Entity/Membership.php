@@ -19,11 +19,11 @@ class Membership
 
     #[ORM\ManyToOne(inversedBy: 'memberships')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Chat $chat_id = null;
+    private ?Chat $chat = null;
 
     #[ORM\ManyToOne(inversedBy: 'membership')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -44,24 +44,24 @@ class Membership
 
     public function getChat(): ?Chat
     {
-        return $this->chat_id;
+        return $this->chat;
     }
 
-    public function setChat(?Chat $chat_id): self
+    public function setChat(?Chat $chat): self
     {
-        $this->chat_id = $chat_id;
+        $this->chat = $chat;
 
         return $this;
     }
 
     public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUser(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

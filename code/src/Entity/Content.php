@@ -15,18 +15,18 @@ class Content
     private ?string $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
-    private ?Message $message_id = null;
+    private ?Message $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
-    private ?Chat $chat_id = null;
+    private ?Chat $chat = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type_id = null;
+    private ?Type $type = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -38,48 +38,48 @@ class Content
 
     public function getMessage(): ?Message
     {
-        return $this->message_id;
+        return $this->message;
     }
 
-    public function setMessage(?Message $message_id): self
+    public function setMessage(?Message $message): self
     {
-        $this->message_id = $message_id;
+        $this->message = $message;
 
         return $this;
     }
 
     public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUser(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getChat(): ?Chat
     {
-        return $this->chat_id;
+        return $this->chat;
     }
 
-    public function setChat(?Chat $chat_id): self
+    public function setChat(?Chat $chat): self
     {
-        $this->chat_id = $chat_id;
+        $this->chat = $chat;
 
         return $this;
     }
 
     public function getType(): ?Type
     {
-        return $this->type_id;
+        return $this->type;
     }
 
-    public function setType(?Type $type_id): self
+    public function setType(?Type $type): self
     {
-        $this->type_id = $type_id;
+        $this->type = $type;
 
         return $this;
     }
