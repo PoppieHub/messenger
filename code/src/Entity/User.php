@@ -45,12 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Content::class)]
+    private Collection $contents;
+
     public function __construct()
     {
         $this->to_user_contact = new ArrayCollection();
         $this->from_user_contact = new ArrayCollection();
         $this->membership = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->contents = new ArrayCollection();
     }
 
 
@@ -227,7 +231,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->messages->contains($message)) {
             $this->messages->add($message);
-            $message->setUserId($this);
+            $message->setUser($this);
         }
 
         return $this;
@@ -237,8 +241,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($message->getUserId() === $this) {
-                $message->setUserId(null);
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Content>
+     */
+    public function getContents(): Collection
+    {
+        return $this->contents;
+    }
+
+    public function addContent(Content $content): self
+    {
+        if (!$this->contents->contains($content)) {
+            $this->contents->add($content);
+            $content->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(Content $content): self
+    {
+        if ($this->contents->removeElement($content)) {
+            // set the owning side to null (unless already changed)
+            if ($content->getUser() === $this) {
+                $content->setUser(null);
             }
         }
 
