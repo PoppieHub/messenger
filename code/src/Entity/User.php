@@ -39,11 +39,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'from_user', targetEntity: Contact::class)]
     private Collection $from_user_contact;
 
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Membership::class)]
+    private Collection $user_id_membership;
+
     public function __construct()
     {
         $this->to_user_contact = new ArrayCollection();
         $this->from_user_contact = new ArrayCollection();
+        $this->user_id_membership = new ArrayCollection();
     }
+
 
     public function getId(): ?string
     {
@@ -128,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->to_user_contact->contains($toUserContact)) {
             $this->to_user_contact->add($toUserContact);
-            $toUserContact->addToUser($this);
+            $toUserContact->setToUser($this);
         }
 
         return $this;
@@ -137,7 +142,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeToUserContact(Contact $toUserContact): self
     {
         if ($this->to_user_contact->removeElement($toUserContact)) {
-            $toUserContact->removeToUser($this);
+            // set the owning side to null (unless already changed)
+            if ($toUserContact->getToUser() === $this) {
+                $toUserContact->setToUser(null);
+            }
         }
 
         return $this;
@@ -155,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->from_user_contact->contains($fromUserContact)) {
             $this->from_user_contact->add($fromUserContact);
-            $fromUserContact->addToUser($this);
+            $fromUserContact->setFromUser($this);
         }
 
         return $this;
@@ -164,7 +172,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFromUserContact(Contact $fromUserContact): self
     {
         if ($this->from_user_contact->removeElement($fromUserContact)) {
-            $fromUserContact->removeToUser($this);
+            // set the owning side to null (unless already changed)
+            if ($fromUserContact->getFromUser() === $this) {
+                $fromUserContact->setFromUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Membership>
+     */
+    public function getUserIdMembership(): Collection
+    {
+        return $this->user_id_membership;
+    }
+
+    public function addUserIdMembership(Membership $userIdMembership): self
+    {
+        if (!$this->user_id_membership->contains($userIdMembership)) {
+            $this->user_id_membership->add($userIdMembership);
+            $userIdMembership->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserIdMembership(Membership $userIdMembership): self
+    {
+        if ($this->user_id_membership->removeElement($userIdMembership)) {
+            // set the owning side to null (unless already changed)
+            if ($userIdMembership->getUserId() === $this) {
+                $userIdMembership->setUserId(null);
+            }
         }
 
         return $this;

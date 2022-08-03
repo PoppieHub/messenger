@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
@@ -10,8 +11,11 @@ class Contact
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?string $id = null;
+
     #[ORM\Column]
-    private ?int $id = null;
+    private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'to_user_contact')]
     #[ORM\JoinColumn(nullable: false)]
@@ -21,12 +25,21 @@ class Contact
     #[ORM\JoinColumn(nullable: false)]
     private ?User $from_user = null;
 
-    #[ORM\Column]
-    private ?bool $status = null;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
     public function getToUser(): ?User
@@ -49,18 +62,6 @@ class Contact
     public function setFromUser(?User $from_user): self
     {
         $this->from_user = $from_user;
-
-        return $this;
-    }
-
-    public function isStatus(): ?bool
-    {
-        return $this->status;
-    }
-
-    public function setStatus(bool $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }
