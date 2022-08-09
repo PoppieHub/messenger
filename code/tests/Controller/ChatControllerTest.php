@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Tests\Controller;
+
+use App\Controller\ChatController;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class ChatControllerTest extends WebTestCase
+{
+    public function testChats(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/v1/chat/');
+        $responseContent = $client->getResponse()->getContent();
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertJsonStringEqualsJsonFile(
+            __DIR__.'/responses/ChatControllerTest_testChats.json',
+            $responseContent
+        );
+    }
+}
