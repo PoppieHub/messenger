@@ -28,10 +28,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable: false)]
     private string $password;
 
-    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $hide_email;
 
-    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $verified;
 
     #[ORM\OneToMany(mappedBy: 'to_user', targetEntity: Contact::class)]

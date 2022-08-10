@@ -14,8 +14,8 @@ class Contact
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $id = null;
 
-    #[ORM\Column]
-    private ?bool $status = null;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $status;
 
     #[ORM\ManyToOne(inversedBy: 'to_user_contact')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,7 +30,7 @@ class Contact
         return $this->id;
     }
 
-    public function isStatus(): ?bool
+    public function isStatus(): bool
     {
         return $this->status;
     }

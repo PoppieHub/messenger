@@ -27,11 +27,11 @@ class Message
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body_message = null;
 
-    #[ORM\Column]
-    private ?bool $is_read = null;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $is_read;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $created_at = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false)]
+    private \DateTimeInterface $created_at;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
@@ -85,7 +85,7 @@ class Message
         return $this;
     }
 
-    public function isIsRead(): ?bool
+    public function isIsRead(): bool
     {
         return $this->is_read;
     }
@@ -97,7 +97,7 @@ class Message
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->created_at;
     }

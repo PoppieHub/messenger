@@ -14,8 +14,8 @@ class Membership
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $id = null;
 
-    #[ORM\Column]
-    private ?bool $notification = null;
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $notification;
 
     #[ORM\ManyToOne(inversedBy: 'memberships')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,7 +30,7 @@ class Membership
         return $this->id;
     }
 
-    public function isNotification(): ?bool
+    public function isNotification(): bool
     {
         return $this->notification;
     }
