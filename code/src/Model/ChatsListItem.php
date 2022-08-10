@@ -4,7 +4,7 @@ namespace App\Model;
 
 class ChatsListItem
 {
-    private int $id;
+    private string $id;
 
     private string $name;
 
