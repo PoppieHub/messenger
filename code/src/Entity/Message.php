@@ -25,7 +25,7 @@ class Message
     private ?Chat $chat = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $body_message = null;
+    private string $body_message;
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $is_read;
@@ -73,7 +73,7 @@ class Message
         return $this;
     }
 
-    public function getBodyMessage(): ?string
+    public function getBodyMessage(): string
     {
         return $this->body_message;
     }

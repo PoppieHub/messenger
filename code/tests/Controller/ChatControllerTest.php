@@ -10,7 +10,7 @@ class ChatControllerTest extends WebTestCase
     public function testChats(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/api/v1/chat/');
+        $client->request('GET', '/api/v1/chats/');
         $responseContent = $client->getResponse()->getContent();
 
         $this->assertResponseIsSuccessful();
