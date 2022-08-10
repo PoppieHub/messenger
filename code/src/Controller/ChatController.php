@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/v1/chat', name: 'chats.')]
+#[Route('/api/v1/chats', name: 'chats.')]
 class  ChatController extends AbstractController
 {
     public function __construct(private ChatService $chatService)
