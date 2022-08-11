@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/v1/chats', name: 'chats.')]
-class  ChatController extends AbstractController
+class ChatController extends AbstractController
 {
     public function __construct(private ChatService $chatService)
     {
@@ -27,6 +27,6 @@ class  ChatController extends AbstractController
     #[Route(path: '/', name: 'getChats', methods: ['GET'])]
     public function chats(): Response
     {
-        return $this->json($this->chatService->getChats() );
+        return $this->json($this->chatService->getChats());
     }
 }

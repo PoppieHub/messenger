@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Criteria;
 
 class ChatServiceTest extends AbstractTestCase
 {
-
     public function testGetChats(): void
     {
         $chat = (new Chat())->setName('Test-Name')->setDescription('Test-Description');
@@ -21,7 +20,7 @@ class ChatServiceTest extends AbstractTestCase
         $repository = $this->createMock(ChatRepository::class);
         $repository->expects($this->once())
             ->method('findBy')
-            ->with([],['name' => Criteria::ASC ])
+            ->with([], ['name' => Criteria::ASC ])
             ->willReturn([$chat]);
 
         $service = new ChatService($repository);

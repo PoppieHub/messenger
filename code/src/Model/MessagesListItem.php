@@ -14,7 +14,7 @@ class MessagesListItem
 
     private ?int $updated_at;
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -73,5 +73,4 @@ class MessagesListItem
 
         return $this;
     }
-
 }

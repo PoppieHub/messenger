@@ -31,8 +31,8 @@ class MessageController extends AbstractController
     {
         try {
             return $this->json($this->messageService->getMessagesByChat($id));
-        } catch (ChatNotFoundException $exception ) {
-             throw new HttpException($exception->getCode(), $exception->getMessage());
+        } catch (ChatNotFoundException $exception) {
+            throw new HttpException($exception->getCode(), $exception->getMessage());
         }
     }
 }

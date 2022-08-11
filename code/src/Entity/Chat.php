@@ -38,7 +38,7 @@ class Chat
         $this->contents = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }

@@ -16,16 +16,16 @@ class ChatService
 
     public function getChats(): ChatsListResponse
     {
-         $chats = $this->chatRepository->findBy([], ['name' => Criteria::ASC]);
-         $items = array_map(
-             fn (Chat $chat) => new ChatsListItem(
-                 $chat->getId(),
-                 $chat->getName(),
-                 $chat->getDescription()
-             ),
-             $chats
-         );
+        $chats = $this->chatRepository->findBy([], ['name' => Criteria::ASC]);
+        $items = array_map(
+            fn (Chat $chat) => new ChatsListItem(
+                $chat->getId(),
+                $chat->getName(),
+                $chat->getDescription()
+            ),
+            $chats
+        );
 
-         return new ChatsListResponse($items);
+        return new ChatsListResponse($items);
     }
 }
