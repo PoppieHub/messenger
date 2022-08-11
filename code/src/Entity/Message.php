@@ -24,8 +24,8 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private string $body_message;
+    #[ORM\Column(type: Types::TEXT, nullable: false)]
+    private ?string $body_message = null;
 
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $is_read;
@@ -47,6 +47,13 @@ class Message
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getUser(): ?User
@@ -73,12 +80,12 @@ class Message
         return $this;
     }
 
-    public function getBodyMessage(): string
+    public function getBodyMessage(): ?string
     {
         return $this->body_message;
     }
 
-    public function setBodyMessage(string $body_message): self
+    public function setBodyMessage(?string $body_message): self
     {
         $this->body_message = $body_message;
 

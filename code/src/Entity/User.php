@@ -63,6 +63,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    public function setId(?string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getRoles(): array
     { 
         return [];
@@ -82,9 +89,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
     public function getNickname(): string
@@ -92,9 +101,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nickname;
     }
 
-    public function setNickname(string $nickname): void
+    public function setNickname(string $nickname): self
     {
         $this->nickname = $nickname;
+
+        return $this;
     }
 
     public function getPassword(): string
@@ -114,9 +125,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->hide_email;
     }
 
-    public function setHideEmail(bool $hide_email): void
+    public function setHideEmail(bool $hide_email): self
     {
         $this->hide_email = $hide_email;
+
+        return $this;
     }
 
     public function isVerified(): bool
@@ -124,9 +137,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->verified;
     }
 
-    public function setVerified(bool $verified): void
+    public function setVerified(bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
     }
 
     /**
