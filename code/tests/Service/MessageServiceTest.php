@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Tests\Service;
+
+use App\Entity\Chat;
+use App\Entity\Message;
+use App\Exception\ChatNotFoundException;
+use App\Model\MessagesListItem;
+use App\Model\MessagesListResponse;
+use App\Repository\ChatRepository;
+use App\Repository\MessageRepository;
+use App\Service\MessageService;
+use DateTime;
+use PHPUnit\Framework\TestCase;
+
+class MessageServiceTest extends TestCase
+{
+    public function testGetMessagesByChatNotFound(): void
+    {
+        $messageRepository = $this->createMock(MessageRepository::class);
+        $chatRepository = $this->createMock(ChatRepository::class);
+
+        $chatRepository->expects($this->once())
+            ->method('find')
+            ->with(10000)
+            ->willThrowException(new ChatNotFoundException());
+
+        $this->expectException(ChatNotFoundException::class);
+
+        (new MessageService($chatRepository, $messageRepository))->getMessagesByChat(10000);
+    }
+
+    public function testGetMessagesByChat(): void
+    {
+        $messageRepository = $this->createMock(MessageRepository::class);
+        $messageRepository->expects($this->once())
+            ->method('findMessagesByChatId')
+            ->with(10000)
+            ->willReturn([$this->createMessageEntity()]);
+
+        $chatRepository = $this->createMock(ChatRepository::class);
+        $chatRepository->expects($this->once())
+            ->method('find')
+            ->with(10000)
+            ->willReturn(new Chat());
+
+        $service = new MessageService($chatRepository, $messageRepository);
+
+        $expected = new MessagesListResponse([$this->createMessageItemModel()]);
+
+        $this->assertEquals($expected, $service->getMessagesByChat(10000));
+    }
+
+    private function createMessageEntity(): Message
+    {
+        return (new Message())
+            ->setId(190)
+            ->setBodyMessage('Test-message')
+            ->setIsRead(false)
+            ->setCreatedAt();
+    }
+
+    private function createMessageItemModel(): MessagesListItem
+    {
+        return (new MessagesListItem())
+            ->setId(190)
+            ->setBodyMessage('Test-message')
+            ->setIsRead(false)
+            ->setCreatedAt((new DateTime())->getTimestamp());
+    }
+}
