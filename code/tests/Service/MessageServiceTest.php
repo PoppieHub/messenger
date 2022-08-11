@@ -10,10 +10,10 @@ use App\Model\MessagesListResponse;
 use App\Repository\ChatRepository;
 use App\Repository\MessageRepository;
 use App\Service\MessageService;
+use App\Tests\AbstractTestCase;
 use DateTime;
-use PHPUnit\Framework\TestCase;
 
-class MessageServiceTest extends TestCase
+class MessageServiceTest extends AbstractTestCase
 {
     public function testGetMessagesByChatNotFound(): void
     {
@@ -53,11 +53,14 @@ class MessageServiceTest extends TestCase
 
     private function createMessageEntity(): Message
     {
-        return (new Message())
-            ->setId(190)
+        $message = (new Message())
             ->setBodyMessage('Test-message')
             ->setIsRead(false)
             ->setCreatedAt();
+
+        $this->setEntityId($message, 190);
+
+        return $message;
     }
 
     private function createMessageItemModel(): MessagesListItem
