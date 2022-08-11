@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\ChatController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ChatControllerTest extends WebTestCase
