@@ -2,21 +2,45 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Chat;
+use App\Tests\AbstractControllerTest;
 
-class ChatControllerTest extends WebTestCase
+class ChatControllerTest extends AbstractControllerTest
 {
     public function testChats(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/api/v1/chats/');
-        $responseContent = $client->getResponse()->getContent();
+        $this->em->persist(
+            (new Chat())
+            ->setName('Test-ChatController')
+            ->setDescription('Test for ChatController')
+        );
+        $this->em->flush();
+
+        $this->client->request('GET', '/api/v1/chats/');
+        $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
         $this->assertResponseIsSuccessful();
-
-        $this->assertJsonStringEqualsJsonFile(
-            __DIR__.'/responses/ChatControllerTest_testChats.json',
-            $responseContent
-        );
+        $this->assertJsonDocumentMatchesSchema($responseContent, [
+            'type' => 'object',
+            'required' => ['items'],
+            'properties' => [
+                'items' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'required' => [
+                            'id',
+                            'name',
+                            'description'
+                        ],
+                        'properties' => [
+                            'id' => ['type' => 'integer'],
+                            'name' => ['type' => 'string'],
+                            'description' => ['type' => 'string']
+                        ]
+                    ]
+                ]
+            ]
+        ]);
     }
 }
