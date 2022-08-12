@@ -69,6 +69,7 @@ class MessageServiceTest extends AbstractTestCase
             ->setId(190)
             ->setBodyMessage('Test-message')
             ->setIsRead(false)
-            ->setCreatedAt((new DateTime())->getTimestamp());
+            ->setCreatedAt((new DateTime())->getTimestamp())
+            ->setUpdatedAt(null);
     }
 }
