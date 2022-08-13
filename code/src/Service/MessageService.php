@@ -17,9 +17,7 @@ class MessageService
 
     public function getMessagesByChat(string $chatId): MessagesListResponse
     {
-        $chat = $this->chatRepository->find($chatId);
-
-        if ($chat === null) {
+        if (!$this->chatRepository->existsById($chatId)) {
             throw new ChatNotFoundException();
         }
 

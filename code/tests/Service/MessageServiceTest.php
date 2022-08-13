@@ -21,9 +21,9 @@ class MessageServiceTest extends AbstractTestCase
         $chatRepository = $this->createMock(ChatRepository::class);
 
         $chatRepository->expects($this->once())
-            ->method('find')
+            ->method('existsById')
             ->with(10000)
-            ->willThrowException(new ChatNotFoundException());
+            ->willReturn(false);
 
         $this->expectException(ChatNotFoundException::class);
 
@@ -40,9 +40,9 @@ class MessageServiceTest extends AbstractTestCase
 
         $chatRepository = $this->createMock(ChatRepository::class);
         $chatRepository->expects($this->once())
-            ->method('find')
+            ->method('existsById')
             ->with(10000)
-            ->willReturn(new Chat());
+            ->willReturn(true);
 
         $service = new MessageService($chatRepository, $messageRepository);
 

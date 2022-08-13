@@ -20,4 +20,9 @@ class ChatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Chat::class);
     }
+
+    public function existsById(int $id): bool
+    {
+        return null !== $this->find($id);
+    }
 }
