@@ -39,11 +39,11 @@ abstract class AbstractTestCase extends TestCase
 
     private function createTestKernel(): HttpKernelInterface
     {
-        return new class() implements HttpKernelInterface {
-            public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true)
+        return (new class() implements HttpKernelInterface {
+            public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
             {
                 return new Response('test');
             }
-        };
+        });
     }
 }

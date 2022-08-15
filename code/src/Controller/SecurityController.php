@@ -2,31 +2,45 @@
 
 namespace App\Controller;
 
+use App\Model\SignUpRequest;
+use App\Attribute\RequestBody;
+use App\Service\SecurityService;
+use App\Model\UsersListItem;
+use App\Model\ErrorResponse;
+use OpenApi\Annotations as OA;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route(path: '/api/v1/auth/', name: 'security.')]
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function __construct(private SecurityService $securityService)
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
+    /**
+     * @OA\Response(
+     *     response=200,
+     *     description="Signs up a user",
+     *     @Model(type=UsersListItem::class)
+     * )
+     * @OA\Response(
+     *     response=409,
+     *     description="User with this email or nickname already exists",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
+     *     response=400,
+     *     description="Validation failed",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\RequestBody(@Model(type=SignUpRequest::class))
+     */
+    #[Route(path: 'signUp', name: 'signUp', methods: ['POST'])]
+    public function signUp(#[RequestBody] SignUpRequest $signUpRequest): Response
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        return $this->json($this->securityService->signUp($signUpRequest));
     }
 }

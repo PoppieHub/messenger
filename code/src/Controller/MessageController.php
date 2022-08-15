@@ -10,8 +10,9 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-#[Route('/api/v1/chat/{id}/messages', name: 'messages.')]
+#[Route(path: '/api/v1/chat/{id}/messages', name: 'messages.')]
 class MessageController extends AbstractController
 {
     public function __construct(private MessageService $messageService)
@@ -33,6 +34,8 @@ class MessageController extends AbstractController
     #[Route(path: '/', name: 'getMessages', methods: ['GET'])]
     public function messagesByChat(string $id): Response
     {
-        return $this->json($this->messageService->getMessagesByChat($id));
+        return $this->json($this->messageService->getMessagesByChat($id), Response::HTTP_OK, [], [
+            AbstractNormalizer::IGNORED_ATTRIBUTES
+        ]);
     }
 }

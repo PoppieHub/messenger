@@ -35,7 +35,7 @@ class MessageService
             ->setIsRead($message->isIsRead())
             ->setCreatedAt($message->getCreatedAt()->getTimestamp())
             ->setUpdatedAt(
-                ($message->getUpdatedAt())?$message->getUpdatedAt()->getTimestamp():$message->getUpdatedAt()
+                ($message->getUpdatedAt())?$message->getUpdatedAt()->getTimestamp():null
             );
     }
 }

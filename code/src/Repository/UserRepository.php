@@ -20,4 +20,14 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function existsByEmail(string $email): bool
+    {
+        return null !== $this->findOneBy(['email' => $email]);
+    }
+
+    public function existsByNickname(string $nickname): bool
+    {
+        return null !== $this->findOneBy(['nickname' => $nickname]);
+    }
 }
