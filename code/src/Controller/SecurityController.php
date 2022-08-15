@@ -24,7 +24,10 @@ class SecurityController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Signs up a user",
-     *     @Model(type=UsersListItem::class)
+     *     @OA\JsonContent(
+     *         @OA\Property(property="token", type="string"),
+     *         @OA\Property(property="refresh_token", type="string")
+     *     )
      * )
      * @OA\Response(
      *     response=409,
@@ -41,6 +44,6 @@ class SecurityController extends AbstractController
     #[Route(path: 'signUp', name: 'signUp', methods: ['POST'])]
     public function signUp(#[RequestBody] SignUpRequest $signUpRequest): Response
     {
-        return $this->json($this->securityService->signUp($signUpRequest));
+        return $this->securityService->signUp($signUpRequest);
     }
 }
