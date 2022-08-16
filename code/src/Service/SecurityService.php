@@ -23,7 +23,8 @@ class SecurityService
 
     public function signUp(SignUpRequest $signUpRequest): Response
     {
-        if ($this->userRepository->existsByEmail($signUpRequest->getEmail()) && $this->userRepository->existsByNickname($signUpRequest->getNickname())) {
+        if ($this->userRepository->existsByEmail($signUpRequest->getEmail()) &&
+            $this->userRepository->existsByNickname($signUpRequest->getNickname())) {
             throw new UserAlreadyExistsException();
         }
 
