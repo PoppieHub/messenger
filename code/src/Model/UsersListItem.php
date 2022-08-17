@@ -4,7 +4,9 @@ namespace App\Model;
 
 class UsersListItem
 {
-    private string $email;
+    private string $id;
+
+    private ?string $email = null;
 
     private string $nickname;
 
@@ -12,12 +14,24 @@ class UsersListItem
 
     private bool $verified;
 
-    public function getEmail(): string
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

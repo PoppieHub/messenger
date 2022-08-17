@@ -22,6 +22,7 @@ class UserService
     public function getProfile(User $user): UsersListItem
     {
         return (new UsersListItem())
+            ->setId($user->getId())
             ->setEmail($user->getEmail())
             ->setNickname($user->getNickname())
             ->setHideEmail($user->isHideEmail())

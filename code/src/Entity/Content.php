@@ -24,12 +24,8 @@ class Content
     #[ORM\ManyToOne(inversedBy: 'contents')]
     private ?Chat $chat = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type = null;
-
     #[ORM\Column(length: 255, unique: true)]
-    private ?string $name = null;
+    private string $name;
 
     public function getId(): ?int
     {
@@ -72,19 +68,7 @@ class Content
         return $this;
     }
 
-    public function getType(): ?Type
-    {
-        return $this->type;
-    }
-
-    public function setType(?Type $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
