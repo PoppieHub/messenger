@@ -20,6 +20,7 @@ class MessageController extends AbstractController
     }
 
     /**
+     * @OA\Tag(name="Message API")
      * @OA\Response(
      *     response=200,
      *     description="Return messages by chat",

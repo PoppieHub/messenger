@@ -18,6 +18,7 @@ class ChatController extends AbstractController
     }
 
     /**
+     * @OA\Tag(name="Chat API")
      * @OA\Response(
      *     response=200,
      *     description="Return chats",

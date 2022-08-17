@@ -4,12 +4,59 @@ namespace App\Model;
 
 class UsersListItem
 {
-    public function __construct(private string $id)
+    private string $email;
+
+    private string $nickname;
+
+    private bool $hide_email;
+
+    private bool $verified;
+
+    public function getEmail(): string
     {
+        return $this->email;
     }
 
-    public function getId(): string
+    public function setEmail(string $email): self
     {
-        return $this->id;
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNickname(): string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getHideEmail(): bool
+    {
+        return $this->hide_email;
+    }
+
+    public function setHideEmail(bool $hide_email): self
+    {
+        $this->hide_email = $hide_email;
+
+        return $this;
+    }
+
+    public function getVerified(): bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
+
+        return $this;
     }
 }
