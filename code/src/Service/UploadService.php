@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Uuid;
 
 class UploadService
 {
-    private const LINK_FILE_PATTERN = '/usersDir/%d/%s';
+    private const LINK_FILE_PATTERN = '/upload/usersDir/%s/%s';
 
     public function __construct(private Filesystem $filesystem, private string $uploadDir)
     {
@@ -28,7 +28,7 @@ class UploadService
 
         $file->move($this->getUploadPath($user->getId()), $uniqueName);
 
-        return sprintf(self::LINK_FILE_PATTERN, $user->getId(), $uniqueName);
+        return sprintf(self::LINK_FILE_PATTERN, 'user_by_id_'.$user->getId(), $uniqueName);
     }
 
     public function deleteFile(string $userId, string $fileName): void
