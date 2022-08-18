@@ -22,12 +22,12 @@ class MessageService
         }
 
         return new MessagesListResponse(array_map(
-            [$this, 'map'],
+            [$this, 'getMessage'],
             $this->messageRepository->findMessagesByChatId($chatId)
         ));
     }
 
-    private function map(Message $message): MessagesListItem
+    public function getMessage(Message $message): MessagesListItem
     {
         return (new MessagesListItem())
             ->setId($message->getId())

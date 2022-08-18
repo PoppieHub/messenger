@@ -19,6 +19,13 @@ class UserService
     {
     }
 
+    public function getShortProfile(User $user): UsersListItem
+    {
+        return (new UsersListItem())
+            ->setId($user->getId())
+            ->setNickname($user->getNickname());
+    }
+
     public function getProfile(User $user): UsersListItem
     {
         return (new UsersListItem())

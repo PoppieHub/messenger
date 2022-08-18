@@ -10,9 +10,9 @@ class UsersListItem
 
     private string $nickname;
 
-    private bool $hide_email;
+    private ?bool $hide_email = null;
 
-    private bool $verified;
+    private ?bool $verified = null;
 
     public function getId(): string
     {
@@ -50,24 +50,24 @@ class UsersListItem
         return $this;
     }
 
-    public function getHideEmail(): bool
+    public function getHideEmail(): ?bool
     {
         return $this->hide_email;
     }
 
-    public function setHideEmail(bool $hide_email): self
+    public function setHideEmail(?bool $hide_email): self
     {
         $this->hide_email = $hide_email;
 
         return $this;
     }
 
-    public function getVerified(): bool
+    public function getVerified(): ?bool
     {
         return $this->verified;
     }
 
-    public function setVerified(bool $verified): self
+    public function setVerified(?bool $verified): self
     {
         $this->verified = $verified;
 

@@ -19,13 +19,16 @@ class Content
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
     private ?Chat $chat = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    private string $name;
+    private string $link;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private ?bool $avatar = null;
 
     public function getId(): ?int
     {
@@ -44,12 +47,12 @@ class Content
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
@@ -68,14 +71,26 @@ class Content
         return $this;
     }
 
-    public function getName(): string
+    public function getLink(): string
     {
-        return $this->name;
+        return $this->link;
     }
 
-    public function setName(string $name): self
+    public function setLink(string $link): self
     {
-        $this->name = $name;
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function isAvatar(): ?bool
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?bool $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

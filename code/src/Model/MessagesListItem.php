@@ -8,11 +8,11 @@ class MessagesListItem
 
     private string $body_message;
 
-    private bool $is_read;
+    private ?bool $is_read = null;
 
-    private int $created_at;
+    private ?int $created_at = null;
 
-    private ?int $updated_at;
+    private ?int $updated_at = null;
 
     public function getId(): int
     {
@@ -38,24 +38,24 @@ class MessagesListItem
         return $this;
     }
 
-    public function isIsRead(): bool
+    public function isIsRead(): ?bool
     {
         return $this->is_read;
     }
 
-    public function setIsRead(bool $is_read): self
+    public function setIsRead(?bool $is_read): self
     {
         $this->is_read = $is_read;
 
         return $this;
     }
 
-    public function getCreatedAt(): int
+    public function getCreatedAt(): ?int
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(int $created_at): self
+    public function setCreatedAt(?int $created_at): self
     {
         $this->created_at = $created_at;
 

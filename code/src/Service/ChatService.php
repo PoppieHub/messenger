@@ -18,14 +18,19 @@ class ChatService
     {
         $chats = $this->chatRepository->findBy([], ['name' => Criteria::ASC]);
         $items = array_map(
-            fn (Chat $chat) => new ChatsListItem(
-                $chat->getId(),
-                $chat->getName(),
-                $chat->getDescription()
-            ),
+            [$this, 'getChat'],
             $chats
         );
 
         return new ChatsListResponse($items);
+    }
+
+    public function getChat(Chat $chat): ChatsListItem
+    {
+        return (new ChatsListItem(
+            $chat->getId(),
+            $chat->getName(),
+            $chat->getDescription()
+        ));
     }
 }
