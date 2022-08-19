@@ -14,6 +14,8 @@ class UsersListItem
 
     private ?bool $verified = null;
 
+    private ?ContentListResponse $content = null;
+
     public function getId(): string
     {
         return $this->id;
@@ -70,6 +72,17 @@ class UsersListItem
     public function setVerified(?bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+    public function getContent(): ?ContentListResponse
+    {
+        return $this->content;
+    }
+
+    public function setContent(?ContentListResponse $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

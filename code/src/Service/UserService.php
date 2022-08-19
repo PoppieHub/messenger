@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
 use App\Model\ProfileRequest;
 use App\Model\UsersListItem;
+use App\Repository\ContentRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -15,15 +16,10 @@ class UserService
     public function __construct(
         private UserPasswordHasherInterface $hasher,
         private UserRepository $userRepository,
-        private EntityManagerInterface $em)
-    {
-    }
-
-    public function getShortProfile(User $user): UsersListItem
-    {
-        return (new UsersListItem())
-            ->setId($user->getId())
-            ->setNickname($user->getNickname());
+        private EntityManagerInterface $em,
+        private ContentService $contentService,
+        private ContentRepository $contentRepository
+    ) {
     }
 
     public function getProfile(User $user): UsersListItem
@@ -33,7 +29,12 @@ class UserService
             ->setEmail($user->getEmail())
             ->setNickname($user->getNickname())
             ->setHideEmail($user->isHideEmail())
-            ->setVerified($user->isVerified());
+            ->setVerified($user->isVerified())
+            ->setContent(
+                $this->contentService->getCollectionContent(
+                    $this->contentRepository->getContentForUser($user->getId(), true)
+                )
+            );
     }
 
     public function changeProfile(User $user, ProfileRequest $profile): UsersListItem

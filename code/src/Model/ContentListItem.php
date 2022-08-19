@@ -4,24 +4,20 @@ namespace App\Model;
 
 class ContentListItem
 {
-    private ?MessagesListItem $message = null;
-
-    private UsersListItem $user;
-
-    private ?ChatsListItem $chat = null;
+    private ?string $id = null;
 
     private string $link;
 
     private ?bool $avatar = null;
 
-    public function getUser(): UsersListItem
+    public function getId(): ?string
     {
-        return $this->user;
+        return $this->id;
     }
 
-    public function setUser(UsersListItem $user): self
+    public function setId(?string $id): self
     {
-        $this->user = $user;
+        $this->id = $id;
 
         return $this;
     }
@@ -46,30 +42,6 @@ class ContentListItem
     public function setAvatar(?bool $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getMessage(): ?MessagesListItem
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?MessagesListItem $message): self
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
-    public function getChat(): ?ChatsListItem
-    {
-        return $this->chat;
-    }
-
-    public function setChat(?ChatsListItem $chat): self
-    {
-        $this->chat = $chat;
 
         return $this;
     }
