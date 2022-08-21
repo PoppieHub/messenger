@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Model\SignUpRequest;
 use App\Attribute\RequestBody;
 use App\Service\SecurityService;
-use App\Model\UsersListItem;
 use App\Model\ErrorResponse;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -45,6 +44,6 @@ class SecurityController extends AbstractController
     #[Route(path: 'signUp', name: 'signUp', methods: ['POST'])]
     public function signUp(#[RequestBody] SignUpRequest $signUpRequest): Response
     {
-        return $this->securityService->signUp($signUpRequest);
+        return $this->securityService->signUp(signUpRequest: $signUpRequest);
     }
 }

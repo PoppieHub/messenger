@@ -35,6 +35,22 @@ parameters:
             code: 404,
             hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
         }
+        App\Exception\ContactAlreadyExistsException: {
+            code: 409,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\ContactNotAllowedException: {
+            code: 409,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\ContactNotFoundException: {
+            code: 404,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\UserNotFoundException: {
+            code: 404,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
 services:
     # default configuration for services in *this* file
     _defaults:

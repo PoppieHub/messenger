@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\ContentService;
-use App\Service\UserService;
 use App\Model\ErrorResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route(path: '/api/v1/content/', name: 'content.')]
 class ContentController extends AbstractController
 {
-    public function __construct(private UserService $userService, private ContentService $contentService)
+    public function __construct(private ContentService $contentService)
     {
     }
 
@@ -25,6 +24,10 @@ class ContentController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Remove a content",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="contentId", type="string"),
+     *         @OA\Property(property="remove_status", type="boolean")
+     *     )
      * )
      *  @OA\Response(
      *     response=404,
@@ -32,11 +35,11 @@ class ContentController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: 'remove/{id}', name: 'delete', methods: ['DELETE'])]
-    public function deleteContent(#[CurrentUser] User $user, int $id): Response
+    #[Route(path: 'remove/{contentId}', name: 'delete', methods: ['DELETE'])]
+    public function deleteContent(#[CurrentUser] User $currentUser, string $contentId): Response
     {
-        $this->contentService->deleteFileForContent($user, $id);
+        $this->contentService->deleteFileForContent($currentUser, $contentId);
 
-        return $this->json(null);
+        return $this->json(['contentId' => $contentId, 'remove_status' => true]);
     }
 }

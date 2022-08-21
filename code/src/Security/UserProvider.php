@@ -36,7 +36,7 @@ class UserProvider implements PayloadAwareUserProviderInterface
         return null;
     }
 
-    public function supportsClass(string $class)
+    public function supportsClass(string $class): bool
     {
         return $class === User::class || is_subclass_of($class, User::class);
     }

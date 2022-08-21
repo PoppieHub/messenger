@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Exception\UserAlreadyExistsException;
+use App\Exception\CheckingException\UserReturnException;
+use App\Model\FindRequest;
 use App\Model\ProfileRequest;
 use App\Model\UsersListItem;
+use App\Model\UsersListResponse;
 use App\Repository\ContentRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,13 +20,14 @@ class UserService
         private UserRepository $userRepository,
         private EntityManagerInterface $em,
         private ContentService $contentService,
-        private ContentRepository $contentRepository
+        private ContentRepository $contentRepository,
+        private UserReturnException $userReturnException
     ) {
     }
 
     public function getProfile(User $user): UsersListItem
     {
-        return (new UsersListItem())
+        $profile = (new UsersListItem())
             ->setId($user->getId())
             ->setEmail($user->getEmail())
             ->setNickname($user->getNickname())
@@ -35,15 +38,44 @@ class UserService
                     $this->contentRepository->getContentForUser($user->getId(), true)
                 )
             );
+
+        if ($user->isHideEmail() !== false) {
+            $profile->setEmail('hidden');
+        }
+
+        return $profile;
+    }
+
+    public function getProfiles(array $collectionProfiles = null): UsersListResponse
+    {
+        if ($collectionProfiles === null) {
+            return $collectionProfiles;
+        }
+
+        return new UsersListResponse(array_map(
+            [$this, 'getProfile'],
+            $collectionProfiles
+        ));
+    }
+
+    public function getFoundUsers(User $currentUser, FindRequest $searchValue): UsersListResponse
+    {
+        return $this->getProfiles(
+            collectionProfiles: $this->userRepository->findUsersByEmailOrNickname(
+                searchValue: $searchValue->getSearchValue(),
+                userId: $currentUser->getId()
+            )
+        );
     }
 
     public function changeProfile(User $user, ProfileRequest $profile): UsersListItem
     {
         if ($profile->getNickname() !== null) {
-            if ($this->userRepository->existsByNickname($profile->getNickname()) ||
-                $user->getNickname() === $profile->getNickname()) {
-                throw new UserAlreadyExistsException();
-            }
+            $this->userReturnException->checkUserExistenceOnNickname(nickname: $profile->getNickname());
+            $this->userReturnException->checkingForTheCoincidenceOfTwoUniqueParameters(
+                firstParameter: $user->getNickname(),
+                secondParameter: $profile->getNickname()
+            );
 
             $user->setNickname($profile->getNickname());
         }

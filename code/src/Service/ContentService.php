@@ -6,8 +6,8 @@ use App\Entity\Chat;
 use App\Entity\Content;
 use App\Entity\Message;
 use App\Entity\User;
+use App\Exception\CheckingException\ContentReturnException;
 use App\Model\ContentListItem;
-use App\Exception\InvalidNumberOfMainImagesException;
 use App\Model\ContentListResponse;
 use App\Repository\ContentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,17 +18,15 @@ class ContentService
     public function __construct(
         private EntityManagerInterface $em,
         private ContentRepository $contentRepository,
-        private UploadService $uploadService
-    )
-    {
+        private UploadService $uploadService,
+        private ContentReturnException $contentReturnException
+    ) {
     }
 
     public function uploadFileForContent(User $user, UploadedFile $file, $avatarValue = false, Message $message = null, Chat $chat = null): ContentListItem
     {
-        if ($avatarValue === true) {
-            if (count($this->contentRepository->getContentForUser($user->getId(), true)) > 4) {
-                throw new InvalidNumberOfMainImagesException();
-            }
+        if ($avatarValue) {
+            $this->contentReturnException->checkUploadAvatarAvailability(userId: $user->getId());
         }
 
         $link = $this->uploadService->uploadFile($user, $file);
@@ -49,6 +47,7 @@ class ContentService
     public function deleteFileForContent(User $user, string $idContent): void
     {
         $content = $this->contentRepository->findContentByUserAndId($user, $idContent);
+        $this->contentReturnException->checkThatTheContentIsNotNull(content: $content);
 
         $fileName = $this->getFilename($content);
 

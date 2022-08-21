@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Exception\UploadFileInvalidTypeException;
+use App\Exception\CheckingException\ContentReturnException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Uid\Uuid;
@@ -12,17 +12,17 @@ class UploadService
 {
     private const LINK_FILE_PATTERN = '/upload/usersDir/%s/%s';
 
-    public function __construct(private Filesystem $filesystem, private string $uploadDir)
-    {
+    public function __construct(
+        private Filesystem $filesystem,
+        private string $uploadDir,
+        private ContentReturnException $contentReturnException
+    ) {
     }
 
     public function uploadFile(User $user, UploadedFile $file): string
     {
         $extension = $file->guessExtension();
-
-        if (null === $extension) {
-            throw new UploadFileInvalidTypeException();
-        }
+        $this->contentReturnException->checkUploadExtension($extension);
 
         $uniqueName = Uuid::v4()->toRfc4122().'.'.$extension;
 

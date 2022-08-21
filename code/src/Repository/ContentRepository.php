@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Content;
-use App\Exception\ContentNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,14 +35,8 @@ class ContentRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function findContentByUserAndId(UserInterface $user, string $idContent): Content
+    public function findContentByUserAndId(UserInterface $user, string $idContent): Content|null
     {
-        $content = $this->findOneBy(['id' => $idContent, 'user' => $user]);
-
-        if (null === $content) {
-            throw new ContentNotFoundException();
-        }
-
-        return $content;
+        return $this->findOneBy(['id' => $idContent, 'user' => $user]);
     }
 }
