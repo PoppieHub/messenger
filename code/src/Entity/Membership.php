@@ -14,9 +14,6 @@ class Membership
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $id = null;
 
-    #[ORM\Column(nullable: false, options: ['default' => false])]
-    private bool $notification;
-
     #[ORM\ManyToOne(inversedBy: 'memberships')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat = null;
@@ -25,21 +22,15 @@ class Membership
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $notification;
+
+    #[ORM\Column(type: 'simple_array')]
+    private array $roles;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function isNotification(): bool
-    {
-        return $this->notification;
-    }
-
-    public function setNotification(bool $notification): self
-    {
-        $this->notification = $notification;
-
-        return $this;
     }
 
     public function getChat(): ?Chat
@@ -64,5 +55,29 @@ class Membership
         $this->user = $user;
 
         return $this;
+    }
+
+    public function isNotification(): bool
+    {
+        return $this->notification;
+    }
+
+    public function setNotification(bool $notification): self
+    {
+        $this->notification = $notification;
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
     }
 }
