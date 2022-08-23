@@ -25,7 +25,7 @@ class Contact
     #[ORM\JoinColumn(nullable: false)]
     private ?User $from_user = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

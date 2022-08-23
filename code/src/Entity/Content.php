@@ -30,7 +30,7 @@ class Content
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $avatar = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

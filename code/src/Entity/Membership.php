@@ -28,7 +28,7 @@ class Membership
     #[ORM\Column(type: 'simple_array')]
     private array $roles;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

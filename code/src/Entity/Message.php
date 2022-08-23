@@ -27,9 +27,6 @@ class Message
     #[ORM\Column(type: Types::TEXT, nullable: false)]
     private ?string $body_message = null;
 
-    #[ORM\Column(nullable: false, options: ['default' => false])]
-    private bool $is_read;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false)]
     private \DateTimeInterface $created_at;
 
@@ -39,9 +36,13 @@ class Message
     #[ORM\OneToMany(mappedBy: 'message', targetEntity: Content::class)]
     private Collection $contents;
 
+    #[ORM\OneToMany(mappedBy: 'message', targetEntity: ReadMessage::class, orphanRemoval: true)]
+    private Collection $readMessages;
+
     public function __construct()
     {
         $this->contents = new ArrayCollection();
+        $this->readMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,18 +82,6 @@ class Message
     public function setBodyMessage(?string $body_message): self
     {
         $this->body_message = $body_message;
-
-        return $this;
-    }
-
-    public function isIsRead(): bool
-    {
-        return $this->is_read;
-    }
-
-    public function setIsRead(bool $is_read): self
-    {
-        $this->is_read = $is_read;
 
         return $this;
     }
@@ -145,6 +134,36 @@ class Message
             // set the owning side to null (unless already changed)
             if ($content->getMessage() === $this) {
                 $content->setMessage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ReadMessage>
+     */
+    public function getReadMessages(): Collection
+    {
+        return $this->readMessages;
+    }
+
+    public function addReadMessage(ReadMessage $readMessage): self
+    {
+        if (!$this->readMessages->contains($readMessage)) {
+            $this->readMessages->add($readMessage);
+            $readMessage->setMessage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReadMessage(ReadMessage $readMessage): self
+    {
+        if ($this->readMessages->removeElement($readMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($readMessage->getMessage() === $this) {
+                $readMessage->setMessage(null);
             }
         }
 
