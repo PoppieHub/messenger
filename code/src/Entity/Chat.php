@@ -22,6 +22,9 @@ class Chat
     #[ORM\Column(type: Types::TEXT, length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $multiChat;
+
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Membership::class)]
     private Collection $memberships;
 
@@ -63,6 +66,18 @@ class Chat
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isMultiChat(): bool
+    {
+        return $this->multiChat;
+    }
+
+    public function setMultiChat(bool $multiChat): self
+    {
+        $this->multiChat = $multiChat;
 
         return $this;
     }
