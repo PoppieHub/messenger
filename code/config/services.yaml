@@ -51,6 +51,18 @@ parameters:
             code: 404,
             hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
         }
+        App\Exception\MembershipNotFoundException: {
+            code: 409,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\MembershipHasNoRightException: {
+            code: 409,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\MembershipAlreadyExistsException: {
+            code: 404,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
 services:
     # default configuration for services in *this* file
     _defaults:

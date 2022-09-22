@@ -26,6 +26,6 @@ class ChatServiceTest extends AbstractTestCase
         $service = new ChatService($repository);
         $expected = new ChatsListResponse([new ChatsListItem(7, 'Test-Name', 'Test-Description')]);
 
-        $this->assertEquals($expected, $service->getChats());
+        $this->assertEquals($expected, $service->getListChats());
     }
 }

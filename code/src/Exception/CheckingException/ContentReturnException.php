@@ -16,7 +16,14 @@ class ContentReturnException
 
     public function checkUploadAvatarAvailability(string $userId): void
     {
-        if (count($this->contentRepository->getContentForUser($userId, true)) > 4) {
+        if (count($this->contentRepository->getAvatarForUser(userId: $userId, avatar: true)) > 4) {
+            throw new InvalidNumberOfMainImagesException();
+        }
+    }
+
+    public function checkUploadAvatarAvailabilityForChat(string $chatId): void
+    {
+        if (count($this->contentRepository->getContentsForChat(chatId: $chatId, avatar: true)) > 4) {
             throw new InvalidNumberOfMainImagesException();
         }
     }

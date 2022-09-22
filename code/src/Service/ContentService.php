@@ -4,12 +4,14 @@ namespace App\Service;
 
 use App\Entity\Chat;
 use App\Entity\Content;
-use App\Entity\Message;
 use App\Entity\User;
+use App\Exception\CheckingException\ChatReturnException;
 use App\Exception\CheckingException\ContentReturnException;
+use App\Exception\CheckingException\MembershipReturnException;
 use App\Model\ContentListItem;
 use App\Model\ContentListResponse;
 use App\Repository\ContentRepository;
+use App\Repository\MembershipRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -19,14 +21,29 @@ class ContentService
         private EntityManagerInterface $em,
         private ContentRepository $contentRepository,
         private UploadService $uploadService,
-        private ContentReturnException $contentReturnException
+        private ContentReturnException $contentReturnException,
+        private MembershipRepository $membershipRepository,
+        private MembershipReturnException $membershipReturnException,
+        private ChatReturnException $chatReturnException
     ) {
     }
 
-    public function uploadFileForContent(User $user, UploadedFile $file, $avatarValue = false, Message $message = null, Chat $chat = null): ContentListItem
+    public function uploadFileForContent(User $user, UploadedFile $file, $avatarValue = false, Chat $chat = null): ContentListItem
     {
-        if ($avatarValue) {
+        if ($avatarValue && !empty($user)) {
             $this->contentReturnException->checkUploadAvatarAvailability(userId: $user->getId());
+        }
+
+        if ($avatarValue && !empty($chat)) {
+            $this->contentReturnException->checkUploadAvatarAvailabilityForChat(chatId: $chat->getId());
+        }
+
+        if ($chat !== null) {
+            $this->chatReturnException->checkExistsChat($chat);
+
+            $this->membershipReturnException->checkExistsMembership(
+                $this->membershipRepository->findMembership(userId: $user->getId(), chatId: $chat->getId())
+            );
         }
 
         $link = $this->uploadService->uploadFile($user, $file);
@@ -34,7 +51,6 @@ class ContentService
         $content = (new Content())
             ->setUser($user)
             ->setChat($chat)
-            ->setMessage($message)
             ->setAvatar($avatarValue)
             ->setLink($link);
 

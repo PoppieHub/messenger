@@ -35,7 +35,10 @@ class UserService
             ->setVerified($user->isVerified())
             ->setContent(
                 $this->contentService->getCollectionContent(
-                    $this->contentRepository->getContentForUser($user->getId(), true)
+                    $this->contentRepository->getAvatarForUser(
+                        userId: $user->getId(),
+                        avatar: true
+                    )
                 )
             );
 

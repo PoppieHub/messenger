@@ -22,11 +22,28 @@ class ContentRepository extends ServiceEntityRepository
         parent::__construct($registry, Content::class);
     }
 
-    public function getContentForUser(string $userId, bool $avatar): array
+    public function getAvatarForUser(string $userId, bool $avatar): array
     {
         $db = $this->createQueryBuilder('c')
-            ->where('c.user = :idU AND c.avatar = :avatar')
-            ->setParameter('idU', $userId)
+            ->where('c.user = :userId AND 
+            (c.chat IS NULL) AND
+            c.avatar = :avatar')
+            ->setParameter('userId', $userId)
+            ->setParameter('avatar', $avatar)
+            ->orderBy('c.id', 'ASC')
+        ;
+
+        $query = $db->getQuery();
+        return $query->execute();
+    }
+
+    public function getContentsForChat(null|string $chatId, bool $avatar): array
+    {
+        $db = $this->createQueryBuilder('c')
+            ->where('
+            c.chat = :chatId AND 
+            c.avatar = :avatar')
+            ->setParameter('chatId', $chatId)
             ->setParameter('avatar', $avatar)
             ->orderBy('c.id', 'ASC')
         ;

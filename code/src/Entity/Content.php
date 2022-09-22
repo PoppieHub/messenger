@@ -15,9 +15,6 @@ class Content
     private ?string $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
-    private ?Message $message = null;
-
-    #[ORM\ManyToOne(inversedBy: 'contents')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
@@ -33,18 +30,6 @@ class Content
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function getMessage(): ?Message
-    {
-        return $this->message;
-    }
-
-    public function setMessage(?Message $message): self
-    {
-        $this->message = $message;
-
-        return $this;
     }
 
     public function getUser(): User

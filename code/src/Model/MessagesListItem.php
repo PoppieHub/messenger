@@ -6,11 +6,15 @@ class MessagesListItem
 {
     private string $id;
 
+    private UsersListItem $usersListItem;
+
+    private ChatsListItem $chatsListItem;
+
+    private ReadMessageListResponse $readMessageListResponse;
+
     private string $body_message;
 
-    private ?bool $is_read = null;
-
-    private ?int $created_at = null;
+    private int $created_at;
 
     private ?int $updated_at = null;
 
@@ -38,24 +42,12 @@ class MessagesListItem
         return $this;
     }
 
-    public function isIsRead(): ?bool
-    {
-        return $this->is_read;
-    }
-
-    public function setIsRead(?bool $is_read): self
-    {
-        $this->is_read = $is_read;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?int
+    public function getCreatedAt(): int
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?int $created_at): self
+    public function setCreatedAt(int $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -70,6 +62,42 @@ class MessagesListItem
     public function setUpdatedAt(?int $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUsersListItem(): UsersListItem
+    {
+        return $this->usersListItem;
+    }
+
+    public function setUsersListItem(UsersListItem $usersListItem): self
+    {
+        $this->usersListItem = $usersListItem;
+
+        return $this;
+    }
+
+    public function getChatsListItem(): ChatsListItem
+    {
+        return $this->chatsListItem;
+    }
+
+    public function setChatsListItem(ChatsListItem $chatsListItem): self
+    {
+        $this->chatsListItem = $chatsListItem;
+
+        return $this;
+    }
+
+    public function getReadMessageListResponse(): ReadMessageListResponse
+    {
+        return $this->readMessageListResponse;
+    }
+
+    public function setReadMessageListResponse(ReadMessageListResponse $readMessageListResponse): self
+    {
+        $this->readMessageListResponse = $readMessageListResponse;
 
         return $this;
     }

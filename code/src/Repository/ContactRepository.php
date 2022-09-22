@@ -22,7 +22,7 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($registry, Contact::class);
     }
 
-    public function recordByWithTwoUsers(string $firstUser, string $secondUser): array
+    public function recordByWithTwoUsers(string $firstUser, string $secondUser): Contact|null
     {
         $db = $this->createQueryBuilder('contact')
             ->where('(
@@ -34,7 +34,11 @@ class ContactRepository extends ServiceEntityRepository
 
         $query = $db->getQuery();
 
-        return $query->execute();
+        try {
+            return $query->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     public function findRecordByContactIdAndUserId(string $contactId, string $userId): Contact|null

@@ -10,12 +10,11 @@ class ChatsListItem
 
     private ?string $description;
 
-    public function __construct(int $id, string $name, ?string $description)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-    }
+    private bool $multiChat;
+
+    private ?ContentListResponse $content = null;
+
+    private ?MembershipListResponse $membership = null;
 
     public function getId(): int
     {
@@ -49,6 +48,42 @@ class ChatsListItem
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isMultiChat(): bool
+    {
+        return $this->multiChat;
+    }
+
+    public function setMultiChat(bool $multiChat): self
+    {
+        $this->multiChat = $multiChat;
+
+        return $this;
+    }
+
+    public function getContent(): ?ContentListResponse
+    {
+        return $this->content;
+    }
+
+    public function setContent(?ContentListResponse $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getMembership(): ?MembershipListResponse
+    {
+        return $this->membership;
+    }
+
+    public function setMembership(?MembershipListResponse $membership): self
+    {
+        $this->membership = $membership;
 
         return $this;
     }

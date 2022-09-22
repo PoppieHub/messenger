@@ -25,9 +25,6 @@ class Membership
     #[ORM\Column(nullable: false, options: ['default' => false])]
     private bool $notification;
 
-    #[ORM\Column(type: 'simple_array')]
-    private array $roles;
-
     public function getId(): ?string
     {
         return $this->id;
@@ -67,17 +64,5 @@ class Membership
         $this->notification = $notification;
 
         return $this;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    public function getRoles(): array
-    {
-        return $this->roles;
     }
 }

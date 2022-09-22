@@ -33,15 +33,11 @@ class Message
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'message', targetEntity: Content::class)]
-    private Collection $contents;
-
     #[ORM\OneToMany(mappedBy: 'message', targetEntity: ReadMessage::class, orphanRemoval: true)]
     private Collection $readMessages;
 
     public function __construct()
     {
-        $this->contents = new ArrayCollection();
         $this->readMessages = new ArrayCollection();
     }
 
@@ -106,36 +102,6 @@ class Message
     public function setUpdatedAt(): self
     {
         $this->updated_at = new \DateTime();
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Content>
-     */
-    public function getContents(): Collection
-    {
-        return $this->contents;
-    }
-
-    public function addContent(Content $content): self
-    {
-        if (!$this->contents->contains($content)) {
-            $this->contents->add($content);
-            $content->setMessage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContent(Content $content): self
-    {
-        if ($this->contents->removeElement($content)) {
-            // set the owning side to null (unless already changed)
-            if ($content->getMessage() === $this) {
-                $content->setMessage(null);
-            }
-        }
 
         return $this;
     }
