@@ -27,7 +27,7 @@ class MessageServiceTest extends AbstractTestCase
 
         $this->expectException(ChatNotFoundException::class);
 
-        (new MessageService($chatRepository, $messageRepository))->getMessagesByChat(10000);
+        (new MessageService($chatRepository, $messageRepository))->getCollectionMessages(10000);
     }
 
     public function testGetMessagesByChat(): void
@@ -48,7 +48,7 @@ class MessageServiceTest extends AbstractTestCase
 
         $expected = new MessagesListResponse([$this->createMessageItemModel()]);
 
-        $this->assertEquals($expected, $service->getMessagesByChat(10000));
+        $this->assertEquals($expected, $service->getCollectionMessages(10000));
     }
 
     private function createMessageEntity(): Message

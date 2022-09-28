@@ -24,8 +24,8 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?Chat $chat = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: false)]
-    private ?string $body_message = null;
+    #[ORM\Column(type: Types::JSON, nullable: false)]
+    private ?array $body_message = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false)]
     private \DateTimeInterface $created_at;
@@ -70,12 +70,12 @@ class Message
         return $this;
     }
 
-    public function getBodyMessage(): ?string
+    public function getBodyMessage(): ?array
     {
         return $this->body_message;
     }
 
-    public function setBodyMessage(?string $body_message): self
+    public function setBodyMessage(?array $body_message): self
     {
         $this->body_message = $body_message;
 

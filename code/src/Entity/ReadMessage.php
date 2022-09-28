@@ -14,7 +14,7 @@ class ReadMessage
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'readMessages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?Message $message = null;
 
     #[ORM\ManyToOne]

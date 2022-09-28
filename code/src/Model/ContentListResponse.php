@@ -5,14 +5,14 @@ namespace App\Model;
 class ContentListResponse
 {
     /**
-     * @var ContentListItem[]
+     * @var ContentListItem[]|null
      */
-    private array $items;
+    private ?array $items = null;
 
     /**
-     * @param ContentListItem[] $items
+     * @param ContentListItem[]|null $items
      */
-    public function __construct(array $items)
+    public function __construct(?array $items)
     {
         $this->items = $items;
     }

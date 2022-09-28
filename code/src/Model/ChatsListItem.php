@@ -16,6 +16,12 @@ class ChatsListItem
 
     private ?MembershipListResponse $membership = null;
 
+    private ?MessagesListResponse $messages = null;
+
+    private ?MessagesListItem $lastMessage = null;
+
+    private ?int $unreadMessageCounter = null;
+
     public function getId(): int
     {
         return $this->id;
@@ -84,6 +90,42 @@ class ChatsListItem
     public function setMembership(?MembershipListResponse $membership): self
     {
         $this->membership = $membership;
+
+        return $this;
+    }
+
+    public function getMessages(): ?MessagesListResponse
+    {
+        return $this->messages;
+    }
+
+    public function setMessages(?MessagesListResponse $messages): self
+    {
+        $this->messages = $messages;
+
+        return $this;
+    }
+
+    public function getLastMessage(): ?MessagesListItem
+    {
+        return $this->lastMessage;
+    }
+
+    public function setLastMessage(?MessagesListItem $lastMessage): self
+    {
+        $this->lastMessage = $lastMessage;
+
+        return $this;
+    }
+
+    public function getUnreadMessageCounter(): ?int
+    {
+        return $this->unreadMessageCounter;
+    }
+
+    public function setUnreadMessageCounter(?int $unreadMessageCounter): self
+    {
+        $this->unreadMessageCounter = $unreadMessageCounter;
 
         return $this;
     }

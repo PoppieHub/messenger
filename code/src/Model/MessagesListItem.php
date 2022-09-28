@@ -4,50 +4,50 @@ namespace App\Model;
 
 class MessagesListItem
 {
-    private string $id;
+    private ?string $id = null;
 
-    private UsersListItem $usersListItem;
+    private ?UsersListItem $user = null;
 
-    private ChatsListItem $chatsListItem;
+    private ?ReadMessageListResponse $read = null;
 
-    private ReadMessageListResponse $readMessageListResponse;
+    private ?MessageItem $body_message = null;
 
-    private string $body_message;
+    private ?MessagesListResponse $reply = null;
 
-    private int $created_at;
+    private ?int $created_at = null;
 
     private ?int $updated_at = null;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    public function getBodyMessage(): string
+    public function getBodyMessage(): ?MessageItem
     {
         return $this->body_message;
     }
 
-    public function setBodyMessage(string $body_message): self
+    public function setBodyMessage(?MessageItem $body_message): self
     {
         $this->body_message = $body_message;
 
         return $this;
     }
 
-    public function getCreatedAt(): int
+    public function getCreatedAt(): ?int
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(int $created_at): self
+    public function setCreatedAt(?int $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -66,38 +66,38 @@ class MessagesListItem
         return $this;
     }
 
-    public function getUsersListItem(): UsersListItem
+    public function getUser(): ?UsersListItem
     {
-        return $this->usersListItem;
+        return $this->user;
     }
 
-    public function setUsersListItem(UsersListItem $usersListItem): self
+    public function setUser(?UsersListItem $user): self
     {
-        $this->usersListItem = $usersListItem;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getChatsListItem(): ChatsListItem
+    public function getRead(): ?ReadMessageListResponse
     {
-        return $this->chatsListItem;
+        return $this->read;
     }
 
-    public function setChatsListItem(ChatsListItem $chatsListItem): self
+    public function setRead(?ReadMessageListResponse $read): self
     {
-        $this->chatsListItem = $chatsListItem;
+        $this->read = $read;
 
         return $this;
     }
 
-    public function getReadMessageListResponse(): ReadMessageListResponse
+    public function getReply(): ?MessagesListResponse
     {
-        return $this->readMessageListResponse;
+        return $this->reply;
     }
 
-    public function setReadMessageListResponse(ReadMessageListResponse $readMessageListResponse): self
+    public function setReply(?MessagesListResponse $reply): self
     {
-        $this->readMessageListResponse = $readMessageListResponse;
+        $this->reply = $reply;
 
         return $this;
     }

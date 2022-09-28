@@ -4,6 +4,7 @@ namespace App\Exception\CheckingException;
 
 use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
+use App\Exception\UserHasNoRightException;
 use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
 
@@ -39,6 +40,13 @@ class UserReturnException
         if ($this->userRepository->existsByEmail($email) &&
             $this->userRepository->existsByNickname($nickname)) {
             throw new UserAlreadyExistsException();
+        }
+    }
+
+    public function checkForMismatchBetweenTwoUsers(string $firstUserId, string $secondUserId): void
+    {
+        if ($firstUserId !== $secondUserId) {
+            throw new UserHasNoRightException();
         }
     }
 }

@@ -73,14 +73,14 @@ class ContentService
         $this->uploadService->deleteFile($user->getId(), $fileName);
     }
 
-    public function getCollectionContent(array $collectionContent = null): ContentListResponse
+    public function getCollectionContent(array $collectionContent = null, string $mapMethod = 'map'): ContentListResponse
     {
         if ($collectionContent === null) {
-            return $collectionContent;
+            return new ContentListResponse([]);
         }
 
         return new ContentListResponse(array_map(
-            [$this, 'map'],
+            [$this, $mapMethod],
             $collectionContent
         ));
     }
@@ -96,5 +96,13 @@ class ContentService
             ->setId($content->getId())
             ->setLink($content->getLink())
             ->setAvatar($content->isAvatar());
+    }
+
+    private function getContentByArray(array $content): ContentListItem
+    {
+        return (new ContentListItem())
+            ->setId(($content['id'])? $content['id']: null)
+            ->setLink($content['link'])
+            ->setAvatar(($content['avatar'])? $content['avatar']: null);
     }
 }

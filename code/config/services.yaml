@@ -63,6 +63,18 @@ parameters:
             code: 404,
             hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
         }
+        App\Exception\MessageReturnException: {
+            code: 404,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\UserHasNoRightException: {
+            code: 409,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
+        App\Exception\TimeOutException: {
+            code: 422,
+            hidden: false # Не скрывает сообщение об исключении (отдает пользователю)
+        }
 services:
     # default configuration for services in *this* file
     _defaults:

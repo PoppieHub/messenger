@@ -7,20 +7,20 @@ class MessagesListResponse
     /**
      * @var MessagesListItem[]
      */
-    private array $items;
+    private ?array $items = null;
 
     /**
      * @param MessagesListItem[] $items
      */
-    public function __construct(array $items)
+    public function __construct(?array $items)
     {
         $this->items = $items;
     }
 
     /**
-     * @return MessagesListItem[]
+     * @return MessagesListItem[]|null
      */
-    public function getItems(): array
+    public function getItems(): ?array
     {
         return $this->items;
     }

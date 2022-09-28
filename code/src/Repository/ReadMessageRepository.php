@@ -21,46 +21,20 @@ class ReadMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, ReadMessage::class);
     }
 
-    public function add(ReadMessage $entity, bool $flush = false): void
+    public function deleteRead(string $userId, string $messageId): void
     {
-        $this->getEntityManager()->persist($entity);
+        $db = $this->createQueryBuilder('r')
+            ->delete()
+            ->where('r.user = :userId AND r.message = :messageId')
+            ->setParameter('userId', $userId)
+            ->setParameter('messageId', $messageId);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $query = $db->getQuery();
+        $query->execute();
     }
 
-    public function remove(ReadMessage $entity, bool $flush = false): void
+    public function existsReadMessage(string $userId, string $messageId): ReadMessage|null
     {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $this->findOneBy(['user' => $userId, 'message' => $messageId]);
     }
-
-//    /**
-//     * @return ReadMessage[] Returns an array of ReadMessage objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?ReadMessage
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

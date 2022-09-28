@@ -6,7 +6,7 @@ class ReadMessageListItem
 {
     private string $id;
 
-    private UsersListItem $usersListItem;
+    private UsersListItem $user;
 
     public function getId(): string
     {
@@ -20,14 +20,14 @@ class ReadMessageListItem
         return $this;
     }
 
-    public function getUsersListItem(): UsersListItem
+    public function getUser(): UsersListItem
     {
-        return $this->usersListItem;
+        return $this->user;
     }
 
-    public function setUsersListItem(UsersListItem $usersListItem): self
+    public function setUser(UsersListItem $user): self
     {
-        $this->usersListItem = $usersListItem;
+        $this->user = $user;
 
         return $this;
     }

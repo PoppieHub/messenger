@@ -93,17 +93,8 @@ class MembershipService
         return false;
     }
 
-    public function deleteMemberships(User $currentUser, Chat $chat): void
+    public function deleteMemberships(Chat $chat): void
     {
-        if ($chat->isMultiChat()) {
-            $this->membershipReturnException->checkEqualityOfTwoMembership(
-                firstMembershipId: $currentUser->getId(),
-                secondMembershipId: $this->membershipRepository->findFirstMembershipByChatId(
-                    chatId: $chat->getId()
-                )->getUser()->getId()
-            );
-        }
-
         $this->membershipRepository->deleteMembershipsByChatId(chatId: $chat->getId());
     }
 

@@ -10,6 +10,8 @@ use App\Exception\CheckingException\UserReturnException;
 use App\Model\ChatsListItem;
 use App\Model\ChatsListResponse;
 use App\Model\ContentListItem;
+use App\Model\MessagesListItem;
+use App\Model\MessagesListResponse;
 use App\Repository\ChatRepository;
 use App\Repository\ContentRepository;
 use App\Repository\MembershipRepository;
@@ -25,6 +27,7 @@ class ChatService
         private UserReturnException $userReturnException,
         private ContentService $contentService,
         private MembershipService $membershipService,
+        private MessageService $messageService,
         private ContentRepository $contentRepository,
         private ChatReturnException $chatReturnException,
         private MembershipReturnException $membershipReturnException,
@@ -48,7 +51,7 @@ class ChatService
             $this->membershipService->setMembershipForChat(userWhoIsChatting: $otherUser, addedUser: $otherUser, chat: $chat, isNewChat: true);
         }
 
-        return $this->getChat(chat: $chat);
+        return $this->getChat(chat: $chat, currentUser: $currentUser);
     }
 
     public function getListChats(User $user): ChatsListResponse
@@ -56,7 +59,8 @@ class ChatService
         $this->userReturnException->checkUserOnEmpty(user: $user);
 
         return $this->getCollectionChats(
-            collectionChats: $this->chatRepository->getChatsForUser($user->getId())
+            collectionChats: $this->chatRepository->getChatsForUser($user->getId()),
+            currentUser: $user
         );
     }
 
@@ -66,7 +70,7 @@ class ChatService
 
         $this->membershipService->setMembershipForChat(userWhoIsChatting: $currentUser, addedUser: $currentUser, chat: $chat, isNewChat: true);
 
-        return $this->getChat($chat);
+        return $this->getChat(chat: $chat, currentUser: $currentUser);
     }
 
     public function updateMultiChat(User $currentUser, string $chatId, string $name = null, string $description = null): ChatsListItem
@@ -88,7 +92,7 @@ class ChatService
 
         $this->em->flush();
 
-        return $this->getChat($chat);
+        return $this->getChat($chat, $currentUser);
     }
 
     public function createChat(string $name = 'Default Chat', string $description = null, bool $multiChat = false): Chat
@@ -116,11 +120,21 @@ class ChatService
         $chat = $this->chatRepository->findChatById($chatId);
         $this->chatReturnException->checkExistsChat($chat);
 
-        $this->membershipReturnException->checkExistsMembership(
-            $this->membershipRepository->findMembership(userId: $currentUser->getId(), chatId: $chatId)
-        );
+        if ($chat->isMultiChat()) {
+            $this->membershipReturnException->checkEqualityOfTwoMembership(
+                firstMembershipId: $currentUser->getId(),
+                secondMembershipId: $this->membershipRepository->findFirstMembershipByChatId(
+                    chatId: $chat->getId()
+                )->getUser()->getId()
+            );
+        } else {
+            $this->membershipReturnException->checkExistsMembership(
+                $this->membershipRepository->findMembership(userId: $currentUser->getId(), chatId: $chatId)
+            );
+        }
 
-        $this->membershipService->deleteMemberships(currentUser: $currentUser, chat: $chat);
+        $this->messageService->deleteMessages(chat: $chat);
+        $this->membershipService->deleteMemberships(chat: $chat);
 
         $this->em->remove($chat);
         $this->em->flush();
@@ -128,17 +142,17 @@ class ChatService
         return true;
     }
 
-    public function getCollectionChats(array $collectionChats): ChatsListResponse
+    public function getCollectionChats(array $collectionChats, User $currentUser): ChatsListResponse
     {
         return new ChatsListResponse(array_map(
-            fn (Chat $chat) => $this->getChat(chat: $chat),
+            fn (Chat $chat) => $this->getChat(chat: $chat, currentUser: $currentUser),
             $collectionChats
         ));
     }
 
-    public function getChat(Chat $chat): ChatsListItem
+    public function getChat(Chat $chat, User $currentUser): ChatsListItem
     {
-        return (new ChatsListItem())
+        $chatListItem =  (new ChatsListItem())
             ->setId($chat->getId())
             ->setName($chat->getName())
             ->setDescription($chat->getDescription())
@@ -156,6 +170,46 @@ class ChatService
                         avatar: true
                     )
                 )
+            )
+            ->setMessages(
+                $this->messageService->getCollectionMessages($chat)
             );
+
+        $messages = $chatListItem->getMessages()->getItems();
+        $chatListItem->setLastMessage(
+            (!empty($messages))? $messages[array_key_last($messages)]: null
+        );
+
+        $chatListItem->setUnreadMessageCounter(
+            self::unreadMessageCounter(currentUser: $currentUser, messagesListResponse: $chatListItem->getMessages())
+        );
+
+        return $chatListItem;
+    }
+
+    private function unreadMessageCounter(User $currentUser, MessagesListResponse $messagesListResponse): ?int
+    {
+        $totalCount = 0;
+
+        foreach ($messagesListResponse->getItems() as $value) {
+            if (!empty($value)) {
+                $messageUserId = $value->getUser()->getId();
+
+                if ($currentUser->getId() !== $messageUserId) {
+                    $totalCount++;
+
+                    foreach ($value->getRead()->getItems() as $item) {
+                        if (!empty($item)) {
+                            if ($item->getUser()->getId() === $currentUser->getId()) {
+                                $totalCount--;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $totalCount;
     }
 }
