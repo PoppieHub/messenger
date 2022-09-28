@@ -18,11 +18,11 @@ class Contact
     private bool $status;
 
     #[ORM\ManyToOne(inversedBy: 'to_user_contact')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?User $to_user = null;
 
     #[ORM\ManyToOne(inversedBy: 'from_user_contact')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?User $from_user = null;
 
     public function getId(): ?string

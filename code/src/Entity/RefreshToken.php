@@ -28,7 +28,7 @@ class RefreshToken extends AbstractRefreshToken
     #[ORM\Column(type: 'datetime')]
     protected $valid;
 
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     #[ORM\ManyToOne(targetEntity: User::class)]
     private UserInterface $user;
 

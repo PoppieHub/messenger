@@ -31,6 +31,8 @@ class UserService
             ->setId($user->getId())
             ->setEmail($user->getEmail())
             ->setNickname($user->getNickname())
+            ->setFirstName($user->getFirstName())
+            ->setLastName($user->getLastName())
             ->setHideEmail($user->isHideEmail())
             ->setVerified($user->isVerified())
             ->setContent(
@@ -83,6 +85,14 @@ class UserService
             $user->setNickname($profile->getNickname());
         }
 
+        if ($profile->getFirstName() !== null) {
+            $user->setFirstName($profile->getFirstName());
+        }
+
+        if ($profile->getLastName() !== null) {
+            $user->setLastName($profile->getLastName());
+        }
+
         if ($profile->getPassword() !== null) {
             $user->setPassword($this->hasher->hashPassword($user, $profile->getPassword()));
         }
@@ -94,5 +104,17 @@ class UserService
         $this->em->flush();
 
         return $this->getProfile($user);
+    }
+
+    public function deleteUser(User $user): bool
+    {
+        $this->userReturnException->checkUserOnEmpty($user);
+
+        $this->contentService->deleteCollectionFiles(user: $user, collection: $user->getContents());
+
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return true;
     }
 }

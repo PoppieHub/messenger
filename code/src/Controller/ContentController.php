@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Attribute\RequestFile;
 use App\Entity\User;
 use App\Service\ContentService;
 use App\Model\ErrorResponse;
+use App\Model\ContentListItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route(path: '/api/v1/content/', name: 'content.')]
 class ContentController extends AbstractController
@@ -41,5 +47,53 @@ class ContentController extends AbstractController
         $this->contentService->deleteFileForContent($currentUser, $contentId);
 
         return $this->json(['contentId' => $contentId, 'remove_status' => true]);
+    }
+
+    /**
+     * @OA\Tag(name="Content API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Upload image for content and return it",
+     *     @Model(type=ContentListItem::class)
+     * )
+     * @OA\Response(
+     *     response="409",
+     *     description="Uploaded file type is invalid",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: 'upload/image', name: 'uploadImage', methods: ['POST'])]
+    public function uploadImage(
+        #[CurrentUser] User $currentUser,
+        #[RequestFile(field: 'image', constraints: [
+            new NotNull(),
+            new Image(maxSize: '50M', mimeTypes: ['image/*']),
+        ])] UploadedFile $file
+    ): Response {
+        return $this->json($this->contentService->uploadFileForContent(user: $currentUser, file: $file));
+    }
+
+    /**
+     * @OA\Tag(name="Content API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Upload file for content and return it",
+     *     @Model(type=ContentListItem::class)
+     * )
+     * @OA\Response(
+     *     response="409",
+     *     description="Uploaded file type is invalid",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: 'upload/file', name: 'uploadFile', methods: ['POST'])]
+    public function uploadFile(
+        #[CurrentUser] User $currentUser,
+        #[RequestFile(field: 'file', constraints: [
+            new NotNull(),
+            new File(maxSize: '50M')
+        ])] UploadedFile $file
+    ): Response {
+        return $this->json($this->contentService->uploadFileForContent(user: $currentUser, file: $file));
     }
 }

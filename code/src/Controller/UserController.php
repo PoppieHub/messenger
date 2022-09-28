@@ -214,4 +214,28 @@ class UserController extends AbstractController
 
         return $this->json(['contactId' => $contactId, 'remove_status' => true]);
     }
+
+    /**
+     * @OA\Tag(name="User API")
+     * @OA\Response(
+     *     response=200,
+     *     description="Deletes a user, related contacts, messages, members, content",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="userId", type="string"),
+     *         @OA\Property(property="request_status", type="boolean")
+     *     )
+     * )
+     * @OA\Response(
+     *     response="404",
+     *     description="Validation failed, user not found",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     */
+    #[Route(path: 'delete', name: 'delete', methods: ['DELETE'])]
+    public function deleteUser(#[CurrentUser] User $currentUser): Response
+    {
+        $request = $this->userService->deleteUser(user: $currentUser);
+
+        return $this->json(['userId' => $currentUser->getId(), 'request_status' => $request]);
+    }
 }

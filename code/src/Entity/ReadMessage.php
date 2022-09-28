@@ -18,7 +18,7 @@ class ReadMessage
     private ?Message $message = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?User $user = null;
 
     public function getId(): ?int

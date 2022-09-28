@@ -15,11 +15,11 @@ class Membership
     private ?string $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'memberships')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?Chat $chat = null;
 
     #[ORM\ManyToOne(inversedBy: 'membership')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private ?User $user = null;
 
     #[ORM\Column(nullable: false, options: ['default' => false])]

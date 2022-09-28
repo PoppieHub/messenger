@@ -15,7 +15,7 @@ class Content
     private ?string $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     private User $user;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]

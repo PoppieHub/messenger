@@ -12,6 +12,7 @@ use App\Model\ContentListItem;
 use App\Model\ContentListResponse;
 use App\Repository\ContentRepository;
 use App\Repository\MembershipRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -60,17 +61,30 @@ class ContentService
         return self::map($content);
     }
 
+    public function deleteCollectionFiles(User $user, ?Collection $collection): void
+    {
+        if (!empty($collection)) {
+            array_map(
+                fn (Content $content) => $this->deleteFile(content: $content, user: $user),
+                $collection->getValues()
+            );
+        }
+    }
+
+    private function deleteFile(Content $content, User $user): void
+    {
+        $this->uploadService->deleteFile($user->getId(), $this->getFilename($content));
+    }
+
     public function deleteFileForContent(User $user, string $idContent): void
     {
         $content = $this->contentRepository->findContentByUserAndId($user, $idContent);
         $this->contentReturnException->checkThatTheContentIsNotNull(content: $content);
 
-        $fileName = $this->getFilename($content);
+        $this->deleteFile(content: $content, user: $user);
 
         $this->em->remove($content);
         $this->em->flush();
-
-        $this->uploadService->deleteFile($user->getId(), $fileName);
     }
 
     public function getCollectionContent(array $collectionContent = null, string $mapMethod = 'map'): ContentListResponse

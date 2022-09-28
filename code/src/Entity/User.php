@@ -25,6 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: '30', unique: true, nullable: false)]
     private string $nickname;
 
+    #[ORM\Column(type: 'string', length: '30', nullable: true)]
+    private ?string $firstName;
+
+    #[ORM\Column(type: 'string', length: '30', nullable: true)]
+    private ?string $lastName;
+
     #[ORM\Column(type: 'string', nullable: false)]
     private string $password;
 
@@ -97,6 +103,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNickname(string $nickname): self
     {
         $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }
