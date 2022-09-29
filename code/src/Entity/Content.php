@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\ContentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
+#[Index(columns: ["user_id"], name: "content_idx")]
 #[ORM\Entity(repositoryClass: ContentRepository::class)]
 class Content
 {

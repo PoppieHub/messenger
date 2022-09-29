@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
+#[Index(columns: ["from_user_id", "to_user_id"], name: "contact_idx")]
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {

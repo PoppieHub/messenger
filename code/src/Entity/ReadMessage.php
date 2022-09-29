@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ReadMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
+#[Index(columns: ["user_id", "message_id"], name: "read_idx")]
 #[ORM\Entity(repositoryClass: ReadMessageRepository::class)]
 class ReadMessage
 {
