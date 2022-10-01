@@ -10,6 +10,7 @@ use App\Model\MessagesListItem;
 use App\Model\MessagesListResponse;
 use App\Model\UpdateMessageItem;
 use App\Service\MessageService;
+use App\Service\SecurityService;
 use OpenApi\Annotations as OA;
 use App\Model\MessagesShortListRequest;
 use App\Model\ErrorResponse;
@@ -22,7 +23,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route(path: '/api/v1/message', name: 'messages.')]
 class MessageController extends AbstractController
 {
-    public function __construct(private MessageService $messageService)
+    public function __construct(private MessageService $messageService, private SecurityService $securityService)
     {
     }
 
@@ -32,6 +33,11 @@ class MessageController extends AbstractController
      *     response=200,
      *     description="Removes the message collection",
      *     @Model(type=MessagesShortListRequest::class)
+     * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
      * )
      * @OA\Response(
      *     response=404,
@@ -50,7 +56,10 @@ class MessageController extends AbstractController
     #[Route(path: '/remove', name: 'delete', methods: ['DELETE'])]
     public function deleteMessages(#[CurrentUser] User $currentUser, #[RequestBody] MessagesShortListRequest $request): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         $this->messageService->deleteCollectionMessage(currentUser: $currentUser, collectionMessage: $request);
+
         return $this->json(['request' => $request, 'request_status' => true]);
     }
 
@@ -60,6 +69,11 @@ class MessageController extends AbstractController
      *     response=200,
      *     description="Adds a message for the current user and returns it",
      *     @Model(type=MessagesListItem::class)
+     * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
      * )
      * @OA\Response(
      *     response=404,
@@ -73,6 +87,8 @@ class MessageController extends AbstractController
     #[Route(path: '/addMessage', name: 'addMessage', methods: ['POST'])]
     public function addMessage(#[CurrentUser] User $currentUser, #[RequestBody] MessageRequest $request): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         return $this->json($this->messageService->addMessage(currentUser: $currentUser, messageRequest: $request));
     }
 
@@ -82,6 +98,11 @@ class MessageController extends AbstractController
      *     response=200,
      *     description="Update a message for the current user and returns it",
      *     @Model(type=MessagesListItem::class)
+     * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
      * )
      * @OA\Response(
      *     response=404,
@@ -105,6 +126,8 @@ class MessageController extends AbstractController
     #[Route(path: '/updateMessage', name: 'updateMessage', methods: ['POST'])]
     public function updateMessage(#[CurrentUser] User $currentUser, #[RequestBody] UpdateMessageItem $request): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         return $this->json($this->messageService->updateMessage(user: $currentUser, updateMessageItem: $request));
     }
 
@@ -120,6 +143,11 @@ class MessageController extends AbstractController
      *     description="Validation failed",
      *     @Model(type=ErrorResponse::class)
      * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
      * @OA\RequestBody(
      *     description="Accepts a searchValue, or parts of them for search.",
      *     @Model(type=FindRequest::class)
@@ -128,6 +156,8 @@ class MessageController extends AbstractController
     #[Route(path: '/searchMessage', name: 'searchMessage', methods: ['POST'])]
     public function searchMessage(#[CurrentUser] User $currentUser, #[RequestBody] FindRequest $request): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         return $this->json($this->messageService->getFoundMessage(currentUser: $currentUser, searchValue: $request));
     }
 }

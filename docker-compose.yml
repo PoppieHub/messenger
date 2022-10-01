@@ -102,6 +102,19 @@ services:
     networks:
       - app-network
 
+  # контейнер с MailHog
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    restart: always
+    logging:
+      driver: "none"
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - app-network
+
 #Docker Networks
 networks:
   app-network:

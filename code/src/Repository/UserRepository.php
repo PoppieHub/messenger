@@ -37,6 +37,16 @@ class UserRepository extends ServiceEntityRepository
         return $this->find($userId);
     }
 
+    public function findUsersByEmailAndNickname(string $email, string $nickname): User|null
+    {
+        return $this->findOneBy(['email' => $email, 'nickname' => $nickname]);
+    }
+
+    public function findUsersByResetToken(string $token): User|null
+    {
+        return $this->findOneBy(['resetToken' => $token]);
+    }
+
     public function findUsersByEmailOrNickname(string $searchValue, int $userId, bool $hide_email = false, bool $verified = true): array
     {
         $db = $this->createQueryBuilder('u')

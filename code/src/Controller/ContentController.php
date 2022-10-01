@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Service\ContentService;
 use App\Model\ErrorResponse;
 use App\Model\ContentListItem;
+use App\Service\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[Route(path: '/api/v1/content/', name: 'content.')]
 class ContentController extends AbstractController
 {
-    public function __construct(private ContentService $contentService)
+    public function __construct(private ContentService $contentService, private SecurityService $securityService)
     {
     }
 
@@ -35,6 +36,11 @@ class ContentController extends AbstractController
      *         @OA\Property(property="remove_status", type="boolean")
      *     )
      * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
      *  @OA\Response(
      *     response=404,
      *     description="Content cannot be found",
@@ -44,6 +50,8 @@ class ContentController extends AbstractController
     #[Route(path: 'remove/{contentId}', name: 'delete', methods: ['DELETE'])]
     public function deleteContent(#[CurrentUser] User $currentUser, string $contentId): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         $this->contentService->deleteFileForContent($currentUser, $contentId);
 
         return $this->json(['contentId' => $contentId, 'remove_status' => true]);
@@ -55,6 +63,11 @@ class ContentController extends AbstractController
      *     response=200,
      *     description="Upload image for content and return it",
      *     @Model(type=ContentListItem::class)
+     * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
      * )
      * @OA\Response(
      *     response="409",
@@ -70,6 +83,8 @@ class ContentController extends AbstractController
             new Image(maxSize: '50M', mimeTypes: ['image/*']),
         ])] UploadedFile $file
     ): Response {
+        $this->securityService->isVerification($currentUser);
+
         return $this->json($this->contentService->uploadFileForContent(user: $currentUser, file: $file));
     }
 
@@ -79,6 +94,11 @@ class ContentController extends AbstractController
      *     response=200,
      *     description="Upload file for content and return it",
      *     @Model(type=ContentListItem::class)
+     * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
      * )
      * @OA\Response(
      *     response="409",
@@ -94,6 +114,8 @@ class ContentController extends AbstractController
             new File(maxSize: '50M')
         ])] UploadedFile $file
     ): Response {
+        $this->securityService->isVerification($currentUser);
+
         return $this->json($this->contentService->uploadFileForContent(user: $currentUser, file: $file));
     }
 }

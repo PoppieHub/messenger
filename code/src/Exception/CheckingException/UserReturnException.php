@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
 use App\Exception\UserHasNoRightException;
 use App\Exception\UserNotFoundException;
+use App\Exception\UserNotVerifiedException;
 use App\Repository\UserRepository;
 
 class UserReturnException
@@ -47,6 +48,13 @@ class UserReturnException
     {
         if ($firstUserId !== $secondUserId) {
             throw new UserHasNoRightException();
+        }
+    }
+
+    public function checkIsVerifiedUser(bool $verified = false): void
+    {
+        if (!$verified) {
+            throw new UserNotVerifiedException();
         }
     }
 }

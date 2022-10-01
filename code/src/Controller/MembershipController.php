@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\MembershipService;
+use App\Service\SecurityService;
 use OpenApi\Annotations as OA;
 use App\Model\ErrorResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route(path: '/api/v1/membership', name: 'membership.')]
 class MembershipController extends AbstractController
 {
-    public function __construct(private MembershipService $membershipService)
+    public function __construct(private MembershipService $membershipService, private SecurityService $securityService)
     {
     }
 
@@ -31,6 +32,11 @@ class MembershipController extends AbstractController
      *     )
      * )
      * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
      *     response="404",
      *     description="Validation failed, chat not found
      *          or user not found
@@ -43,6 +49,8 @@ class MembershipController extends AbstractController
     #[Route(path: '/add/userId/{userId}/chatId/{chatId}', name: 'addMembership', methods: ['GET'])]
     public function addMembershipForMultiChat(#[CurrentUser] User $currentUser, string $userId, string $chatId): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         $this->membershipService->addMembershipForMultiChat(
             currentUser: $currentUser,
             addedUserId: $userId,
@@ -65,6 +73,11 @@ class MembershipController extends AbstractController
      *     )
      * )
      * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
      *     response="409",
      *     description="Membership not found",
      *     @Model(type=ErrorResponse::class)
@@ -73,6 +86,8 @@ class MembershipController extends AbstractController
     #[Route(path: '/update/chatId/{chatId}/notification/{notification}', name: 'updateNotification', methods: ['GET'])]
     public function updateNotification(#[CurrentUser] User $currentUser, string $chatId, bool $notification): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         $updateStatus = $this->membershipService->updateNotification(
             currentUser: $currentUser,
             chatId: $chatId,
@@ -93,6 +108,11 @@ class MembershipController extends AbstractController
      *     )
      * )
      * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
+     * @OA\Response(
      *     response="404",
      *     description="Validation failed, chat not found
      *          or membership not found",
@@ -107,6 +127,8 @@ class MembershipController extends AbstractController
     #[Route(path: '/remove/{membershipId}', name: 'delete', methods: ['DELETE'])]
     public function deleteMembership(#[CurrentUser] User $currentUser, string $membershipId): Response
     {
+        $this->securityService->isVerification($currentUser);
+
         $request = $this->membershipService->deleteMembershipByMultiChat(currentUser: $currentUser, membershipId: $membershipId);
 
         return $this->json(['membershipId' => $membershipId, 'remove_status' => $request]);

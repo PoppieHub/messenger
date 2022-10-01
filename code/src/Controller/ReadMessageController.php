@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\MessagesShortListRequest;
 use App\Service\ReadMessageService;
+use App\Service\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ use App\Model\ErrorResponse;
 #[Route(path: '/api/v1/readMessage', name: 'readMessage.')]
 class ReadMessageController extends AbstractController
 {
-    public function __construct(private ReadMessageService $readMessageService)
+    public function __construct(private ReadMessageService $readMessageService, private SecurityService $securityService)
     {
     }
 
@@ -33,6 +34,11 @@ class ReadMessageController extends AbstractController
      *     description="Validation failed",
      *     @Model(type=ErrorResponse::class)
      * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
      * @OA\RequestBody(
      *     @Model(type=MessagesShortListRequest::class)
      * )
@@ -40,7 +46,9 @@ class ReadMessageController extends AbstractController
     #[Route(path: '/remove', name: 'delete', methods: ['DELETE'])]
     public function deleteReadMessages(#[CurrentUser] User $currentUser, #[RequestBody] MessagesShortListRequest $request): Response
     {
+        $this->securityService->isVerification($currentUser);
         $this->readMessageService->deleteCollectionReadMessage(currentUser: $currentUser, collectionMessage: $request);
+
         return $this->json(['request' => $request, 'request_status' => true]);
     }
 
@@ -56,6 +64,11 @@ class ReadMessageController extends AbstractController
      *     description="Validation failed",
      *     @Model(type=ErrorResponse::class)
      * )
+     * @OA\Response(
+     *     response=403,
+     *     description="Validation failed, User not verified!",
+     *     @Model(type=ErrorResponse::class)
+     * )
      * @OA\RequestBody(
      *     @Model(type=MessagesShortListRequest::class)
      * )
@@ -63,7 +76,9 @@ class ReadMessageController extends AbstractController
     #[Route(path: '/add', name: 'add', methods: ['POST'])]
     public function addReadMessage(#[CurrentUser] User $currentUser, #[RequestBody] MessagesShortListRequest $request): Response
     {
+        $this->securityService->isVerification($currentUser);
         $this->readMessageService->addReadMessage(currentUser: $currentUser, collectionMessage: $request);
+
         return $this->json(['request' => $request, 'request_status' => true]);
     }
 }
