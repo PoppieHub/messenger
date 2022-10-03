@@ -105,7 +105,7 @@ class ChatController extends AbstractController
      *     @Model(type=ChatUpdateRequest::class)
      * )
      */
-    #[Route(path: '/updateMultiChat', name: 'updateMultiChat', methods: ['POST'])]
+    #[Route(path: '/updateMultiChat', name: 'updateMultiChat', methods: ['PUT'])]
     public function updateMultiChat(#[CurrentUser] User $currentUser, #[RequestBody] ChatUpdateRequest $chatUpdateRequest): Response
     {
         $this->securityService->isVerification($currentUser);

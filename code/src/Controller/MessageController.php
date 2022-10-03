@@ -123,7 +123,7 @@ class MessageController extends AbstractController
      *     @Model(type=UpdateMessageItem::class)
      * )
      */
-    #[Route(path: '/updateMessage', name: 'updateMessage', methods: ['POST'])]
+    #[Route(path: '/updateMessage', name: 'updateMessage', methods: ['PUT'])]
     public function updateMessage(#[CurrentUser] User $currentUser, #[RequestBody] UpdateMessageItem $request): Response
     {
         $this->securityService->isVerification($currentUser);

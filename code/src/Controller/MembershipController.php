@@ -83,7 +83,7 @@ class MembershipController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: '/update/chatId/{chatId}/notification/{notification}', name: 'updateNotification', methods: ['GET'])]
+    #[Route(path: '/update/chatId/{chatId}/notification/{notification}', name: 'updateNotification', methods: ['PUT'])]
     public function updateNotification(#[CurrentUser] User $currentUser, string $chatId, bool $notification): Response
     {
         $this->securityService->isVerification($currentUser);

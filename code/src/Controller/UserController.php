@@ -66,7 +66,7 @@ class UserController extends AbstractController
      *     @Model(type=ProfileRequest::class)
      * )
      */
-    #[Route(path: 'changeProfile/', name: 'changeProfile', methods: ['POST'])]
+    #[Route(path: 'changeProfile/', name: 'changeProfile', methods: ['PUT'])]
     public function changeProfile(#[CurrentUser] User $currentUser, #[RequestBody] ProfileRequest $request): Response
     {
         return $this->json($this->userService->changeProfile(user: $currentUser, profile: $request));
@@ -185,7 +185,7 @@ class UserController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: 'acceptContact/{contactId}', name: 'acceptContact', methods: ['GET'])]
+    #[Route(path: 'acceptContact/{contactId}', name: 'acceptContact', methods: ['PUT'])]
     public function acceptContact(#[CurrentUser] User $currentUser, string $contactId): Response
     {
         return $this->json($this->contactService->acceptContact(user: $currentUser, contactId: $contactId));
