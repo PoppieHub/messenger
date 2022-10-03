@@ -10,7 +10,6 @@ use App\Exception\CheckingException\UserReturnException;
 use App\Model\ChatsListItem;
 use App\Model\ChatsListResponse;
 use App\Model\ContentListItem;
-use App\Model\MessagesListItem;
 use App\Model\MessagesListResponse;
 use App\Repository\ChatRepository;
 use App\Repository\ContentRepository;

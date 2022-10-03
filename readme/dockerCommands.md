@@ -119,3 +119,4 @@
    ```
    docker exec -it container_name bash
    ```
+[Следующий шаг: Информация о контейнерах Docker в данном проекте](./infoContainers.md)

@@ -12,7 +12,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 #[Route(path: '/api/v1/auth/', name: 'security.')]
 class SecurityController extends AbstractController
