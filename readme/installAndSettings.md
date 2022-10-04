@@ -23,10 +23,11 @@
       ```
 * Дальше неообходимо установить все зависимости проекта и.
   - Необходимо перейти в php контейнер и выполнить следующие команды:
-    - `composer install --dev & composer update -W` - установит зависимости
+    - `composer install & composer update -W` - установит зависимости
     - `php bin/console doctrine:database:create` - создаст БД
-    - `php bin/console doctrine:migrations:migrate` - выполнит миграцию в БД 
-    - `php bin/console doctrine:migrations:migrate --env=test` - выполнит миграцию в тестовую БД 
+    - `php bin/console doctrine:database:create --env=test` - создаст БД для тестовой БД
+    - `php bin/console doctrine:migrations:migrate` - выполнит миграцию в БД (если есть в этом необходимость)
+    - `php bin/console doctrine:migrations:migrate --env=test` - выполнит миграцию в тестовую БД (если есть в этом необходимость)
 
 * В конфигурационном файле `/config/packages/lexik_jwt_authentication.yaml` в строчке `token_ttl`
 находится директива со временем жизни JWT токена.

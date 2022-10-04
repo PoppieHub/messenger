@@ -24,7 +24,7 @@
 
 * По роуту http://messenger.local/api/doc находится Swagger c описанием api, схемами и исключениями (нужна авторизация JWT).
 * По роуту http://messenger.local:8025/ находится фейковый почтовый ящик (для верификации, сброса пароля).
-  * По роуту http://messenger.local:81 находится phpmyadmin (логин и пароль от бд).
+* По роуту http://messenger.local:81 находится phpmyadmin (логин и пароль от бд).
 
 ### Логика БД:
 ![](./img.png)
