@@ -1,5 +1,0 @@
-<h1>Verify your account</h1>
-<p>Hi {{ user.nickname }},</p>
-<p>Your registration in the messenger must be confirmed by clicking on the link below:</p>
-<p><a href="{{ absolute_url(path('security.verificationUser', {token: tokenArray.token})) }}">{{ absolute_url(path('security.verificationUser', {token: tokenArray.token})) }}</a></p>
-<p>This link will expire in 3 hours</p>

@@ -2,8 +2,8 @@
 *.env
 # ignore folder
 /dbdata/
-/code/vendor/
-/code/var/
+/app/backend/vendor/
+/app/backend/var/
 
 .idea
 
@@ -18,4 +18,4 @@
 .php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
-/code/config/jwt/*.pem
+/app/backend/config/jwt/*.pem
