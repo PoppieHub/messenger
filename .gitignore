@@ -19,3 +19,18 @@
 ###< friendsofphp/php-cs-fixer ###
 
 /app/backend/config/jwt/*.pem
+
+# dependencies
+/app/frontend/node_modules
+/app/frontend/.pnp
+/app/frontend/.pnp.js
+
+# testing
+/app/frontend/coverage
+
+# production
+/app/frontend/build
+
+/app/frontend/npm-debug.log*
+/app/frontend/yarn-debug.log*
+/app/frontend/yarn-error.log*

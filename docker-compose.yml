@@ -23,6 +23,20 @@ services:
     networks:
       - app-network
 
+  # контейнер с Node
+  client:
+    container_name: client
+    restart: always
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app/frontend:/data/messenger.client
+    networks:
+      - app-network
+
   #контейнер с Nginx
   webserver:
     build:
@@ -32,9 +46,11 @@ services:
     restart: always # перезагружать после падения - всегда
     depends_on:  # завист от включенного php
       - app
+      - client
     container_name: webserver
     volumes:
       - ./app/backend:/data/messenger.local
+      - ./app/frontend:/data/messenger.client
 
     # проброс портов
     ports:
