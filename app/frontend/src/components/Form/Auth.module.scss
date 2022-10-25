@@ -1,0 +1,40 @@
+.authForm {
+  height: 87vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.authFormTitle {
+}
+
+.authFormSubtitle {
+  color: rgb(180, 184, 193);
+}
+
+.authForm__form {
+  max-width: 360px;
+}
+
+.authForm__footer {
+  margin-top: 8px;
+}
+
+.btn {
+  margin-top: 20px !important;
+  background-color: #373737 !important;
+}
+.btn:hover {
+  background-color: #d9ddf7 !important;
+}
+
+.link {
+  padding: 0 10px;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #d9ddf7;
+}

@@ -21,7 +21,7 @@
 /app/backend/config/jwt/*.pem
 
 # dependencies
-/app/frontend/node_modules
+/app/frontend/node_modulesv
 /app/frontend/.pnp
 /app/frontend/.pnp.js
 
