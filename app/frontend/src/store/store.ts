@@ -28,6 +28,10 @@ export default class Store {
         return this.isAuth;
     }
 
+    public getProfile(): UserListItem {
+        return this.profile;
+    }
+
     private setProfile(profile: UserListItem): void {
         this.profile = profile;
     }

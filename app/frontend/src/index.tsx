@@ -1,13 +1,10 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App/App';
+import App from './App';
 import Store from "./store/store";
 import {StoreModel} from "./models/StoreModel";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import './index.scss';
+import {BrowserRouter as Router, Routes} from 'react-router-dom';
+import './assets/styles/index.scss';
 
 export const store = new Store();
 
@@ -25,7 +22,9 @@ root.render(
           store
       }
       }>
-          <App />
+          <Router>
+              <App />
+          </Router>
       </Context.Provider>
   </React.StrictMode>
 );

@@ -1,10 +1,16 @@
 export const REQUIRED_FIELD = 'Обязательно для заполнения';
 
+const reg = /\.[a-zа-я]{1,10}$/i;
+
 export const emailValidation = {
     required: REQUIRED_FIELD,
     validate: (value: string) => {
-        if (value.length < 6 || value.length > 128 || !value.includes(`.`)) {
+        if (value.length < 4 || value.length > 128) {
             return 'Эл. адрес должен быть от 4 до 128 символов'
+        }
+
+        if (!reg.test(value)) {
+            return 'Эл. адрес должен иметь тип: "example@example.com"'
         }
 
         return true;

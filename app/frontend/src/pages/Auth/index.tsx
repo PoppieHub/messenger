@@ -1,12 +1,8 @@
 import React from "react";
-import Login from "../components/Form/Login/Login";
-import Header from "../components/Header/Header";
-import Registration from "../components/Form/Registration/Registration";
-import Error from "../components/Error/Error";
-import ForgotPassword from "../components/Form/ForgotPassword/ForgotPassword";
-import Alert from "../components/Alert/Alert";
+import {LoginForm, PasswordForm, RegistrationForm} from "../../modules/"
+import {Error, Alert} from "../../components";
 
-export const AuthPage: React.FC = () => {
+const Auth: React.FC = () => {
     const [info, setInfo] = React.useState(false);
     const [data, setData] = React.useState({
             current: 'login'
@@ -22,32 +18,30 @@ export const AuthPage: React.FC = () => {
     }
 
     if (data.current === 'registration') {
-
         return (
-            <main>
-                <Header />
+            <section className='auth'>
                 <Alert text={'Проверьте почту, чтобы подтвердить активацию аккаунта'} state={info} updateInfo={updateInfo} />
                 <Error text='Пользователь с таким адресом электронной почты или псевдонимом уже существует. Ошибка валидации.' />
-                <Registration updateData={updateData} updateInfo={updateInfo} />
-            </main>
+                <RegistrationForm updateData={updateData} updateInfo={updateInfo} />
+            </section>
         );
     }
     if (data.current === 'forgot') {
 
         return (
-            <main>
-                <Header />
+            <section className='auth'>
                 <Alert text={'Проверьте почту, продолжить сброс пароля'} state={info} updateInfo={updateInfo} />
                 <Error text='Пользователь с таким адресом электронной почты или псевдонимом не существует. Ошибка валидации.' />
-                <ForgotPassword updateData={updateData} updateInfo={updateInfo} />
-            </main>
+                <PasswordForm updateData={updateData} updateInfo={updateInfo} />
+            </section>
         );
     }
     return (
-        <main>
-            <Header />
+        <section className='auth'>
             <Error text='Некорректно введены данные' />
-            <Login updateData={updateData}/>
-        </main>
+            <LoginForm updateData={updateData}/>
+        </section>
     );
 }
+
+export default Auth;

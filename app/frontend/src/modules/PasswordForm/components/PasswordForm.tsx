@@ -4,12 +4,14 @@ import {useForm, Controller, SubmitHandler, useFormState} from 'react-hook-form'
 import ForgotPasswordRequest from "../../../models/request/ForgotPasswordRequest";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import {emailValidation, nicknameValidation} from  '../validation';
-import styles from '../Auth.module.scss';
+import Button from "../../../components/Button";
+import {emailValidation, nicknameValidation} from  '../../validation';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
 import {AuthProps} from "../../../models/AuthProps";
+import styles from '../../Form.module.scss';
 
-const ForgotPassword: React.FC<AuthProps> = (props) => {
+const PasswordForm: React.FC<AuthProps> = (props) => {
     const {store} = React.useContext(Context);
     const {handleSubmit, control} = useForm<ForgotPasswordRequest>();
     const {errors} = useFormState({control});
@@ -40,6 +42,11 @@ const ForgotPassword: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Эл. адрес"
+                            InputProps={{
+                                endAdornment: (
+                                    <MailOutlineIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -58,6 +65,11 @@ const ForgotPassword: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Псевдоним"
+                            InputProps={{
+                                endAdornment: (
+                                    <AlternateEmailOutlinedIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -69,15 +81,7 @@ const ForgotPassword: React.FC<AuthProps> = (props) => {
                         />
                     )}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={ true }
-                    disableElevation={ true }
-                    className={styles.btn}
-                >
-                    Восстановить
-                </Button>
+                <Button text={'Восстановить'} />
             </form>
             <div className={styles.authForm__footer}>
                 <Typography variant="subtitle1" component="span" className={styles.link}
@@ -95,14 +99,14 @@ const ForgotPassword: React.FC<AuthProps> = (props) => {
                                 if (props.updateInfo) {
                                     props.updateInfo(false);
                                 }
-                                props.updateData(data.registration);
                                 store.setIsError(false);
+                                props.updateData(data.registration);
                             }}>
                     Зарегистрироваться
                 </Typography>
             </div>
         </div>
     );
-};
+}
 
-export default ForgotPassword;
+export default PasswordForm;

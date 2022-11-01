@@ -4,12 +4,14 @@ import {useForm, Controller, SubmitHandler, useFormState} from 'react-hook-form'
 import SignInRequest from "../../../models/request/SignInRequest";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import {emailValidation, passwordValidation} from  '../validation';
+import Button from "../../../components/Button";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
+import {emailValidation, passwordValidation} from  '../../validation';
 import {AuthProps} from "../../../models/AuthProps";
-import styles from '../Auth.module.scss';
+import styles from '../../Form.module.scss';
 
-const Login: React.FC<AuthProps> = (updateData) => {
+const LoginForm: React.FC<AuthProps> = (updateData) => {
     const {store} = React.useContext(Context);
     const {handleSubmit, control} = useForm<SignInRequest>();
     const {errors} = useFormState({control});
@@ -39,7 +41,12 @@ const Login: React.FC<AuthProps> = (updateData) => {
                     rules={emailValidation}
                     render={({ field }) => (
                         <TextField
-                            label="Эл. адрес"
+                            label='Эл. адрес'
+                            InputProps={{
+                                endAdornment: (
+                                <MailOutlineIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -58,6 +65,11 @@ const Login: React.FC<AuthProps> = (updateData) => {
                     render={({ field }) => (
                         <TextField
                             label="Пароль"
+                            InputProps={{
+                                endAdornment: (
+                                    <VpnKeyOutlinedIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -69,15 +81,7 @@ const Login: React.FC<AuthProps> = (updateData) => {
                         />
                     )}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={ true }
-                    disableElevation={ true }
-                    className={styles.btn}
-                >
-                    Войти
-                </Button>
+                <Button text={'Войти'} />
             </form>
             <div className={styles.authForm__footer}>
                 <Typography variant="subtitle1" component="span" className={styles.link}
@@ -97,6 +101,6 @@ const Login: React.FC<AuthProps> = (updateData) => {
             </div>
         </div>
     );
-};
+}
 
-export default Login;
+export default LoginForm;

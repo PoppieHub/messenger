@@ -4,12 +4,15 @@ import {useForm, Controller, SubmitHandler, useFormState} from 'react-hook-form'
 import SignUpRequest from "../../../models/request/SignUpRequest";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import {emailValidation, nicknameValidation, passwordValidation, confirmPassword} from '../validation';
-import styles from '../Auth.module.scss';
+import {emailValidation, nicknameValidation, passwordValidation, confirmPassword} from '../../validation';
 import {AuthProps} from "../../../models/AuthProps";
+import Button from "../../../components/Button";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
+import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
+import styles from '../../Form.module.scss';
 
-const Registration: React.FC<AuthProps> = (props) => {
+const RegistrationForm: React.FC<AuthProps> = (props) => {
     const {store} = React.useContext(Context);
     const {handleSubmit, control, watch} = useForm<SignUpRequest>();
     const {errors} = useFormState({control});
@@ -43,6 +46,11 @@ const Registration: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Эл. адрес"
+                            InputProps={{
+                                endAdornment: (
+                                    <MailOutlineIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -61,6 +69,11 @@ const Registration: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Псевдоним"
+                            InputProps={{
+                                endAdornment: (
+                                    <AlternateEmailOutlinedIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -79,6 +92,11 @@ const Registration: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Пароль"
+                            InputProps={{
+                                endAdornment: (
+                                    <VpnKeyOutlinedIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -97,6 +115,11 @@ const Registration: React.FC<AuthProps> = (props) => {
                     render={({ field }) => (
                         <TextField
                             label="Повторите пароль"
+                            InputProps={{
+                                endAdornment: (
+                                    <VpnKeyOutlinedIcon className={styles.formIcon}/>
+                                ),
+                            }}
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }
@@ -108,15 +131,7 @@ const Registration: React.FC<AuthProps> = (props) => {
                         />
                     )}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={ true }
-                    disableElevation={ true }
-                    className={styles.btn}
-                >
-                    Зарегистрироваться
-                </Button>
+                <Button text={'Регистрация'} />
             </form>
 
             <div className={styles.authForm__footer}>
@@ -133,6 +148,6 @@ const Registration: React.FC<AuthProps> = (props) => {
             </div>
         </div>
     );
-};
+}
 
-export default Registration;
+export default RegistrationForm;

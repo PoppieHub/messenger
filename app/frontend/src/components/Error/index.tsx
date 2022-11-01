@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Context} from "../../index";
 import {ErrorProps} from "../../models/ErrorProps";
-import styles from './Error.module.scss';
 import {observer} from "mobx-react-lite";
+import styles from './Error.module.scss';
 
 const Error: React.FC<ErrorProps> = (text) => {
     const {store} = React.useContext(Context);

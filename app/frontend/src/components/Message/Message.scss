@@ -1,0 +1,123 @@
+@import "../../assets/styles/variables";
+
+.message {
+  $self: &;
+
+  &__content {
+    display: flex;
+    max-width: 440px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  &__avatar {
+    display: flex;
+    flex-direction: column-reverse;
+    img {
+      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+      margin-right: 13px;
+      margin-bottom: 23px;
+    }
+  }
+
+  &__bubble {
+    background: $colorToMessage;
+    box-shadow: 0 5px 5px rgba(54, 116, 225, 0.196733);
+    border-radius: 22px 22px 22px 3px;
+    margin-bottom: 8px;
+    padding: 15px;
+  }
+
+  &__text {
+    color: $white;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &__date {
+    font-size: 12px;
+    opacity: 0.5;
+  }
+
+  &__info {
+  }
+
+  &__attachments {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    justify-content: left;
+    cursor: pointer;
+    &-item {
+      margin-right: 5px;
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 15px;
+      }
+    }
+  }
+
+  &__icon-read {
+    position: absolute;
+    bottom: 8px;
+    left: -19px;
+    width: 17px;
+    height: 17px;
+  }
+
+  &__icon--doubleTicks {
+    background-image: url("../../assets/img/doubleTicks.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &__icon--ticks {
+    background-image: url("../../assets/img/ticks.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &--isme {
+    display: flex;
+    flex-direction: row-reverse;
+
+    #{$self}__content {
+      margin-bottom: 15px;
+      flex-direction: row-reverse;
+
+    }
+
+    #{$self}__avatar {
+      padding: 20px 0 0 0;
+      img {
+        margin-right: 0;
+        margin-left: 13px;
+      }
+    }
+
+    #{$self}__info {
+      text-align: right;
+    }
+
+    #{$self}__attachments {
+      justify-content: end;
+    }
+
+    #{$self}__bubble {
+      background: $colorFromMessage;
+      border: 1px solid #ececec;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
+      border-radius: 22px 22px 3px 22px;
+      order: 2;
+
+      #{$self}__text {
+        color: $black;
+      }
+    }
+  }
+}

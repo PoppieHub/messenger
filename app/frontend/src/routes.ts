@@ -1,3 +1,6 @@
+export const browserRouteAuth = '/auth';
+export const browserRouteHome = '/im/';
+
 export const baseUrl = () => {
     return `${process.env.REACT_APP_BACKEND_URL + '/api/v1/'}`;
 }

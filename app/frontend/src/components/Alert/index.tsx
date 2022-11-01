@@ -1,8 +1,8 @@
 import React from "react";
-import styles from './Alert.module.scss';
 import {AlertProps} from "../../models/AlertProps";
+import styles from './Alert.module.scss';
 
-const Alert: React.FC<AlertProps> = (props) => {
+const Index: React.FC<AlertProps> = (props) => {
 
     if (props.state && props.text.length > 0) {
         return (
@@ -18,4 +18,4 @@ const Alert: React.FC<AlertProps> = (props) => {
     );
 }
 
-export default Alert;
+export default Index;
