@@ -2,6 +2,7 @@
 *.env
 # ignore folder
 /dbdata/
+/dbdata-test/*
 /app/backend/vendor/
 /app/backend/var/
 
