@@ -13,6 +13,7 @@
   &__avatar {
     display: flex;
     flex-direction: column-reverse;
+    cursor: pointer;
     img {
       border-radius: 50px;
       width: 40px;
@@ -42,6 +43,16 @@
   }
 
   &__info {
+    #{$self}__name {
+      padding: 12px 0;
+      text-align: left;
+      cursor: pointer;
+
+      #{$self}__name--nickname:before {
+        content:'@ ';
+        color: grey;
+      }
+    }
   }
 
   &__attachments {
@@ -63,7 +74,7 @@
   &__icon-read {
     position: absolute;
     bottom: 8px;
-    left: -19px;
+    left: -30px;
     width: 17px;
     height: 17px;
   }
