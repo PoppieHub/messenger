@@ -4,7 +4,10 @@ import ruLocale from 'date-fns/locale/ru';
 import classNames from "classnames";
 import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {ReadMessageListResponse} from "../../models/response/ReadMessageListResponse";
+import {ContentListItem} from "../../models/response/ContentListItem";
 import {Context} from "../../index";
+import {UserListItem} from "../../models/response/UserListItem";
+import Store from "../../store/store";
 import mime from 'mime';
 import './Message.scss';
 
@@ -19,13 +22,18 @@ const Message: React.FC<MessageProps> = (props) => {
         return read.items && read.items.length > 0;
     }
 
+    const isMe = (user: UserListItem, store: Store): boolean => {
+        return store.getProfile().id === user.id;
+    }
+
     return (
         <div className={classNames('message',
-            {'message--isme':props.message.user.id === store.getProfile().id})}>
+            {'message--isme':isMe(props.message.user, store)})}>
             <div className='message__content'>
-                <div className={classNames("message__icon-read", {
-                    'message__icon--doubleTicks': props.message.read && checkRead(props.message.read),
-                    'message__icon--ticks': props.message.read && !checkRead(props.message.read)
+                <div className={classNames({
+                    'message__icon-read': isMe(props.message.user, store),
+                    'message__icon--doubleTicks': isMe(props.message.user, store) && props.message.read && checkRead(props.message.read),
+                    'message__icon--ticks': isMe(props.message.user, store) && props.message.read && !checkRead(props.message.read)
                 }
                 )} />
                 <div className='message__avatar'>

@@ -8,13 +8,13 @@ const Home = () => {
 
     return (
         <section className="home">
-            <div style={{margin: "60px"}}>
+            {/*<div style={{margin: "60px"}}>
                 {
                     fakeMessageListResponse.items.map((item) =>
                         <Message key={item.id} message={item}/>
                     )
                 }
-            </div>
+            </div>*/}
         </section>
     );
 }
