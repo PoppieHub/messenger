@@ -1,16 +1,16 @@
 import React from 'react';
-import './Message.scss';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import ruLocale from 'date-fns/locale/ru';
 import classNames from "classnames";
 import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {ReadMessageListResponse} from "../../models/response/ReadMessageListResponse";
 import {Context} from "../../index";
+import mime from 'mime';
+import './Message.scss';
 
 interface MessageProps {
     message: MessagesListItem;
 }
-
 
 const Message: React.FC<MessageProps> = (props) => {
     const {store} = React.useContext(Context);
@@ -20,7 +20,8 @@ const Message: React.FC<MessageProps> = (props) => {
     }
 
     return (
-        <div className={classNames('message', {'message--isme':props.message.user.id === store.getProfile().id})}>
+        <div className={classNames('message',
+            {'message--isme':props.message.user.id === store.getProfile().id})}>
             <div className='message__content'>
                 <div className={classNames("message__icon-read", {
                     'message__icon--doubleTicks': props.message.read && checkRead(props.message.read),
@@ -39,21 +40,41 @@ const Message: React.FC<MessageProps> = (props) => {
                             :<p className='message__name--nickname'>{props.message.user.nickname}</p>
                         }
                     </div>
-                    <div className='message__bubble'>
-                        {props.message.body_message && props.message.body_message?.message &&
-                            <p className='message__text'>{props.message.body_message?.message}</p>
-                        }
-                    </div>
+                    {
+                        ((props.message.body_message &&
+                            props.message.body_message.message &&
+                            props.message.body_message.message.length !== 0) ||
+                            (props.message.reply && props.message.reply.items && props.message.reply.items.length !== 0)) &&
+                        <div className='message__bubble'>
+                            {props.message.body_message && props.message.body_message?.message &&
+                                <p className='message__text'>{props.message.body_message?.message}</p>
+                            }
+                        </div>
+                    }
                     <div className='message__attachments'>
                         {
                             props.message.body_message &&
                             props.message.body_message.content &&
                             props.message.body_message.content.items &&
                             props.message.body_message.content.items.length > 0 &&
-                            props.message.body_message?.content?.items?.map((item) =>
+                            props.message.body_message.content.items.length !== 1 &&
+                            props.message.body_message.content.items.map((item) =>
                                 <div className='message__attachments-item' key={item.id}>
-                                    <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />
+                                    {(item.link && mime.getType(item.link)?.includes('image')) &&
+                                        <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
                                 </div>
+                            ) || (
+                                props.message.body_message &&
+                                props.message.body_message.content &&
+                                props.message.body_message.content.items &&
+                                props.message.body_message.content.items.length > 0 &&
+                                props.message.body_message.content.items.length === 1 &&
+                                props.message.body_message.content.items.map((item) =>
+                                    <div className='message__attachments-item--onlyOneItem' key={item.id}>
+                                        {(item.link && mime.getType(item.link)?.includes('image')) &&
+                                            <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
+                                    </div>
+                                )
                             )
                         }
                     </div>
