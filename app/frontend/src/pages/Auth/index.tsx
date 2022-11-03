@@ -1,6 +1,6 @@
 import React from "react";
 import {LoginForm, PasswordForm, RegistrationForm} from "../../modules/"
-import {Error, Alert} from "../../components";
+import {Error, AlertBubble} from "../../components";
 
 const Auth: React.FC = () => {
     const [info, setInfo] = React.useState(false);
@@ -20,7 +20,7 @@ const Auth: React.FC = () => {
     if (data.current === 'registration') {
         return (
             <section className='auth'>
-                <Alert text={'Проверьте почту, чтобы подтвердить активацию аккаунта'} state={info} updateInfo={updateInfo} />
+                <AlertBubble text={'Проверьте почту, чтобы подтвердить активацию аккаунта.'} state={info} updateInfo={updateInfo} />
                 <Error text='Пользователь с таким адресом электронной почты или псевдонимом уже существует. Ошибка валидации.' />
                 <RegistrationForm updateData={updateData} updateInfo={updateInfo} />
             </section>
@@ -30,7 +30,7 @@ const Auth: React.FC = () => {
 
         return (
             <section className='auth'>
-                <Alert text={'Проверьте почту, чтобы продолжить сброс пароля'} state={info} updateInfo={updateInfo} />
+                <AlertBubble text={'Проверьте почту, чтобы продолжить сброс пароля.'} state={info} updateInfo={updateInfo} />
                 <Error text='Пользователь с таким адресом электронной почты или псевдонимом не существует. Ошибка валидации.' />
                 <PasswordForm updateData={updateData} updateInfo={updateInfo} />
             </section>
@@ -38,7 +38,7 @@ const Auth: React.FC = () => {
     }
     return (
         <section className='auth'>
-            <Error text='Некорректно введены данные' />
+            <Error text='Некорректно введены данные.' />
             <LoginForm updateData={updateData}/>
         </section>
     );

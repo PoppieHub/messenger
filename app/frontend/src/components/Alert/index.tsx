@@ -1,13 +1,16 @@
 import React from "react";
 import {AlertProps} from "../../models/AlertProps";
 import styles from './Alert.module.scss';
-import {Alert} from "@mui/material";
+import {Alert, AlertTitle} from "@mui/material";
 
-const Index: React.FC<AlertProps> = (props) => {
+const AlertBubble: React.FC<AlertProps> = (props) => {
 
     if (props.state && props.text.length > 0) {
         return (
-            <Alert className={styles.infoAlert} onClose={() => {props.updateInfo(false)}}>{props.text}</Alert>
+            <Alert className={styles.infoAlert} severity="success" onClose={() => {props.updateInfo && props.updateInfo(false)}}>
+                <AlertTitle>Отлично</AlertTitle>
+                Следующий шаг — <strong>{props.text}</strong>
+            </Alert>
         );
     }
 
@@ -16,4 +19,4 @@ const Index: React.FC<AlertProps> = (props) => {
     );
 }
 
-export default Index;
+export default AlertBubble;
