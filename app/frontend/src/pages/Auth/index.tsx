@@ -30,7 +30,7 @@ const Auth: React.FC = () => {
 
         return (
             <section className='auth'>
-                <Alert text={'Проверьте почту, продолжить сброс пароля'} state={info} updateInfo={updateInfo} />
+                <Alert text={'Проверьте почту, чтобы продолжить сброс пароля'} state={info} updateInfo={updateInfo} />
                 <Error text='Пользователь с таким адресом электронной почты или псевдонимом не существует. Ошибка валидации.' />
                 <PasswordForm updateData={updateData} updateInfo={updateInfo} />
             </section>

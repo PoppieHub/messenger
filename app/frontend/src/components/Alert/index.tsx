@@ -1,15 +1,13 @@
 import React from "react";
 import {AlertProps} from "../../models/AlertProps";
 import styles from './Alert.module.scss';
+import {Alert} from "@mui/material";
 
 const Index: React.FC<AlertProps> = (props) => {
 
     if (props.state && props.text.length > 0) {
         return (
-            <div className={styles.infoAlert}>
-                <b>{props.text}</b>
-                <span className={styles.closeBtn} onClick={() => props.updateInfo(false)}>×</span>
-            </div>
+            <Alert className={styles.infoAlert} onClose={() => {props.updateInfo(false)}}>{props.text}</Alert>
         );
     }
 

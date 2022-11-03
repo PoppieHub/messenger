@@ -8,25 +8,5 @@
   margin: 10px;
   border-radius: 30px;
   padding: 10px 20px;
-  background-color: #56b611;
-  color: white;
   max-width: 333px;
-}
-
-.closeBtn {
-  display: flex;
-  align-self: center;
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  padding: 0 10px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.closeBtn:hover {
-  color: black;
 }

@@ -16,6 +16,9 @@
     cursor: pointer;
     img {
       border-radius: 50px;
+      border-color: gray;
+      border-style: solid;
+      border-width: 0.1px;
       width: 40px;
       height: 40px;
       margin-right: 13px;
@@ -47,6 +50,7 @@
       padding: 12px 0;
       text-align: left;
       cursor: pointer;
+      font-weight: 500;
 
       #{$self}__name--nickname:before {
         content:'@ ';
