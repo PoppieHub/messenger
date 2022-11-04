@@ -4,7 +4,6 @@ import ruLocale from 'date-fns/locale/ru';
 import classNames from "classnames";
 import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {ReadMessageListResponse} from "../../models/response/ReadMessageListResponse";
-import {ContentListItem} from "../../models/response/ContentListItem";
 import {Context} from "../../index";
 import {UserListItem} from "../../models/response/UserListItem";
 import Store from "../../store/store";
