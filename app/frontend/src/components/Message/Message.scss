@@ -153,6 +153,10 @@
       #{$self}__info {
         padding: 0 0 0 10px;
 
+        #{$self}__name {
+          color: $darkGray;
+        }
+
         #{$self}__bubble {
           background: $darkGray;
         }
