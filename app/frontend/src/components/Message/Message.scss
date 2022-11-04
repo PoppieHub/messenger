@@ -28,7 +28,7 @@
 
   &__bubble {
     background: $colorToMessage;
-    box-shadow: 0 5px 5px rgba(54, 116, 225, 0.196733);
+    box-shadow: 0 5px 5px rgba(54, 116, 225, 0);
     border-radius: 22px 22px 22px 3px;
     margin-bottom: 8px;
     padding: 15px;
@@ -139,6 +139,23 @@
 
       #{$self}__text {
         color: $black;
+      }
+    }
+  }
+
+  &--reply {
+    padding: 15px 0 0 20px;
+
+    #{$self}__content--borderLine {
+      border-left: 2px;
+      border-style: double;
+
+      #{$self}__info {
+        padding: 0 0 0 10px;
+
+        #{$self}__bubble {
+          background: $darkGray;
+        }
       }
     }
   }
