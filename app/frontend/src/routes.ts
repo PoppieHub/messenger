@@ -29,7 +29,6 @@ export const forgotPassword = () => {
 export const refreshToken = () => {
     return baseUrl() + 'auth/refresh';
 }
-
 /* Security API> */
 
 /* <User API */
