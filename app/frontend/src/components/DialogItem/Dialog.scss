@@ -1,0 +1,121 @@
+@import "../../assets/styles/variables";
+
+.dialogs {
+  width: 300px;
+
+  &__item {
+    display: flex;
+    $item: &;
+    margin-bottom: 20px;
+
+    &--avatar {
+      flex: 0 0 50px;
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    &--online {
+      #{$item}--avatar::before {
+          display: block;
+          position: absolute;
+          bottom: -2px;
+          right: 0;
+          content: '';
+          background-color: $green;
+          border-radius: 30px;
+          width: 13px;
+          height: 13px;
+          border: 3px solid #fff;
+      }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+
+      &-top {
+        display: flex;
+
+        strong {
+          font-weight: 700;
+          font-size: 14px;
+          flex: 1;
+          margin-bottom: 6px;
+        }
+        span {
+          opacity: 0.4;
+          font-size: 14px;
+        }
+      }
+      &-bottom {
+        position: relative;
+        p {
+          opacity: 0.7;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 220px;
+          height: 1.2em;
+          white-space: nowrap;
+        }
+        &-count {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          background: #4a6a75;
+          color: #fff;
+          font-weight: bold;
+          width: 100%;
+          min-width: 18px;
+          max-width: 22px;
+          height: 18px;
+          border-radius: 50%;
+          font-size: 11px;
+          text-align: center;
+          line-height: 18px;
+          box-shadow: 0 0 0 3px #fff;
+          animation-name: blink;
+          animation-timing-function: linear;
+          animation-duration: 1.6s;
+          animation-iteration-count: infinite;
+        }
+
+        .dialog__messageIcon-read {
+          width: 17px;
+          height: 17px;
+          bottom: 0;
+          left: auto;
+          right: 0;
+        }
+
+        .dialog__messageIcon--doubleTicks {
+          background-image: url("../../assets/img/doubleTicks.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+        .dialog__messageIcon--ticks {
+          background-image: url("../../assets/img/ticks.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+
+      }
+    }
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

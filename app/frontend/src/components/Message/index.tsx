@@ -1,30 +1,13 @@
 import React from 'react';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import ruLocale from 'date-fns/locale/ru';
 import classNames from "classnames";
-import {MessagesListItem} from "../../models/response/MessagesListItem";
-import {ReadMessageListResponse} from "../../models/response/ReadMessageListResponse";
+import {MessageProps} from "../../models/MessageProps";
+import {MessageDate, MessageStatus} from "../index";
 import {Context} from "../../index";
-import {UserListItem} from "../../models/response/UserListItem";
-import Store from "../../store/store";
-import mime from 'mime';
+import {isMe, checkMimeType} from "../../utils/Message";
 import './Message.scss';
-
-interface MessageProps {
-    message: MessagesListItem;
-    replyStatus?: boolean;
-}
 
 const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
     const {store} = React.useContext(Context);
-
-    const checkRead = (read: ReadMessageListResponse): boolean => {
-        return read.items && read.items.length > 0;
-    }
-
-    const isMe = (user: UserListItem, store: Store): boolean => {
-        return store.getProfile().id === user.id;
-    }
 
     return (
         <div className={classNames('message',
@@ -34,21 +17,7 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
             })}>
             <div className={classNames('message__content',
                 {'message__content--borderLine': replyStatus})}>
-                {!replyStatus &&
-                    <div className={classNames({
-                            'message__icon-read': isMe(message.user, store),
-                            'message__icon--doubleTicks': isMe(message.user, store) && message.read && checkRead(message.read),
-                            'message__icon--ticks': isMe(message.user, store) && message.read && !checkRead(message.read)
-                        }
-                    )}/>
-                }
-                {!replyStatus &&
-                    <div className='message__avatar'>
-                        {message.user.content && message.user.content.items[0].link &&
-                            <img src={message.user.content.items[0].link} alt={message.user.nickname}/>
-                        }
-                    </div>
-                }
+                <MessageStatus replyStatus={replyStatus} message={message} store={store} />
                 <div className='message__info'>
                     <div className='message__name'>
                         {(message.user.firstName)
@@ -82,7 +51,7 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                             message.body_message.content.items.length !== 1 &&
                             message.body_message.content.items.map((item) =>
                                 <div className='message__attachments-item' key={item.id}>
-                                    {(item.link && mime.getType(item.link)?.includes('image')) &&
+                                    {checkMimeType(item, 'image') &&
                                         <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
                                 </div>
                             ) || (
@@ -93,25 +62,14 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                                 message.body_message.content.items.length === 1 &&
                                 message.body_message.content.items.map((item) =>
                                     <div className='message__attachments-item--onlyOneItem' key={item.id}>
-                                        {(item.link && mime.getType(item.link)?.includes('image')) &&
+                                        {checkMimeType(item, 'image') &&
                                             <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
                                     </div>
                                 )
                             )
                         }
                     </div>
-                    <span className='message__date'>
-                        {message.updated_at &&
-                            <p className='message__date--updateData'>
-                                {`обновлено ` + formatDistanceToNow(message.updated_at, {addSuffix: true, locale: ruLocale})}
-                            </p>
-                        }
-                        {!message.updated_at && message.created_at &&
-                            <p className='message__date--createData'>
-                                {`отправлено ` + formatDistanceToNow(message.created_at, {addSuffix: true, locale: ruLocale})}
-                            </p>
-                        }
-                    </span>
+                    <MessageDate message={message} />
                 </div>
             </div>
         </div>

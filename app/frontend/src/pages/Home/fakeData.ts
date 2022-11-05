@@ -108,7 +108,7 @@ export const secondMessage: MessagesListItem = {
     updated_at: new Date().getTime()-500000,
 };
 
-export const fakeMessageListResponse = ():MessagesListResponse => {
+export const fakeFirstMessageListResponse = ():MessagesListResponse => {
     return (
         {
             items: [
@@ -119,24 +119,32 @@ export const fakeMessageListResponse = ():MessagesListResponse => {
     );
 };
 
+export const fakeSecondMessageListResponse = ():MessagesListResponse => {
+    return (
+        {
+            items: [
+                secondMessage,
+                firstMessage
+            ]
+        }
+    );
+};
+
 export const firstFakeChat: ChatsListItem = {
     id: '1',
     name: 'First Test Chat',
     description: 'Fake description',
     multiChat: false,
-    content: {
-        items: [
-        ]
-    },
+    content: contentList,
     membership: {
         items: [
             {id: '1', notification: false, usersListItem: fakeUserFirst},
             {id: '2', notification: false, usersListItem: fakeUserSecond}
         ]
     },
-    messages: fakeMessageListResponse(),
+    messages: fakeFirstMessageListResponse(),
     lastMessage: secondMessage,
-    unreadMessageCounter: 1
+    unreadMessageCounter: 10
 };
 
 export const secondFakeChat: ChatsListItem = {
@@ -156,7 +164,7 @@ export const secondFakeChat: ChatsListItem = {
             {id: '2', notification: false, usersListItem: fakeUserFirst}
         ]
     },
-    messages: fakeMessageListResponse(),
+    messages: fakeSecondMessageListResponse(),
     lastMessage: firstMessage,
     unreadMessageCounter: 0
 };
