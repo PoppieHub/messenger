@@ -1,7 +1,17 @@
 import React from 'react';
 import {MessageDateProps} from "../../../models/MessageDateProps";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import format from "date-fns/format";
+import isToday from 'date-fns/isToday';
 import ruLocale from "date-fns/locale/ru";
+
+const getMessageTime = (dateTimestamp: number): string => {
+    if (isToday(dateTimestamp)) {
+        return format(dateTimestamp, 'HH:mm');
+    } else {
+        return format(dateTimestamp, 'd.MM.yy');
+    }
+};
 
 const Date: React.FC<MessageDateProps> = ({message, shortDate = false}) => {
     return (
@@ -18,7 +28,7 @@ const Date: React.FC<MessageDateProps> = ({message, shortDate = false}) => {
             }
             {shortDate &&
                 <p className='message__date--lastMessage'>
-                    {formatDistanceToNow(message.updated_at || message.created_at, {addSuffix: true, locale: ruLocale})}
+                    {getMessageTime(message.updated_at || message.created_at)}
                 </p>
             }
         </span>

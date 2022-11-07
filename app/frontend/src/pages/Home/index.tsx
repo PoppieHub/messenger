@@ -1,7 +1,7 @@
 import React from 'react';
 import {Context} from "../../index";
-import {fakeChatsListResponse} from './fakeData';
-import {DialogItem} from "../../components";
+import {Dialogs} from "../../components/";
+import {fakeChatsListResponse} from "./fakeData";
 
 const Home = () => {
     const {store} = React.useContext(Context);
@@ -9,13 +9,7 @@ const Home = () => {
     return (
         <section className="home">
             <div style={{margin: "60px"}}>
-                <div className="dialogs">
-                    {
-                        fakeChatsListResponse().items.map((item) =>
-                            <DialogItem key={item.id} chat={item} />
-                        )
-                    }
-                </div>
+                <Dialogs chatsList={fakeChatsListResponse()} />
             </div>
         </section>
     );

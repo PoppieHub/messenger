@@ -5,5 +5,5 @@ export interface StatusProps {
     replyStatus?: boolean;
     message: MessagesListItem;
     store: Store;
-    enableRead?: boolean;
+    dialog?: boolean;
 }

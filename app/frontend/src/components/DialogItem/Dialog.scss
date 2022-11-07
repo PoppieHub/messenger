@@ -1,7 +1,6 @@
 @import "../../assets/styles/variables";
 
 .dialogs {
-  width: 300px;
 
   &__item {
     display: flex;
@@ -50,15 +49,34 @@
           font-size: 14px;
           flex: 1;
           margin-bottom: 6px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 200px;
+          white-space: nowrap;
         }
         span {
           opacity: 0.4;
           font-size: 14px;
         }
       }
+
+      &-medium {
+        padding-bottom: 5px;
+        p {
+          font-size: 13px;
+          opacity: 0.4;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: 220px;
+          white-space: nowrap;
+        }
+      }
+
       &-bottom {
         position: relative;
+        display: flex;
         p {
+          font-size: 14px;
           opacity: 0.7;
           text-overflow: ellipsis;
           overflow: hidden;

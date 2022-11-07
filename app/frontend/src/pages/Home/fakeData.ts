@@ -9,7 +9,7 @@ export const fakeUserFirst: UserListItem = {
     id: '12',
     email: 'test7@test.com',
     nickname: 'testNicknameTest',
-    firstName: '',
+    firstName: 'vcv',
     lastName: 'TestLastName',
     verified: true,
     content: {
@@ -26,7 +26,7 @@ export const fakeUserSecond: UserListItem = {
     email: 'dvdv@dsfdsvd.fsf',
     nickname: 'vdfvfdvfdvd',
     firstName: 'TestSecondName',
-    lastName: 'TestSecondName',
+    lastName: 'TestLastName2',
     verified: true,
     content: {
         items: [
@@ -35,6 +35,22 @@ export const fakeUserSecond: UserListItem = {
         ]
     },
     hideEmail: true
+};
+
+export const fakeUserThird: UserListItem = {
+    id: '14',
+    email: 'xczc@vxcv.fsf',
+    nickname: '323r23',
+    firstName: '',
+    lastName: 'TestLastName3',
+    verified: true,
+    content: {
+        items: [
+            {id: '1', link: 'https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Wojak.png/200px-Wojak.png', avatar: true},
+            {id: '2', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true}
+        ]
+    },
+    hideEmail: false
 };
 
 export const contentList: ContentListResponse = {
@@ -66,7 +82,12 @@ export const firstMessage: MessagesListItem = {
     id: '1',
     user: fakeUserFirst,
     read: {
-        items: []
+        items: [
+            {
+                id: '2',
+                user: fakeUserThird
+            }
+        ]
     },
     reply: {
         items: []
@@ -104,8 +125,8 @@ export const secondMessage: MessagesListItem = {
             ]
         }
     },
-    created_at: new Date().getTime()-1000000,
-    updated_at: new Date().getTime()-500000,
+    created_at: new Date().getTime()-100000000,
+    updated_at: new Date().getTime()-10000000,
 };
 
 export const fakeFirstMessageListResponse = ():MessagesListResponse => {
@@ -139,19 +160,19 @@ export const firstFakeChat: ChatsListItem = {
     membership: {
         items: [
             {id: '1', notification: false, usersListItem: fakeUserFirst},
-            {id: '2', notification: false, usersListItem: fakeUserSecond}
+            {id: '2', notification: false, usersListItem: fakeUserThird}
         ]
     },
     messages: fakeFirstMessageListResponse(),
     lastMessage: secondMessage,
-    unreadMessageCounter: 10
+    unreadMessageCounter: 0
 };
 
 export const secondFakeChat: ChatsListItem = {
     id: '2',
     name: 'Second Test Chat',
     description: 'Fake description - second',
-    multiChat: true,
+    multiChat: false,
     content: {
         items: [
             {id: '1', link: 'https://lelolobi.com/wp-content/uploads/2021/11/Test-Logo-Small-Black-transparent-1-1.png', avatar: true},
@@ -169,8 +190,28 @@ export const secondFakeChat: ChatsListItem = {
     unreadMessageCounter: 0
 };
 
+export const thirdFakeChat: ChatsListItem = {
+    id: '3',
+    name: 'Third Test Chat',
+    description: 'Fake description - third',
+    multiChat: false,
+    content: {
+        items: [
+            {id: '2', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true}
+        ]
+    },
+    membership: {
+        items: [
+            {id: '1', notification: false, usersListItem: fakeUserThird},
+            {id: '2', notification: false, usersListItem: fakeUserFirst}
+        ]
+    },
+    lastMessage: firstMessage,
+    unreadMessageCounter: 0
+};
+
 export const fakeChatsListResponse = ():ChatsListResponse => {
     return (
-        {items: [firstFakeChat, secondFakeChat]}
+        {items: [firstFakeChat, secondFakeChat, thirdFakeChat]}
     );
 }

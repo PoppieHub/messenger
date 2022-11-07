@@ -5,3 +5,4 @@ export { default as Message } from "./Message";
 export { default as MessageDate } from "./Message/Date";
 export { default as MessageStatus } from "./Message/Status";
 export { default as DialogItem } from "./DialogItem";
+export { default as Dialogs } from "./Dialogs";
