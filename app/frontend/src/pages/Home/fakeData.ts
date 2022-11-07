@@ -206,7 +206,6 @@ export const thirdFakeChat: ChatsListItem = {
             {id: '2', notification: false, usersListItem: fakeUserFirst}
         ]
     },
-    lastMessage: firstMessage,
     unreadMessageCounter: 0
 };
 

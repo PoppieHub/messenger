@@ -11,6 +11,6 @@ export interface ChatsListItem {
     content?: ContentListResponse;
     membership?: MembershipListResponse;
     messages?: MessagesListResponse;
-    lastMessage?: MessagesListItem;
+    lastMessage?: MessagesListItem | null;
     unreadMessageCounter?: number | null;
 }

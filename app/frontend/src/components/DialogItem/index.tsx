@@ -13,7 +13,9 @@ import './Dialog.scss';
 const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     const {store} = React.useContext(Context);
     const [otherUser, setOtherUser] = React.useState<UserListItem>();
-    const [lastMessage, setLastMessage] = React.useState<MessagesListItem>();
+    const [lastMessage, setLastMessage] = React.useState<MessagesListItem>(
+        (chat.lastMessage || getHelloMessage(store))
+    );
 
     React.useEffect(() => {
             if (!chat.multiChat && chat.membership) {
