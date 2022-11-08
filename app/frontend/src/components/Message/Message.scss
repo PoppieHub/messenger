@@ -67,6 +67,7 @@
     cursor: pointer;
     &-item {
       margin-right: 5px;
+      order: 3;
       img {
         width: 100px;
         height: 100px;
@@ -75,6 +76,7 @@
     }
 
     &-item--onlyOneItem {
+      order: 3;
       img {
         width: 220px;
         height: 220px;

@@ -1,23 +1,33 @@
 import React from 'react';
 import classNames from "classnames";
 import {MessageProps} from "../../models/MessageProps";
-import {MessageDate, MessageStatus} from "../index";
+import {MessageDate, MessageStatus, AudioMessage} from "../index";
 import {Context} from "../../index";
 import {isMe, checkMimeType} from "../../utils/Message";
 import './Message.scss';
 
 const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
+    const [isMyMessage, setIsMyMessage] = React.useState<boolean>(false);
     const {store} = React.useContext(Context);
+
+    React.useEffect(() => {
+        setIsMyMessage(isMe(message.user, store));
+    }, []);
 
     return (
         <div className={classNames('message',
             {
-                'message--isme': isMe(message.user, store) && !replyStatus,
+                'message--isme': isMyMessage && !replyStatus,
                 'message--reply': replyStatus
             })}>
             <div className={classNames('message__content',
                 {'message__content--borderLine': replyStatus})}>
                 <MessageStatus replyStatus={replyStatus} message={message} store={store} />
+                {!replyStatus && <div className='message__avatar'>
+                    {message.user.content && message.user.content.items[0].link &&
+                        <img src={message.user.content.items[0].link} alt={message.user.nickname}/>
+                    }
+                </div>}
                 <div className='message__info'>
                     <div className='message__name'>
                         {(message.user.firstName)
@@ -42,33 +52,35 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                             }
                         </div>
                     }
-                    <div className='message__attachments'>
                         {
                             message.body_message &&
                             message.body_message.content &&
                             message.body_message.content.items &&
-                            message.body_message.content.items.length > 0 &&
-                            message.body_message.content.items.length !== 1 &&
-                            message.body_message.content.items.map((item) =>
-                                <div className='message__attachments-item' key={item.id}>
-                                    {checkMimeType(item, 'image') &&
-                                        <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
+                            message.body_message.content.items.length > 0 && (
+                                <div className='message__attachments'>
+                                    {
+                                        message.body_message.content.items.length !== 1 &&
+                                        message.body_message.content.items.map((item) =>
+                                            checkMimeType(item, 'audio') &&
+                                                <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/> ||
+                                            checkMimeType(item, 'image') &&
+                                                <div className='message__attachments-item' key={item.id}>
+                                                    <img src={item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
+                                                </div>
+                                        ) || (
+                                        message.body_message.content.items.length === 1 &&
+                                        message.body_message.content.items.map((item) =>
+                                            checkMimeType(item, 'audio') &&
+                                                <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/> ||
+                                            checkMimeType(item, 'image') &&
+                                                <div className='message__attachments-item--onlyOneItem' key={item.id}>
+                                                    <img src={item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
+                                                </div>
+                                        ))
+                                    }
                                 </div>
-                            ) || (
-                                message.body_message &&
-                                message.body_message.content &&
-                                message.body_message.content.items &&
-                                message.body_message.content.items.length > 0 &&
-                                message.body_message.content.items.length === 1 &&
-                                message.body_message.content.items.map((item) =>
-                                    <div className='message__attachments-item--onlyOneItem' key={item.id}>
-                                        {checkMimeType(item, 'image') &&
-                                            <img src={item.link} alt={item.id?item.id:'attachments ' + item.link} />}
-                                    </div>
-                                )
                             )
                         }
-                    </div>
                     <MessageDate message={message} />
                 </div>
             </div>

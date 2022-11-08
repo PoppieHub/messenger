@@ -74,7 +74,8 @@ export const contentList: ContentListResponse = {
             id:'7',
             link: 'https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Wojak.png/200px-Wojak.gif',
             avatar: false
-        }
+        },
+        {id: '55', link: 'https://www.onlinemictest.com/wp-content/themes/onlinemictest/sound.mp3'},
     ]
 };
 
@@ -129,6 +130,30 @@ export const secondMessage: MessagesListItem = {
     updated_at: new Date().getTime()-10000000,
 };
 
+export const thirdMessage: MessagesListItem = {
+    id: '3',
+    user: fakeUserThird,
+    read: {
+        items: [
+            {
+                id: '1',
+                user: fakeUserFirst
+            }
+        ]
+    },
+    reply: {
+        items: []
+    },
+    body_message: {
+        content: contentList,
+        replyMessage: {
+            items: []
+        }
+    },
+    created_at: new Date().getTime()
+};
+
+
 export const fakeFirstMessageListResponse = ():MessagesListResponse => {
     return (
         {
@@ -145,7 +170,8 @@ export const fakeSecondMessageListResponse = ():MessagesListResponse => {
         {
             items: [
                 secondMessage,
-                firstMessage
+                firstMessage,
+                thirdMessage
             ]
         }
     );
@@ -197,7 +223,6 @@ export const thirdFakeChat: ChatsListItem = {
     multiChat: false,
     content: {
         items: [
-            {id: '2', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true}
         ]
     },
     membership: {
@@ -206,6 +231,8 @@ export const thirdFakeChat: ChatsListItem = {
             {id: '2', notification: false, usersListItem: fakeUserFirst}
         ]
     },
+    messages: fakeSecondMessageListResponse(),
+    lastMessage: thirdMessage,
     unreadMessageCounter: 0
 };
 

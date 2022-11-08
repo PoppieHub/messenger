@@ -16,9 +16,9 @@ const Dialogs: React.FC<DialogsProps> = ({chatsList}) => {
                     ) {
                         return secondItem.lastMessage.created_at - firstItem.lastMessage.created_at;
                     } else {
-                        return (firstItem.lastMessage && firstItem.lastMessage.created_at !== 0)?
-                            Number(secondItem.id) - Number(firstItem.id):
-                            Number(firstItem.id) - Number(secondItem.id);
+                        return (firstItem.messages && firstItem.messages.items.length > 0)?
+                            Number(firstItem.id) - Number(secondItem.id):
+                            Number(secondItem.id) - Number(firstItem.id);
                     }
                 }).map((item) =>
                     <DialogItem key={item.id} chat={item} />
