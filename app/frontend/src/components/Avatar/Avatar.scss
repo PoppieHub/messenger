@@ -1,0 +1,17 @@
+@import "../../assets/styles/variables";
+
+.avatar {
+  border-radius: 50px;
+  width: 45px;
+  height: 45px;
+
+  &--symbol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}

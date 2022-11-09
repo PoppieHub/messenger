@@ -4,7 +4,7 @@ import {getLastMessage, getUserNameLastMessage} from "../../utils/Chat";
 import {getHelloMessage} from "../../utils/Message";
 import {getOtherUserForNotMultiChat} from "../../utils/Membership";
 import {getUserName} from "../../utils/User";
-import {MessageDate, MessageStatus} from "../";
+import {MessageDate, MessageStatus, Avatar} from "../";
 import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {UserListItem} from "../../models/response/UserListItem";
 import {Context} from "../../index";
@@ -31,11 +31,21 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     return (
         <div className='dialogs__item dialogs__item--online'>
             <div className="dialogs__item--avatar">
-                {chat.multiChat && chat.content && chat.content.items[0].link &&
-                    <img src={chat.content.items[0].link} alt={`${chat.name} avatar`}/>
+                {chat.multiChat &&
+                    <Avatar
+                        contentList={chat.content}
+                        alt={chat.name}
+                        stringForFirstCharacter={chat.name}
+                        stringForGenerateColor={chat.name}
+                    />
                 }
-                {!chat.multiChat && otherUser && otherUser.content && otherUser.content.items.length > 0 &&
-                    <img src={otherUser.content.items[0].link} alt={`${otherUser.nickname} avatar`}/>
+                {!chat.multiChat && otherUser &&
+                    <Avatar
+                        contentList={otherUser.content}
+                        alt={otherUser.nickname}
+                        stringForFirstCharacter={otherUser.firstName || otherUser.lastName || otherUser.nickname}
+                        stringForGenerateColor={otherUser.id}
+                    />
                 }
             </div>
             <div className="dialogs__item-info">

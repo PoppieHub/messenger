@@ -14,9 +14,7 @@ export const fakeUserFirst: UserListItem = {
     verified: true,
     content: {
         items: [
-            {id: '1', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true},
-            {id: '2', link: 'https://lelolobi.com/wp-content/uploads/2021/11/Test-Logo-Small-Black-transparent-1-1.png', avatar: true}
-        ]
+                    ]
     },
     hideEmail: false
 }
@@ -29,10 +27,7 @@ export const fakeUserSecond: UserListItem = {
     lastName: 'TestLastName2',
     verified: true,
     content: {
-        items: [
-            {id: '1', link: 'https://lelolobi.com/wp-content/uploads/2021/11/Test-Logo-Small-Black-transparent-1-1.png', avatar: true},
-            {id: '2', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true}
-        ]
+        items: []
     },
     hideEmail: true
 };
@@ -45,10 +40,7 @@ export const fakeUserThird: UserListItem = {
     lastName: 'TestLastName3',
     verified: true,
     content: {
-        items: [
-            {id: '1', link: 'https://upload.wikimedia.org/wikipedia/ru/thumb/4/4d/Wojak.png/200px-Wojak.png', avatar: true},
-            {id: '2', link: 'https://sun9-19.userapi.com/impg/z6uhkAgx2KhgretMc8a8YzxasZqxnpoR1xouEw/edMDxXBLi4Y.jpg?size=1241x932&quality=96&sign=9c9ce6c17bb3106fc647cbc1ca2c854a&type=album', avatar: true}
-        ]
+        items: []
     },
     hideEmail: false
 };

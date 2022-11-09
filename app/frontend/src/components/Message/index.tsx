@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from "classnames";
 import {MessageProps} from "../../models/MessageProps";
-import {MessageDate, MessageStatus, AudioMessage} from "../index";
+import {MessageDate, MessageStatus, AudioMessage, Avatar} from "../index";
 import {Context} from "../../index";
 import {isMe, checkMimeType} from "../../utils/Message";
 import './Message.scss';
@@ -24,11 +24,19 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                 {'message__content--borderLine': replyStatus})}>
                 <MessageStatus replyStatus={replyStatus} message={message} store={store} />
                 {!replyStatus && <div className='message__avatar'>
-                    {message.user.content && message.user.content.items[0].link &&
-                        <img src={message.user.content.items[0].link} alt={message.user.nickname}/>
-                    }
+                    <Avatar
+                        contentList={message.user.content}
+                        alt={message.user.nickname}
+                        stringForFirstCharacter={message.user.firstName || message.user.lastName || message.user.nickname}
+                        stringForGenerateColor={message.user.id}
+                    />
                 </div>}
                 <div className='message__info'>
+                    {replyStatus &&
+                        <div className='message__reply'>
+                            <span>Пересланное сообщение</span>
+                        </div>
+                    }
                     <div className='message__name'>
                         {(message.user.firstName)
                             ?<p className='message__name--normalName'>{message.user.firstName}</p>
