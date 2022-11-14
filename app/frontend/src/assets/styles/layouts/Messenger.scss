@@ -1,0 +1,136 @@
+@import "../variables";
+
+.messenger {
+  $self: &;
+  display: flex;
+  width: auto;
+
+  &__sidebar {
+    display: flex;
+    width: 425px;
+    box-shadow: 2px 2px 20px 0 rgb(0 0 0 / 4%);
+
+    &-dialogs {
+      height:calc(100vh - 136px);
+      overflow-y: initial;
+      overflow-x: hidden;
+
+      &::-webkit-scrollbar
+      {
+        width: 0;
+      }
+
+      .dialogs {
+        height: 100%;
+      }
+    }
+
+    &-dialogs:hover {
+      &::-webkit-scrollbar
+      {
+        width: $widthScrollBar;
+      }
+    }
+
+    &-item {
+      padding: 15px 0 0 15px;
+      width: 324px;
+      box-shadow: 0 0 5px 0 rgb(0 0 0 / 4%);
+
+      &-header {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+
+        &-top {
+          font-size: 16px;
+          opacity: 0.7;
+          display: flex;
+          font-weight: 300;
+        }
+      }
+
+      &-search {
+        padding: 0 15px 20px 0;
+        opacity: 0.8;
+
+        &-form-input {
+          margin-left: 1px;
+          flex: 1;
+          padding: 6px 11px 6px;
+        }
+
+        &-form-button {
+          padding: 5px;
+        }
+
+        form {
+          display: flex;
+          align-items: center;
+          padding: 1px 2px;
+          box-shadow: 0 0 10px 3px rgb(0 0 0 / 4%);
+          width: auto;
+          background-color: $lightBlue;
+
+        }
+      }
+    }
+  }
+
+  &__dialog {
+    flex: 1;
+
+    &-header {
+      padding: 12px;
+      display: flex;
+      box-shadow: 0 2px 20px 2px rgb(0 0 0 / 4%);
+      justify-content: space-between;
+      align-items: center;
+
+      &-name {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      &-more {
+        cursor: pointer;
+        border: unset;
+        background-color: unset;
+        width: 25px;
+        height: 25px;
+        background-image: url("../../img/more.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      &-more:hover, &-more:active {
+        transform: scale(1.2);
+        background-color: #ffffff;
+        border-radius: 50%;
+      }
+    }
+
+    &-messages {
+      height: calc(100vh - 173px);
+      overflow: hidden;
+      width: auto;
+      overflow-y: initial;
+
+      &-container {
+        padding: 20px 20px 0 20px;
+        width: calc(100% - 40px);
+      }
+    }
+
+    &-input {
+      display: flex;
+      align-items: center;
+      height: 109px;
+      background-color: $lightBlue;
+      padding-top: 3px;
+    }
+  }
+}

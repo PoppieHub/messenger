@@ -1,5 +1,5 @@
 import React from "react";
-import {ButtonProps} from "../../models/ButtonProps";
+import {ButtonProps} from "../../models/props/ButtonProps";
 import {Button as BaseButton} from '@mui/material';
 import styles from "./Button.module.scss";
 

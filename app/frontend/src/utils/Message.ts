@@ -7,6 +7,7 @@ import {MessagesListItem} from "../models/response/MessagesListItem";
 import {MessageItem} from "../models/response/MessageItem";
 import {ContentListResponse} from "../models/response/ContentListResponse";
 import {MessagesShortListResponse} from "../models/response/MessagesShortListResponse";
+import {getUserName} from "./User";
 
 export const isMe = (user: UserListItem, store: Store): boolean => {
     return store.getProfile().id === user.id;
@@ -28,7 +29,7 @@ export const getHelloMessage = (store: Store): MessagesListItem => {
         items:[]
     };
     const helloMessageItem: MessageItem = {
-        message:`${store.getProfile().firstName || store.getProfile().nickname}, напишите сообщение, чтобы начать общаться!`,
+        message:`${getUserName(store.getProfile())}, напишите сообщение, чтобы начать общаться!`,
         replyMessage: replyMessage,
         content:contentList
     };

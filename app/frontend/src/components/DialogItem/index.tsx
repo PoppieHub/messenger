@@ -1,13 +1,14 @@
 import React from 'react';
-import {DialogsItemProps} from "../../models/DialogsItemProps";
+import {DialogsItemProps} from "../../models/props/DialogsItemProps";
 import {getLastMessage, getUserNameLastMessage} from "../../utils/Chat";
 import {getHelloMessage} from "../../utils/Message";
 import {getOtherUserForNotMultiChat} from "../../utils/Membership";
 import {getUserName} from "../../utils/User";
-import {MessageDate, MessageStatus, Avatar} from "../";
+import {MessageDate, MessageStatus, Avatar, Name} from "../";
 import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {UserListItem} from "../../models/response/UserListItem";
 import {Context} from "../../index";
+import classNames from "classnames";
 import './Dialog.scss';
 
 const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
@@ -26,10 +27,10 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
             } else {
                 setLastMessage(getHelloMessage(store));
             }
-    }, [chat]);
+    }, [chat, store]);
 
     return (
-        <div className='dialogs__item dialogs__item--online'>
+        <div className={classNames('dialogs__item', {'dialogs__item--online' : !chat.multiChat})}>
             <div className="dialogs__item--avatar">
                 {chat.multiChat &&
                     <Avatar
@@ -42,20 +43,15 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
                 {!chat.multiChat && otherUser &&
                     <Avatar
                         contentList={otherUser.content}
-                        alt={otherUser.nickname}
-                        stringForFirstCharacter={otherUser.firstName || otherUser.lastName || otherUser.nickname}
+                        alt={getUserName(otherUser)}
+                        stringForFirstCharacter={getUserName(otherUser)}
                         stringForGenerateColor={otherUser.id}
                     />
                 }
             </div>
             <div className="dialogs__item-info">
                 <div className="dialogs__item-info-top">
-                    {chat.multiChat && <strong>{chat.name}</strong>}
-                    {!chat.multiChat && otherUser &&
-                        <strong>
-                            {getUserName(otherUser)}
-                        </strong>
-                    }
+                   <Name user={otherUser} chatName={chat.name} multiChat={chat.multiChat} />
                    {
                         chat.messages && chat.messages.items.length > 0 &&
                         lastMessage && <MessageDate message={lastMessage} shortDate={true} />

@@ -5,7 +5,7 @@ import SignUpRequest from "../../../models/request/SignUpRequest";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import {emailValidation, nicknameValidation, passwordValidation, confirmPassword} from '../../validation';
-import {AuthProps} from "../../../models/AuthProps";
+import {AuthProps} from "../../../models/props/AuthProps";
 import Button from "../../../components/Button";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';

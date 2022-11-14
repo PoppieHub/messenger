@@ -1,5 +1,5 @@
 import React from "react";
-import {AvatarProps} from "../../models/AvatarProps";
+import {AvatarProps} from "../../models/props/AvatarProps";
 import { generateAvatarByNickname } from "../../utils/helpers";
 import './Avatar.scss';
 

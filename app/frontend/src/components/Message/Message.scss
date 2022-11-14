@@ -6,7 +6,7 @@
   &__content {
     display: flex;
     max-width: 440px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     position: relative;
   }
 
@@ -45,18 +45,6 @@
         color: $white;
         font-size: 13px;
         opacity: 0.5;
-      }
-    }
-
-    #{$self}__name {
-      padding: 12px 0;
-      text-align: left;
-      cursor: pointer;
-      font-weight: 500;
-
-      #{$self}__name--nickname:before {
-        content:'@ ';
-        color: grey;
       }
     }
   }

@@ -1,4 +1,4 @@
-import {ChatsListResponse} from "./response/ChatsListResponse";
+import {ChatsListResponse} from "../response/ChatsListResponse";
 
 export interface DialogsProps {
     chatsList: ChatsListResponse;

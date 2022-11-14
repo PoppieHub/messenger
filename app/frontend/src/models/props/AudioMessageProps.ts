@@ -1,4 +1,4 @@
-import {ContentListItem} from "./response/ContentListItem";
+import {ContentListItem} from "../response/ContentListItem";
 
 export interface AudioMessageProps {
     content: ContentListItem;

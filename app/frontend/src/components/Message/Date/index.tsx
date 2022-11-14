@@ -1,5 +1,5 @@
 import React from 'react';
-import {MessageDateProps} from "../../../models/MessageDateProps";
+import {MessageDateProps} from "../../../models/props/MessageDateProps";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import format from "date-fns/format";
 import isToday from 'date-fns/isToday';

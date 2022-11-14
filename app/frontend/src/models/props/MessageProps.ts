@@ -1,4 +1,4 @@
-import {MessagesListItem} from "./response/MessagesListItem";
+import {MessagesListItem} from "../response/MessagesListItem";
 
 export interface MessageProps {
     message: MessagesListItem;

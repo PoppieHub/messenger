@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import Store from "./store/store";
 import {StoreModel} from "./models/StoreModel";
-import {BrowserRouter as Router, Routes} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './assets/styles/index.scss';
 
 export const store = new Store();

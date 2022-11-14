@@ -4,6 +4,10 @@
 @import '@fontsource/roboto/500.css';
 @import '@fontsource/roboto/700.css';
 
+@import "./layouts/Messenger";
+
+@import "./variables";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,6 +15,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: $lightBlue;
+  overflow: hidden;
 }
 
 code {
@@ -20,4 +26,24 @@ code {
 
 * {
   outline: none;
+}
+
+*::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: $white;
+}
+
+*::-webkit-scrollbar
+{
+  width: $widthScrollBar;
+  background-color: $lightBlue;
+}
+
+*::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: $lightGray;
 }

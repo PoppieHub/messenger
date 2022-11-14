@@ -138,6 +138,7 @@ export const thirdMessage: MessagesListItem = {
     },
     body_message: {
         content: contentList,
+        message: 'Тестовое сообщение 3!',
         replyMessage: {
             items: []
         }
@@ -219,7 +220,6 @@ export const thirdFakeChat: ChatsListItem = {
     },
     membership: {
         items: [
-            {id: '1', notification: false, usersListItem: fakeUserThird},
             {id: '2', notification: false, usersListItem: fakeUserFirst}
         ]
     },
@@ -230,6 +230,6 @@ export const thirdFakeChat: ChatsListItem = {
 
 export const fakeChatsListResponse = ():ChatsListResponse => {
     return (
-        {items: [firstFakeChat, secondFakeChat, thirdFakeChat]}
+        {items: [firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat]}
     );
 }

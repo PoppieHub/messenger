@@ -8,7 +8,7 @@ import Button from "../../../components/Button";
 import {emailValidation, nicknameValidation} from  '../../validation';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
-import {AuthProps} from "../../../models/AuthProps";
+import {AuthProps} from "../../../models/props/AuthProps";
 import styles from '../../Form.module.scss';
 
 const PasswordForm: React.FC<AuthProps> = (props) => {

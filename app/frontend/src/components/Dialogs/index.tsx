@@ -1,5 +1,5 @@
 import React from 'react';
-import {DialogsProps} from "../../models/DialogsProps";
+import {DialogsProps} from "../../models/props/DialogsProps";
 import { ChatsListItem } from '../../models/response/ChatsListItem';
 import {DialogItem} from "../index";
 import styles from "./Dialogs.module.scss";

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioMessageProps} from "../../models/AudioMessageProps";
+import {AudioMessageProps} from "../../models/props/AudioMessageProps";
 import {convertCurrentTime} from "../../utils/helpers";
 import classNames from "classnames";
 import './AudioMessage.scss';

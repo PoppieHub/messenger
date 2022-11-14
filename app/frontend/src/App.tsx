@@ -21,6 +21,7 @@ const App: FC = () => {
 
     React.useEffect( () => {
         (store.getAuth())? navigate(browserRouteHome): navigate(browserRouteAuth);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store.getAuth()]);
 
     if (store.getLoading()) {

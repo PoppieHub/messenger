@@ -1,5 +1,5 @@
-import {MessagesListItem} from "./response/MessagesListItem";
-import Store from "../store/store";
+import {MessagesListItem} from "../response/MessagesListItem";
+import Store from "../../store/store";
 
 export interface StatusProps {
     replyStatus?: boolean;

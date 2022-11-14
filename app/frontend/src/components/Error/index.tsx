@@ -2,7 +2,7 @@ import React from "react";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {Alert, AlertTitle} from "@mui/material";
-import {AlertProps} from "../../models/AlertProps";
+import {AlertProps} from "../../models/props/AlertProps";
 import styles from './Error.module.scss';
 
 const Error: React.FC<AlertProps> = ({text = 'Неизвестная ошибка'}) => {

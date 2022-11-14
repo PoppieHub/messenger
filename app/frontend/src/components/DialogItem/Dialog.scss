@@ -6,6 +6,15 @@
     display: flex;
     $item: &;
     margin-bottom: 20px;
+    cursor: pointer;
+    padding: 2px 0;
+
+    &:hover, &:active {
+      opacity: 0.9;
+      box-shadow: 0 0 20px 0 rgb(0 0 0 / 4%);
+      border-radius: 50px 20px 20px 50px;
+      background-color: lighten($lightBlue, 0.2);
+    }
 
     &--avatar {
       flex: 0 0 50px;
@@ -23,15 +32,15 @@
     &--online {
       #{$item}--avatar::before {
           display: block;
-          position: absolute;
-          bottom: -2px;
-          right: 0;
+          position: relative;
+          z-index: 4;
+          margin-bottom: -13px;
           content: '';
           background-color: $green;
-          border-radius: 30px;
-          width: 13px;
-          height: 13px;
-          border: 3px solid #fff;
+          border-radius: 50px;
+          width: 8px;
+          height: 8px;
+          border: 2px solid $white;
       }
     }
 
@@ -44,16 +53,6 @@
       &-top {
         display: flex;
 
-        strong {
-          font-weight: 700;
-          font-size: 14px;
-          flex: 1;
-          margin-bottom: 6px;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          width: 200px;
-          white-space: nowrap;
-        }
         span {
           opacity: 0.4;
           font-size: 14px;
@@ -62,6 +61,7 @@
 
       &-medium {
         padding-bottom: 5px;
+
         p {
           font-size: 13px;
           opacity: 0.4;
@@ -75,6 +75,7 @@
       &-bottom {
         position: relative;
         display: flex;
+
         p {
           font-size: 14px;
           opacity: 0.7;
@@ -84,7 +85,9 @@
           height: 1.2em;
           white-space: nowrap;
         }
+
         &-count {
+          padding: 1px 0;
           position: absolute;
           right: 0;
           bottom: 0;
@@ -99,7 +102,6 @@
           font-size: 11px;
           text-align: center;
           line-height: 18px;
-          box-shadow: 0 0 0 3px #fff;
           animation-name: blink;
           animation-timing-function: linear;
           animation-duration: 1.6s;

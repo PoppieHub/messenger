@@ -1,0 +1,73 @@
+@import "../../assets/styles/variables";
+
+.dialogInput-form {
+  display: flex;
+  align-items: center;
+  padding: 3px 10px;
+  width: 100%;
+  background-color: $lightBlue !important;
+  box-shadow: unset !important;
+  justify-content: center;
+
+  &-input {
+    flex: 2;
+  }
+
+  &-input--error {
+    label {
+      color: $red !important;
+    }
+  }
+
+  &-microphone {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/img/microphone.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+  }
+
+  &-image {
+    margin-left: 10px !important;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/img/image.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+  }
+
+  &-document {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/img/document.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+  }
+
+  &-smile {
+    margin-right: 10px !important;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/img/smile.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &-send {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/img/send.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+  }
+}

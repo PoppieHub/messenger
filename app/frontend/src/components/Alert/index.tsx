@@ -1,5 +1,5 @@
 import React from "react";
-import {AlertProps} from "../../models/AlertProps";
+import {AlertProps} from "../../models/props/AlertProps";
 import styles from './Alert.module.scss';
 import {Alert, AlertTitle} from "@mui/material";
 

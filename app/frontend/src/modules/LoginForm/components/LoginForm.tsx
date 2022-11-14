@@ -8,7 +8,7 @@ import Button from "../../../components/Button";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import {emailValidation, passwordValidation} from  '../../validation';
-import {AuthProps} from "../../../models/AuthProps";
+import {AuthProps} from "../../../models/props/AuthProps";
 import styles from '../../Form.module.scss';
 
 const LoginForm: React.FC<AuthProps> = (updateData) => {

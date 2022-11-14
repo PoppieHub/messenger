@@ -1,4 +1,4 @@
-import {ContentListResponse} from "./response/ContentListResponse";
+import {ContentListResponse} from "../response/ContentListResponse";
 
 export interface AvatarProps {
     contentList?: ContentListResponse | null;
