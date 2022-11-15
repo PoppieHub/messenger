@@ -1,8 +1,7 @@
 import React from 'react';
-import {Dialogs, Toggle, Message, UserStatus, DialogInput} from "../../components/";
-import {fakeChatsListResponse, fakeSecondMessageListResponse} from "./fakeData";
-import {IconButton, InputBase, Paper} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import {Toggle, Messages, UserStatus, DialogInput} from "../../components/";
+import {Dialogs} from "../../containers/";
+import {fakeChatsListResponse, secondFakeChat} from "./fakeData";
 
 const Home = () => {
     return (
@@ -15,21 +14,6 @@ const Home = () => {
                             <div className="messenger__sidebar-item-header-top">
                                 <span>Список диалогов</span>
                             </div>
-                        </div>
-                        <div className="messenger__sidebar-item-search">
-                            <Paper component="form">
-                                <InputBase
-                                    className='messenger__sidebar-item-search-form-input'
-                                    placeholder="Поиск диалога"
-                                    inputProps={{ 'aria-label': 'Поиск диалога' }}
-                                />
-                                <IconButton
-                                    type="button"
-                                    className='messenger__sidebar-item-search-form-button'
-                                >
-                                    <SearchIcon />
-                                </IconButton>
-                            </Paper>
                         </div>
                         <div className="messenger__sidebar-dialogs">
                             <Dialogs chatsList={fakeChatsListResponse()} />
@@ -49,7 +33,7 @@ const Home = () => {
                     </div>
                     <div className="messenger__dialog-messages">
                         <div className="messenger__dialog-messages-container">
-                            {fakeSecondMessageListResponse().items.map((item) => <Message message={item} key={item.id}/>)}
+                            <Messages messages={secondFakeChat.messages && secondFakeChat.messages} />
                         </div>
                     </div>
                     <div className="messenger__dialog-input">

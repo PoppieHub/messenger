@@ -205,6 +205,9 @@ export const secondFakeChat: ChatsListItem = {
         ]
     },
     messages: fakeSecondMessageListResponse(),
+    /*  messages: {
+        items: []
+    },*/
     lastMessage: firstMessage,
     unreadMessageCounter: 0
 };
@@ -230,6 +233,6 @@ export const thirdFakeChat: ChatsListItem = {
 
 export const fakeChatsListResponse = ():ChatsListResponse => {
     return (
-        {items: [firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat,firstFakeChat, secondFakeChat, thirdFakeChat]}
+        {items: [firstFakeChat, secondFakeChat, thirdFakeChat]}
     );
 }

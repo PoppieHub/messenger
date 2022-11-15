@@ -30,7 +30,7 @@ const DialogInput: React.FC<DialogInputProps> = (props) => {
                             })}
                             onChange={e => (setTextField(e.target.value))}
                             variant="outlined"
-                            label={(textField.length > 0 && (`${textField.length}/${maxSizeMessage}`) || null)}
+                            label={((textField.length > 0 && `${textField.length}/${maxSizeMessage}`) || null)}
                             multiline
                             rows={(textField.length > maxSizeMessage * 0.05)? 3: 1}
                             placeholder="Введите сообщение"
@@ -46,17 +46,14 @@ const DialogInput: React.FC<DialogInputProps> = (props) => {
                         />
                         {
                             (value &&
-                                (<IconButton
+                                <IconButton
                                     type="button"
                                     className='dialogInput-form-send'
                                 />) ||
-                                (
-                                    <IconButton
-                                        type="button"
-                                        className='dialogInput-form-microphone'
-                                    />
-                                )
-                            )
+                                (<IconButton
+                                    type="button"
+                                    className='dialogInput-form-microphone'
+                                />)
                         }
             </Paper>
         );

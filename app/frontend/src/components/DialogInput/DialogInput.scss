@@ -11,6 +11,19 @@
 
   &-input {
     flex: 2;
+
+    label {
+      color: $black !important;
+    }
+
+    fieldset {
+      border-color: $lightGray;
+    }
+
+    .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: $lightGray;
+      opacity: 0.5;
+    }
   }
 
   &-input--error {
@@ -18,6 +31,7 @@
       color: $red !important;
     }
   }
+
 
   &-microphone {
     padding: 10px;
