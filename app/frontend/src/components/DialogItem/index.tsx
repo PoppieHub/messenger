@@ -19,7 +19,7 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     );
 
     React.useEffect(() => {
-            if (!chat.multiChat && chat.membership) {
+            if (!chat.multiChat && chat.membership && chat.membership.items.length > 0) {
                 setOtherUser(getOtherUserForNotMultiChat(store, chat.membership));
             }
             if (chat.messages && chat.messages.items.length > 0) {
@@ -27,7 +27,7 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
             } else {
                 setLastMessage(getHelloMessage(store));
             }
-    }, [chat, store]);
+    }, [chat, store.chats, store]);
 
     return (
         <div className={classNames('dialogs__item', {'dialogs__item--online' : !chat.multiChat})}>
@@ -53,8 +53,7 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
                 <div className="dialogs__item-info-top">
                    <Name user={otherUser} chatName={chat.name} multiChat={chat.multiChat} />
                    {
-                        chat.messages && chat.messages.items.length > 0 &&
-                        lastMessage && <MessageDate message={lastMessage} shortDate={true} />
+                       (chat.messages && chat.messages.items.length > 0) && <MessageDate message={lastMessage} shortDate={true} />
                     }
                 </div>
                 {chat.multiChat && lastMessage &&
@@ -63,7 +62,7 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
                     </div>
                 }
                 <div className="dialogs__item-info-bottom">
-                    <p>{lastMessage?.body_message?.message}</p>
+                    <p>{lastMessage?.bodyMessage?.message}</p>
                     {lastMessage && <MessageStatus message={lastMessage} store={store} dialog={true} />}
                     {chat.unreadMessageCounter !== 0 &&
                         <div className="dialogs__item-info-bottom-count">

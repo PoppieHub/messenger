@@ -40,13 +40,13 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                     }
                     <Name user={message.user} />
                     {
-                        ((message.body_message &&
-                            message.body_message.message &&
-                            message.body_message.message.length !== 0) ||
+                        ((message.bodyMessage &&
+                            message.bodyMessage.message &&
+                            message.bodyMessage.message.length !== 0) ||
                             (message.reply && message.reply.items && message.reply.items.length !== 0)) &&
                         <div className='message__bubble'>
-                            {message.body_message && message.body_message?.message &&
-                                <p className='message__text'>{message.body_message?.message}</p>
+                            {message.bodyMessage && message.bodyMessage?.message &&
+                                <p className='message__text'>{message.bodyMessage?.message}</p>
                             }
                             {
                                 message.reply && message.reply.items && message.reply.items.length > 0 &&
@@ -57,12 +57,12 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                         </div>
                     }
                         {
-                            (message.body_message && message.body_message.content &&
-                                message.body_message.content.items && message.body_message.content.items.length > 0) && (
+                            (message.bodyMessage && message.bodyMessage.content &&
+                                message.bodyMessage.content.items && message.bodyMessage.content.items.length > 0) && (
                                     <div className='message__attachments'>
                                         {
-                                            (message.body_message.content.items.length !== 1 &&
-                                            message.body_message.content.items.map((item) =>
+                                            (message.bodyMessage.content.items.length !== 1 &&
+                                            message.bodyMessage.content.items.map((item) =>
                                                 (checkMimeType(item, 'audio') &&
                                                     <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/>) ||
                                                 (checkMimeType(item, 'image') &&
@@ -70,8 +70,8 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                                                         <img src={item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
                                                     </div>)
                                             )) || (
-                                            message.body_message.content.items.length === 1 &&
-                                            message.body_message.content.items.map((item) =>
+                                            message.bodyMessage.content.items.length === 1 &&
+                                            message.bodyMessage.content.items.map((item) =>
                                                 (checkMimeType(item, 'audio') &&
                                                     <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/>) ||
                                                 (checkMimeType(item, 'image') &&

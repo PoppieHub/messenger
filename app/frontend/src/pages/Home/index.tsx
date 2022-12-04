@@ -1,7 +1,6 @@
 import React from 'react';
 import {Toggle, Messages, UserStatus, DialogInput} from "../../components/";
 import {Dialogs} from "../../containers/";
-import {fakeChatsListResponse, secondFakeChat} from "./fakeData";
 
 const Home = () => {
     return (
@@ -16,7 +15,7 @@ const Home = () => {
                             </div>
                         </div>
                         <div className="messenger__sidebar-dialogs">
-                            <Dialogs chatsList={fakeChatsListResponse()} />
+                            <Dialogs/>
                         </div>
                     </div>
                 </div>
@@ -33,11 +32,11 @@ const Home = () => {
                     </div>
                     <div className="messenger__dialog-messages">
                         <div className="messenger__dialog-messages-container">
-                            <Messages messages={secondFakeChat.messages && secondFakeChat.messages} />
+                            <Messages />
                         </div>
                     </div>
                     <div className="messenger__dialog-input">
-                        <DialogInput chatId={'3'} />
+                        <DialogInput chatId={3} />
                     </div>
                 </div>
             </div>

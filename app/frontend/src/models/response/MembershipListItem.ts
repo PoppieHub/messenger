@@ -1,7 +1,7 @@
 import {UserListItem} from "./UserListItem";
 
 export interface MembershipListItem {
-    id: string;
+    id: number;
     notification: boolean;
     usersListItem: UserListItem;
 }

@@ -29,16 +29,19 @@ export const getHelloMessage = (store: Store): MessagesListItem => {
         items:[]
     };
     const helloMessageItem: MessageItem = {
-        message:`${getUserName(store.getProfile())}, напишите сообщение, чтобы начать общаться!`,
+        message: `${getUserName(store.getProfile())}, напишите сообщение, чтобы начать общаться!`,
         replyMessage: replyMessage,
-        content:contentList
+        content: contentList
     };
 
     return (
         {
-            id: `unique - ${Math.floor(Math.random() * 9999)}`,
+            id: Math.floor(Math.random() * 9999),
             user: store.getProfile(),
-            body_message: helloMessageItem,
-            created_at: 0
+            read: {items: []},
+            reply: {items:[]},
+            bodyMessage: helloMessageItem,
+            createdAt: 0,
+            updatedAt: null
         });
 }

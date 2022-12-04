@@ -21,16 +21,24 @@ const Dialogs: React.FC<DialogsProps> = ({chatsList, onSearch, inputValue}) => {
             </div>
             {
                 //Сортировка по времени
-                (chatsList.items.length > 0 && chatsList.items.sort((firstItem: ChatsListItem,secondItem: ChatsListItem):any => {
-                    if (firstItem.lastMessage && secondItem.lastMessage &&
-                        firstItem.messages && firstItem.messages.items.length > 0 &&
-                        secondItem.messages && secondItem.messages.items.length > 0
-                    ) {
-                        return secondItem.lastMessage.created_at - firstItem.lastMessage.created_at;
+                (chatsList.items && chatsList.items.length > 0 && chatsList.items.sort((firstItem: ChatsListItem,secondItem: ChatsListItem):any => {
+                    if (firstItem.lastMessage?.createdAt! && secondItem.lastMessage?.createdAt!) {
+                        return (
+                            ((secondItem.lastMessage?.updatedAt)?
+                                secondItem.lastMessage.updatedAt:
+                                secondItem.lastMessage.createdAt
+                            ) -
+                            ((firstItem.lastMessage?.updatedAt)?
+                                firstItem.lastMessage.updatedAt:
+                                firstItem.lastMessage.createdAt
+                            )
+                        );
                     } else {
-                        return (firstItem.messages && firstItem.messages.items.length > 0)?
-                            Number(firstItem.id) - Number(secondItem.id):
-                            Number(secondItem.id) - Number(firstItem.id);
+                        return (
+                            (firstItem.lastMessage?.createdAt!)?
+                                firstItem.id - secondItem.id:
+                                secondItem.id - firstItem.id
+                        );
                     }
                 }).map((item) =>
                     <DialogItem key={item.id} chat={item} />

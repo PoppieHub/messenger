@@ -4,5 +4,5 @@ export default interface ProfileRequest {
     lastName?: string | null;
     password?: string | null;
     confirmPassword?: string | null;
-    hide_email?: boolean | null;
+    hideEmail?: boolean | null;
 }

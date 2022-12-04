@@ -1,34 +1,42 @@
 import React from 'react';
 import {MessageDateProps} from "../../../models/props/MessageDateProps";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import format from "date-fns/format";
-import isToday from 'date-fns/isToday';
+import {format, isToday, fromUnixTime, formatDistanceToNow} from "date-fns";
 import ruLocale from "date-fns/locale/ru";
 
-const getMessageTime = (dateTimestamp: number): string => {
-    if (isToday(dateTimestamp)) {
-        return format(dateTimestamp, 'HH:mm');
+const getMessageTime = (date: Date): string => {
+    if (isToday(date)) {
+        return format(date, 'HH:mm');
     } else {
-        return format(dateTimestamp, 'd.MM.yy');
+        return format(date, 'd.MM.yy');
     }
 };
 
 const Date: React.FC<MessageDateProps> = ({message, shortDate = false}) => {
+    const [dateTime, setDateTime] = React.useState<number>(0);
+
+    React.useEffect(() => {
+        if (message.updatedAt) {
+            setDateTime(message.updatedAt);
+        } else if (message.createdAt) {
+            setDateTime(message.createdAt);
+        }
+    },[message.updatedAt, message.createdAt]);
+
     return (
         <span className='message__date'>
-            {message.updated_at && !shortDate &&
+            {message.updatedAt && !shortDate &&
                 <p className='message__date--updateData'>
-                    {`обновлено ` + formatDistanceToNow(message.updated_at, {addSuffix: true, locale: ruLocale})}
+                    {`обновлено ` + formatDistanceToNow(fromUnixTime(dateTime), {addSuffix: true, locale: ruLocale})}
                 </p>
             }
-            {!message.updated_at && message.created_at && !shortDate &&
+            {!message.updatedAt && message.createdAt && !shortDate &&
                 <p className='message__date--createData'>
-                    {`отправлено ` + formatDistanceToNow(message.created_at, {addSuffix: true, locale: ruLocale})}
+                    {`отправлено ` + formatDistanceToNow(fromUnixTime(dateTime), {addSuffix: true, locale: ruLocale})}
                 </p>
             }
-            {shortDate &&
+           {shortDate &&
                 <p className='message__date--lastMessage'>
-                    {getMessageTime(message.updated_at || message.created_at)}
+                    {getMessageTime(fromUnixTime(dateTime))}
                 </p>
             }
         </span>

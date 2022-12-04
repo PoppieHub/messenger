@@ -4,7 +4,7 @@ import {MessagesListResponse} from "./MessagesListResponse";
 import {MessagesListItem} from "./MessagesListItem";
 
 export interface ChatsListItem {
-    id: string;
+    id: number;
     name: string;
     description?: string | null;
     multiChat: boolean;

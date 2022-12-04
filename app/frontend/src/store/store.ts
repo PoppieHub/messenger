@@ -1,20 +1,21 @@
 import {makeAutoObservable} from "mobx";
 import SignInRequest from "../models/request/SignInRequest";
 import SignUpRequest from "../models/request/SignUpRequest";
-import AuthService from "../services/AuthService";
+import {UserService, AuthService, ChatService} from "../services/";
 import {UserListItem} from "../models/response/UserListItem";
-import UserService from "../services/UserService";
 import axios, {AxiosResponse} from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
 import {refreshToken} from "../routes";
 import ForgotPasswordRequest from "../models/request/ForgotPasswordRequest";
+import {ChatsListResponse} from "../models/response/ChatsListResponse";
 
 export default class Store {
 
-    private isAuth:boolean = false;
+    private isAuth: boolean = false;
     private profile = {} as UserListItem;
-    private isLoading:boolean = false;
-    private isError:boolean = false;
+    public chats = {} as ChatsListResponse;
+    private isLoading: boolean = false;
+    private isError: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -34,6 +35,14 @@ export default class Store {
 
     private setProfile(profile: UserListItem): void {
         this.profile = profile;
+    }
+
+    public getChats(): ChatsListResponse {
+        return this.chats;
+    }
+
+    private setChats(chats: ChatsListResponse): void {
+        this.chats = chats;
     }
 
     private setLoading(bool: boolean): void {
@@ -131,6 +140,16 @@ export default class Store {
             this.setIsError(true);
         } finally {
             this.setLoading(false);
+        }
+    }
+
+    public async getChatsFromAPI() {
+        try {
+            return await ChatService.getChatsList().then((res: any) => (
+                this.setChats(res.data)
+            ));
+        } catch (e: any) {
+            console.error(e.response.data.message);
         }
     }
 }
