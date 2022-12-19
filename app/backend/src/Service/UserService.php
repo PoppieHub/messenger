@@ -86,11 +86,19 @@ class UserService
         }
 
         if ($profile->getFirstName() !== null) {
-            $user->setFirstName($profile->getFirstName());
+            if ($profile->getFirstName() !== '' || strlen($profile->getFirstName()) >= 2) {
+                $user->setFirstName($profile->getFirstName());
+            } else {
+                $user->setFirstName(null);
+            }
         }
 
         if ($profile->getLastName() !== null) {
-            $user->setLastName($profile->getLastName());
+            if ($profile->getLastName() !== '' || strlen($profile->getLastName()) >= 2) {
+                $user->setLastName($profile->getLastName());
+            } else {
+                $user->setLastName(null);
+            }
         }
 
         if ($profile->getPassword() !== null) {

@@ -9,11 +9,13 @@ import {MessagesListItem} from "../../models/response/MessagesListItem";
 import {UserListItem} from "../../models/response/UserListItem";
 import {Context} from "../../index";
 import classNames from "classnames";
+import {observer} from "mobx-react-lite";
 import './Dialog.scss';
 
 const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     const {store} = React.useContext(Context);
     const [otherUser, setOtherUser] = React.useState<UserListItem>();
+    const [viewedDialog, setViewedDialog] = React.useState<boolean>(false);
     const [lastMessage, setLastMessage] = React.useState<MessagesListItem>(
         (chat.lastMessage || getHelloMessage(store))
     );
@@ -27,10 +29,29 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
             } else {
                 setLastMessage(getHelloMessage(store));
             }
-    }, [chat, store.chats, store]);
+            if (store.viewedDialogId === chat.id) {
+                setViewedDialog(true);
+            } else {
+                setViewedDialog(false);
+            }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chat, store.chats, store.viewedDialogId]);
 
     return (
-        <div className={classNames('dialogs__item', {'dialogs__item--online' : !chat.multiChat})}>
+        <div
+            className={classNames('dialogs__item', {
+                'dialogs__item--online' : !chat.multiChat,
+                'dialogs__item--active': viewedDialog
+            })}
+            onClick={() => {
+                if (store.getViewedDialogId() === chat.id) {
+                    store.setViewedDialogId(null);
+                } else {
+                    store.setCurrentDialog(chat);
+                    store.setViewedDialogId(chat.id);
+                }
+            }}
+        >
             <div className="dialogs__item--avatar">
                 {chat.multiChat &&
                     <Avatar
@@ -51,7 +72,9 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
             </div>
             <div className="dialogs__item-info">
                 <div className="dialogs__item-info-top">
-                   <Name user={otherUser} chatName={chat.name} multiChat={chat.multiChat} />
+                   <p className='dialogs__item-chatName'>
+                       <Name user={otherUser} chatName={chat.name} multiChat={chat.multiChat} />
+                   </p>
                    {
                        (chat.messages && chat.messages.items.length > 0) && <MessageDate message={lastMessage} shortDate={true} />
                     }
@@ -75,4 +98,4 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     );
 }
 
-export default DialogItem;
+export default observer(DialogItem);

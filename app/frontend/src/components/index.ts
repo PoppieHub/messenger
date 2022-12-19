@@ -14,3 +14,7 @@ export { default as Name } from "./Name";
 export { default as ToggleItem } from "./ToggleItem";
 export { default as Toggle } from "./Toggle";
 export { default as UserStatus } from "./UserStatus";
+export { default as Dialog } from "./Dialog";
+export { default as UserProfile } from "./UserProfile";
+export { default as Carousel } from "./Carousel";
+export { default as Modal } from "./Modal";

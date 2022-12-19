@@ -7,13 +7,11 @@ const Name: React.FC<NameProps> = ({chatName, multiChat, user}) => {
 
     if (chatName && chatName.length > 0 && multiChat) {
         return (
-            <p className='dialogs__item-chatName'>{chatName}</p>
+            <>{chatName}</>
         );
     } else if (multiChat === false && user) {
         return (
-            <p className='dialogs__item-chatName'>
-                {getUserName(user)}
-            </p>
+            <>{getUserName(user)}</>
         );
     } else {
         if (user) {

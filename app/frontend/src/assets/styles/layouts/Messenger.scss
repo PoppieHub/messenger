@@ -1,5 +1,39 @@
 @import "../variables";
 
+.global_loading {
+  height: 100vh;
+  width: auto;
+  background-color: #000000cf;
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background-image: url("../../img/messenger.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20%;
+    -webkit-animation-name: rotation;
+    -webkit-animation-duration: 4s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: rotation;
+    -moz-animation-duration: 4s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -o-animation-name: rotation;
+    -o-animation-duration: 4s;
+    -o-animation-iteration-count: infinite;
+    -o-animation-timing-function: linear;
+    animation-name: rotation;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+}
+
+
 .messenger {
   $self: &;
   display: flex;
@@ -32,6 +66,102 @@
       }
     }
 
+    &-profile {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+
+      &-progressInfo {
+        width: 150px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        font-weight: 200;
+        font-size: 13px;
+        text-align: center;
+        line-height: 1.5;
+        user-select: none;
+      }
+
+      &-progress {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+
+        .rc-progress-circle-trail {
+          stroke: $lightGray !important;
+        }
+
+        .rc-progress-circle-path {
+          stroke: $green !important;
+        }
+      }
+    }
+
+    &-profileControl {
+      padding: 10px;
+
+      &-top {
+        display: flex;
+        align-items: center;
+
+        &-toggleInfo {
+          padding: 12px 0;
+          font-size: 14px;
+          font-weight: 300;
+          opacity: 0.7;
+        }
+      }
+
+      &-main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        button {
+          margin: 5px;
+          font-size: 13px;
+          font-weight: 400;
+          text-transform: none;
+          max-width: 140px;
+        }
+      }
+
+      &-changeProfile {
+        background-color: $green !important;
+        text-transform: unset !important;
+        font-weight: 400 !important;
+      }
+
+      &-changeProfile::before {
+        content: '';
+        width: 25px;
+        height: 25px;
+        padding: 0 5px 0 5px;
+        background-image: url("../../img/edit.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 70%;
+      }
+
+      &-deleteProfile {
+        background-color: $red !important;
+        text-transform: unset !important;
+        font-weight: 400 !important;
+      }
+
+      &-deleteProfile::before {
+        content: '';
+        width: 25px;
+        height: 25px;
+        padding: 0 5px 0 5px;
+        background-image: url("../../img/trash.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 70%;
+      }
+    }
+
     &-item {
       padding: 15px 0 0 15px;
       width: 324px;
@@ -52,60 +182,53 @@
     }
   }
 
-  &__dialog {
+  &__imProfile {
     flex: 1;
+    background-color: $lightBlue;
 
-    &-header {
-      padding: 12px;
-      display: flex;
-      box-shadow: 0 2px 20px 2px rgb(0 0 0 / 4%);
-      justify-content: space-between;
-      align-items: center;
-
-      &-name {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-        cursor: pointer;
-      }
-
-      &-more {
-        cursor: pointer;
-        border: unset;
-        background-color: unset;
-        width: 25px;
-        height: 25px;
-        background-image: url("../../img/more.svg");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-
-      &-more:hover, &-more:active {
-        transform: scale(1.2);
-        background-color: #ffffff;
-        border-radius: 50%;
-      }
-    }
-
-    &-messages {
-      height: calc(100vh - 173px);
-      overflow: hidden;
-      width: auto;
-      overflow-y: initial;
-
-      &-container {
-        padding: 20px 20px 0 20px;
-        width: calc(100% - 40px);
-      }
-    }
-
-    &-input {
-      display: flex;
-      align-items: center;
-      height: 109px;
-      background-color: $lightBlue;
-      padding-top: 3px;
+    &--container {
+      margin: 40px 0 0 -20%;
     }
   }
+}
+
+@-webkit-keyframes rotation {
+  0% {-webkit-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    transform:rotate(0deg);}
+  100% {-webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+    transform:rotate(360deg);}
+}
+@-moz-keyframes rotation {
+  0% {-webkit-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    transform:rotate(0deg);}
+  100% {-webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+    transform:rotate(360deg);}
+}
+@-o-keyframes rotation {
+  0% {-webkit-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    transform:rotate(0deg);}
+  100% {-webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+    transform:rotate(360deg);}
+}
+@keyframes rotation {
+  0% {-webkit-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    transform:rotate(0deg);}
+  100% {-webkit-transform:rotate(360deg);
+    -moz-transform:rotate(720deg);
+    -o-transform:rotate(360deg);
+    transform:rotate(360deg);}
 }

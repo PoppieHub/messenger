@@ -1,44 +1,16 @@
 import React from 'react';
-import {Toggle, Messages, UserStatus, DialogInput} from "../../components/";
-import {Dialogs} from "../../containers/";
+import {HomeProps} from "../../models/props/HomeProps";
+import {Toggle} from "../../components/";
 
-const Home = () => {
+const Home: React.FC <HomeProps> = ({childrenFirst, childrenSecond}) => {
     return (
         <section className="home">
             <div className="messenger">
                 <div className="messenger__sidebar">
                     <Toggle />
-                    <div className="messenger__sidebar-item">
-                        <div className="messenger__sidebar-item-header">
-                            <div className="messenger__sidebar-item-header-top">
-                                <span>Список диалогов</span>
-                            </div>
-                        </div>
-                        <div className="messenger__sidebar-dialogs">
-                            <Dialogs/>
-                        </div>
-                    </div>
+                    {childrenFirst && childrenFirst}
                 </div>
-                <div className="messenger__dialog">
-                    <div className="messenger__dialog-header">
-                        <div/>
-                        <div className="messenger__dialog-header-info">
-                            <p className="messenger__dialog-header-name">testNicknameTest</p>
-                            <div className="messenger__dialog-header-status">
-                                <UserStatus status={true} />
-                            </div>
-                        </div>
-                        <button className="messenger__dialog-header-more" />
-                    </div>
-                    <div className="messenger__dialog-messages">
-                        <div className="messenger__dialog-messages-container">
-                            <Messages />
-                        </div>
-                    </div>
-                    <div className="messenger__dialog-input">
-                        <DialogInput chatId={3} />
-                    </div>
-                </div>
+                {childrenSecond && childrenSecond}
             </div>
         </section>
     );

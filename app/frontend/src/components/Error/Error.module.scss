@@ -4,9 +4,11 @@
 
 .errorAlert {
   position: absolute;
-  display: flex;
+  top: 10px;
+  left: 10px;
+  display: flex !important;
   margin: 10px;
-  border-radius: 30px;
+  border-radius: 30px !important;
   padding: 10px 20px;
   max-width: 333px;
 }

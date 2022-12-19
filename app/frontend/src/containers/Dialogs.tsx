@@ -12,20 +12,23 @@ const Dialogs:React.FC = () => {
     const [chatsList, setChatsList] = React.useState<ChatsListResponse>({items: []});
     const [inputValue, setInputValue] = React.useState<string>('');
     const [sort, setSort] = React.useState(chatsList.items);
-    const [onload, setOnload] = React.useState<boolean>(false);
+    const [flag, setFlag] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        store.getChatsFromAPI().then(() =>
-            setOnload(true)
-        );
+        if (store.getChats().items === undefined) {
+            store.getChatsFromAPI().then();
+        } else {
+            setFlag(true);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     React.useEffect(() => {
         setChatsList(store.getChats());
         chatsList.items && setSort(chatsList.items);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [store.getChats()]);
+    }, [store.chats, flag]);
 
     const onChangeInput = (value: string = '') => {
         if (chatsList.items.length > 0) {
@@ -46,19 +49,12 @@ const Dialogs:React.FC = () => {
         setInputValue(value);
     };
 
-    if (onload) {
-        return <DialogList
-            chatsList={{items: sort}}
-            onSearch={onChangeInput}
-            inputValue={inputValue}
-        />;
-    } else {
-        return <DialogList
-            chatsList={{items: []}}
-            onSearch={onChangeInput}
-            inputValue={inputValue}
-        />;
-    }
+    return <DialogList
+        chatsList={{items: sort}}
+        onSearch={onChangeInput}
+        inputValue={inputValue}
+    />;
+
 };
 
 export default observer(Dialogs);

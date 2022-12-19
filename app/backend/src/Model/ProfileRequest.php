@@ -10,11 +10,9 @@ class ProfileRequest
     #[Length(max: 30)]
     private ?string $nickname = null;
 
-    #[Length(min: 2, max: 30)]
     private ?string $firstName = null;
 
-    #[Length(min: 2, max: 30)]
-    private ?string $lastName = null;
+    private ?string $lastName  = null;
 
     #[Length(min: 8)]
     private ?string $password = null;

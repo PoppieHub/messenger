@@ -8,12 +8,18 @@ import {AuthResponse} from "../models/response/AuthResponse";
 import {refreshToken} from "../routes";
 import ForgotPasswordRequest from "../models/request/ForgotPasswordRequest";
 import {ChatsListResponse} from "../models/response/ChatsListResponse";
+import {ChatsListItem} from "../models/response/ChatsListItem";
+import ProfileRequest from "../models/request/ProfileRequest";
+import {ContentListItem} from "../models/response/ContentListItem";
+import ContentService from "../services/ContentService";
+import {ContentListResponse} from "../models/response/ContentListResponse";
 
 export default class Store {
-
     private isAuth: boolean = false;
-    private profile = {} as UserListItem;
+    public profile = {} as UserListItem;
     public chats = {} as ChatsListResponse;
+    public currentDialog = {} as ChatsListItem;
+    public viewedDialogId: number | null = null;
     private isLoading: boolean = false;
     private isError: boolean = false;
 
@@ -33,7 +39,7 @@ export default class Store {
         return this.profile;
     }
 
-    private setProfile(profile: UserListItem): void {
+    public setProfile(profile: UserListItem): void {
         this.profile = profile;
     }
 
@@ -43,6 +49,22 @@ export default class Store {
 
     private setChats(chats: ChatsListResponse): void {
         this.chats = chats;
+    }
+
+    public getCurrentDialog(): ChatsListItem {
+        return this.currentDialog;
+    }
+
+    public setCurrentDialog(currentDialog: ChatsListItem): void {
+        this.currentDialog = currentDialog;
+    }
+
+    public getViewedDialogId(): number | null {
+        return this.viewedDialogId;
+    }
+
+    public setViewedDialogId(viewedDialogId: number | null): void {
+        this.viewedDialogId = viewedDialogId;
     }
 
     private setLoading(bool: boolean): void {
@@ -83,7 +105,6 @@ export default class Store {
             this.setProfile(response.data);
         } catch (e) {
             this.removeTokensTolLocalStorage();
-            this.setIsError(true);
         }
     }
 
@@ -95,6 +116,10 @@ export default class Store {
             await this.getProfileFromAPI();
         } catch (e) {
             this.setIsError(true);
+        } finally {
+            setTimeout(() => {
+                this.setIsError(false);
+            }, 5000);
         }
     }
 
@@ -106,6 +131,10 @@ export default class Store {
             await this.getProfileFromAPI();
         } catch (e) {
             this.setIsError(true);
+        } finally {
+            setTimeout(() => {
+                this.setIsError(false);
+            }, 5000);
         }
     }
 
@@ -117,7 +146,7 @@ export default class Store {
         }
     }
 
-    public logout() {
+     public logout = (): void => {
         this.removeTokensTolLocalStorage();
         this.setAuth(false);
         this.setProfile({} as UserListItem);
@@ -149,7 +178,135 @@ export default class Store {
                 this.setChats(res.data)
             ));
         } catch (e: any) {
-            console.error(e.response.data.message);
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteProfileFromAPI() {
+        try {
+            this.setLoading(true);
+            await UserService.deleteProfile().then((res: any) => {
+                if (res.data.request_status!) {
+                    this.logout();
+                }
+            });
+
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
+    public async updateProfileFromAPI(profileRequest: ProfileRequest) {
+        try {
+            await UserService.updateProfile(profileRequest).then((res: any) => {
+                if (res.status === 200) {
+                    this.setProfile({
+                        ...this.getProfile(),
+                        ...res.data
+                    });
+                    this.setIsError(false);
+                }
+            });
+
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                this.setIsError(true);
+                console.error(e.response.data.message);
+            }
+        } finally {
+            setTimeout(() => {
+                this.setIsError(false);
+            }, 5000);
+        }
+    }
+
+    public async uploadAvatar(file: File) {
+        try {
+            const formData: FormData = new FormData();
+            formData.append('avatar', file);
+
+            await UserService.uploadAvatar(formData).then((res) => {
+                if (res.status === 200) {
+                    const profileContents: ContentListResponse = {
+                        items: this.getProfile().content?.items.slice() || []
+                    };
+
+                    // @ts-ignore
+                    profileContents.items.push(res.data);
+
+                    this.setProfile({
+                        ...this.getProfile(),
+                        content: profileContents
+                    });
+                }
+            });
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteUserAvatarFromAPI(data: ContentListItem, index: number) {
+        try {
+            await ContentService.deleteContent(data).then((res: any) => {
+                if (
+                    res.status === 200 &&
+                    data.id &&
+                    data.avatar &&
+                    this.getProfile().content?.items
+                ) {
+                    const profileContents: ContentListResponse = {
+                        items: this.getProfile().content?.items.slice() || []
+                    };
+
+                    profileContents.items.splice(index, 1);
+
+                    this.setProfile({
+                        ...this.getProfile(),
+                        content: profileContents
+                    });
+                }
+            });
+
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteChatAvatarFromAPI(data: ContentListItem, index: number, chatsListItem: ChatsListItem) {
+        try {
+            await ContentService.deleteContent(data).then((res: any) => {
+                if (res.status === 200 && data.id && data.avatar) {
+                    const chats: ChatsListResponse = {
+                        items: this.getChats().items.slice() || []
+                    };
+
+                    chats.items.forEach((chat, indexChat) => {
+                        if (chatsListItem.id === chat.id) {
+                            chats.items[indexChat].content?.items.splice(index, 1);
+                        }
+                    });
+
+                    this.setChats({
+                        ...this.getChats(),
+                        items: chats.items
+                    });
+                }
+            });
+
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
         }
     }
 }

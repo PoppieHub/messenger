@@ -1,22 +1,17 @@
 @import "../../assets/styles/variables";
 
-.dialogs__item-chatName {
-  font-weight: 700;
-  font-size: 14px;
-  flex: 1;
-  margin-bottom: 6px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 200px;
-  white-space: nowrap;
-}
-
-
 .message__name {
   padding: 12px 0;
   text-align: left;
   cursor: pointer;
   font-weight: 500;
+
+  &--nickname {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 95%;
+    white-space: nowrap;
+  }
 
   &--nickname:before {
     content:'@ ';

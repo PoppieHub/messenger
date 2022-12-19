@@ -70,6 +70,7 @@ const LoginForm: React.FC<AuthProps> = (updateData) => {
                                     <VpnKeyOutlinedIcon className={styles.formIcon}/>
                                 ),
                             }}
+                            autoComplete="on"
                             onChange={(e) => field.onChange(e)}
                             value={field.value || ''}
                             fullWidth={ true }

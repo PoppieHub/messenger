@@ -21,6 +21,7 @@ apiClient.interceptors.response.use((config) => {
     return config;
 }, async (error) => {
     const originalRequest = error.config;
+    let countErrorsRequest = 0;
 
     if (
         error.response.status === 401 &&
@@ -33,10 +34,15 @@ apiClient.interceptors.response.use((config) => {
                 {"refresh_token": localStorage.getItem(`${process.env.REACT_APP_NAME_REFRESH_TOKEN}`)}
             );
             store.setTokensTolLocalStorage(response);
+            countErrorsRequest = 0;
 
             return apiClient.request(originalRequest);
         } catch (e) {
-            store.logout();
+            countErrorsRequest++;
+
+            if (countErrorsRequest > 3) {
+                store.logout();
+            }
         }
     }
     throw error;

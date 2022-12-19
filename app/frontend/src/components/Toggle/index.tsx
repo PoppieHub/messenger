@@ -2,7 +2,7 @@ import React from "react";
 import {ToggleItem} from "../index";
 import {svgProfile, svgDialogs, svgContact, svgExit, svgPlus} from "../../assets";
 import {Context} from "../../index";
-import {browserRouteHome} from "../../routes";
+import {browserRouteIm, browserRouteProfile, browserRouteContacts} from "../../routes";
 import classNames from "classnames";
 import './Toggle.scss';
 
@@ -19,9 +19,9 @@ const Toggle = () => {
             />
             {(status &&
                 <div className="toggle__sidebar-container">
-                    <ToggleItem name={'Профиль'} svgUrl={svgProfile} />
-                    <ToggleItem name={'Диалоги'} svgUrl={svgDialogs} link={browserRouteHome}/>
-                    <ToggleItem name={'Контакты'} svgUrl={svgContact} />
+                    <ToggleItem name={'Профиль'} svgUrl={svgProfile} link={browserRouteProfile}/>
+                    <ToggleItem name={'Диалоги'} svgUrl={svgDialogs} link={browserRouteIm}/>
+                    <ToggleItem name={'Контакты'} svgUrl={svgContact} link={browserRouteContacts} />
                     <ToggleItem name={'Выйти'} svgUrl={svgExit} onClick={() => store.logout()} />
                 </div>
             )}

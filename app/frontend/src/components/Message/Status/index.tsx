@@ -4,8 +4,9 @@ import {checkRead, isMe} from "../../../utils/Message";
 import {StatusProps} from "../../../models/props/StatusProps";
 
 const Status: React.FC<StatusProps> = ({replyStatus = false, message, store, dialog = false}) => {
-    return (
-        (!replyStatus &&
+
+    if (!replyStatus) {
+        return (
             <div className={classNames({
                     'message__icon-read': !dialog && isMe(message.user, store),
                     'message__icon--doubleTicks': !dialog && isMe(message.user, store) && message.read && checkRead(message.read),
@@ -15,8 +16,10 @@ const Status: React.FC<StatusProps> = ({replyStatus = false, message, store, dia
                     'dialog__messageIcon--ticks':dialog && isMe(message.user, store) && message.read && !checkRead(message.read)
                 }
             )}/>
-        ) || (<></>)
-    );
+        );
+    } else {
+        return (<></>);
+    }
 }
 
 export default Status;

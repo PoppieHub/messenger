@@ -1,0 +1,39 @@
+@import "../../assets/styles/variables";
+
+.carousel {
+  &-mainContainer {
+    $localWith: 238px;
+
+    height: 210px;
+    width: $localWith;
+    display: flex;
+    align-items: center;
+
+    .arrow {
+      cursor: pointer;
+      fill: $grey;
+
+      &--disable {
+        height: 100%;
+        width: calc(($localWith - 208px) / 2);
+      }
+    }
+
+    &-window {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+
+      .all-items-container {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+
+        transition: translate;
+        transition-property: transform;
+        transition-duration: 150ms;
+        transition-timing-function: ease-in-out;
+      }
+    }
+  }
+}

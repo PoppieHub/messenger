@@ -1,87 +1,97 @@
 @import "../../assets/styles/variables";
 
-.dialogInput-form {
-  display: flex;
-  align-items: center;
-  padding: 3px 10px;
-  width: 100%;
-  background-color: $lightBlue !important;
-  box-shadow: unset !important;
-  justify-content: center;
+.dialogInput {
 
-  &-input {
-    flex: 2;
+  &__emoji-picker {
+    position: absolute;
+    bottom: 90px;
+    z-index: 1;
+  }
 
-    label {
-      color: $black !important;
+  &-form {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    position: relative;
+    width: 100%;
+    background-color: $lightBlue !important;
+    box-shadow: unset !important;
+    justify-content: center;
+
+    &-input {
+      flex: 2;
+
+      label {
+        color: $black !important;
+      }
+
+      fieldset {
+        border-color: $lightGray;
+      }
+
+      .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: $lightGray;
+        opacity: 0.5;
+      }
     }
 
-    fieldset {
-      border-color: $lightGray;
+    &-input--error {
+      label {
+        color: $red !important;
+      }
     }
 
-    .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-      border-color: $lightGray;
-      opacity: 0.5;
+
+    &-microphone {
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/microphone.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
     }
-  }
 
-  &-input--error {
-    label {
-      color: $red !important;
+    &-image {
+      margin-left: 10px !important;
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/image.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
     }
-  }
 
+    &-document {
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/document.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
+    }
 
-  &-microphone {
-    padding: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url("../../assets/img/microphone.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 80%;
-  }
+    &-smile {
+      margin-right: 10px !important;
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/smile.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
 
-  &-image {
-    margin-left: 10px !important;
-    padding: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url("../../assets/img/image.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 80%;
-  }
-
-  &-document {
-    padding: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url("../../assets/img/document.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 80%;
-  }
-
-  &-smile {
-    margin-right: 10px !important;
-    padding: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url("../../assets/img/smile.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-
-  &-send {
-    padding: 10px;
-    width: 40px;
-    height: 40px;
-    background-image: url("../../assets/img/send.svg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 80%;
+    &-send {
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/send.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
+    }
   }
 }
