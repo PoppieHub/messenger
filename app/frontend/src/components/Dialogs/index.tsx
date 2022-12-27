@@ -21,17 +21,11 @@ const Dialogs: React.FC<DialogsProps> = ({chatsList, onSearch, inputValue}) => {
             </div>
             {
                 //Сортировка по времени
-                (chatsList.items && chatsList.items.length > 0 && chatsList.items.sort((firstItem: ChatsListItem,secondItem: ChatsListItem):any => {
+                (chatsList.items && chatsList.items.length > 0 && chatsList.items.sort((firstItem: ChatsListItem, secondItem: ChatsListItem):any => {
                     if (firstItem.lastMessage?.createdAt! && secondItem.lastMessage?.createdAt!) {
                         return (
-                            ((secondItem.lastMessage?.updatedAt)?
-                                secondItem.lastMessage.updatedAt:
-                                secondItem.lastMessage.createdAt
-                            ) -
-                            ((firstItem.lastMessage?.updatedAt)?
-                                firstItem.lastMessage.updatedAt:
+                                secondItem.lastMessage.createdAt -
                                 firstItem.lastMessage.createdAt
-                            )
                         );
                     } else {
                         return (

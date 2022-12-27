@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import {IModalProps} from "../../models/props/IModalProps";
-import "./Modal.scss";
 import {Button} from "../index";
-
+import "./Modal.scss";
 const Modal: React.FC <React.PropsWithChildren<IModalProps>> = (
     {
         active,
@@ -15,6 +14,8 @@ const Modal: React.FC <React.PropsWithChildren<IModalProps>> = (
         customClassNameButtonSecond = '',
         children
     }) => {
+    const [classNameButtonFirst] = React.useState<string>(`modal__button ${customClassNameButtonFirst}`);
+    const [classNameButtonSecond] = React.useState<string>(`modal__button ${customClassNameButtonSecond}`);
     if (active) {
         const portalElement = document.getElementById('root');
 
@@ -31,13 +32,13 @@ const Modal: React.FC <React.PropsWithChildren<IModalProps>> = (
                                 <Button
                                     fullWidth={false}
                                     text={'Отмена'}
-                                    customClassName={"modal__button" + " " + customClassNameButtonFirst}
+                                    customClassName={classNameButtonFirst}
                                     callback={onClose}
                                 />
                                 <Button
                                     fullWidth={false}
                                     text={'Подтвердить'}
-                                    customClassName={"modal__button" + " " + customClassNameButtonSecond}
+                                    customClassName={classNameButtonSecond}
                                     callback={onSubmit}
                                 />
                             </div>

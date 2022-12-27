@@ -9,13 +9,13 @@ import {ChatsListItem} from "../models/response/ChatsListItem";
 
 const Dialogs:React.FC = () => {
     const {store} = React.useContext(Context);
-    const [chatsList, setChatsList] = React.useState<ChatsListResponse>({items: []});
+    const [chatsList, setChatsList] = React.useState<ChatsListResponse>();
     const [inputValue, setInputValue] = React.useState<string>('');
-    const [sort, setSort] = React.useState(chatsList.items);
+    const [sort, setSort] = React.useState<ChatsListResponse>();
     const [flag, setFlag] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        if (store.getChats().items === undefined) {
+        if (!flag && store.getChats().items === undefined) {
             store.getChatsFromAPI().then();
         } else {
             setFlag(true);
@@ -24,16 +24,21 @@ const Dialogs:React.FC = () => {
     }, []);
 
     React.useEffect(() => {
-        setChatsList(store.getChats());
-        chatsList.items && setSort(chatsList.items);
-
+        setChatsList({
+            ...chatsList,
+            ...store.getChats()
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [store.chats, flag]);
+    }, [store.getChats(), flag]);
+
+    React.useEffect(() => {
+        setSort(chatsList);
+    }, [chatsList]);
 
     const onChangeInput = (value: string = '') => {
-        if (chatsList.items.length > 0) {
-            setSort(
-                chatsList.items.filter(
+        if (chatsList && chatsList.items.length > 0) {
+            setSort({
+                items: chatsList.items.filter(
                     (dialog: ChatsListItem) => (
                         (dialog.multiChat)? dialog.name.toLowerCase().indexOf(value.toLowerCase()) >= 0:
                             getUserName(
@@ -43,17 +48,19 @@ const Dialogs:React.FC = () => {
                             ).toLowerCase().indexOf(value.toLowerCase()) >= 0
                     )
                 )
-            );
+            });
         }
 
         setInputValue(value);
     };
 
-    return <DialogList
-        chatsList={{items: sort}}
-        onSearch={onChangeInput}
-        inputValue={inputValue}
-    />;
+    return (
+        <DialogList
+            chatsList={sort || {items: []}}
+            onSearch={onChangeInput}
+            inputValue={inputValue}
+        />
+    );
 
 };
 

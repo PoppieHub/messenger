@@ -23,7 +23,8 @@ const Profile = () => {
 
     React.useEffect(() => {
         setProfilePercent(memoizedProfile);
-    },[store.getProfile()]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[store.profile]);
 
     return (
         <Home

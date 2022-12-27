@@ -33,6 +33,20 @@
   }
 }
 
+.modal {
+  &__children {
+    &-verification {
+      display: flex;
+      flex-direction: column;
+
+      .button-refresh {
+        display: flex;
+        align-self: center;
+        text-transform: unset;
+      }
+    }
+  }
+}
 
 .messenger {
   $self: &;
@@ -162,6 +176,18 @@
       }
     }
 
+    &-contacts {
+      padding-top: 20px;
+      width: 312px;
+      height: 66vh;
+      overflow-y: initial;
+      overflow-x: hidden;
+    }
+
+    &-contacts::-webkit-scrollbar-track{
+      margin-top: 55px;
+    }
+
     &-item {
       padding: 15px 0 0 15px;
       width: 324px;
@@ -188,6 +214,13 @@
 
     &--container {
       margin: 40px 0 0 -20%;
+    }
+  }
+
+  &__contact {
+    &-profile {
+      flex: 1;
+      background-color: $lightBlue;
     }
   }
 }

@@ -10,11 +10,11 @@ const Carousel = ({children, width, customBackground}: {
     const [offset, setOffset] = React.useState<number>(0);
     const [maxOffset, setMaxOffset] = React.useState<number>(0);
 
-    const handleSetMaxOffset = (): void => {
+    const handleSetMaxOffset = React.useCallback((): void => {
         setMaxOffset(
             -(width * (items.length - 1))
         );
-    }
+    }, [width, items.length]);
 
     const handleLeftArrowClick = () => {
         setOffset((currentOffset) => {
@@ -44,7 +44,7 @@ const Carousel = ({children, width, customBackground}: {
             })
         );
         handleSetMaxOffset();
-    }, [children]);
+    }, [children, customBackground, handleSetMaxOffset, width]);
 
     return (
         <div className="carousel-mainContainer">

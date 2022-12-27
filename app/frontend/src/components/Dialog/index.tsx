@@ -1,5 +1,5 @@
 import React from 'react';
-import {DialogInput, Name, UserStatus} from "../";
+import {DialogInput, DropDownMenu, Name, UserStatus} from "../";
 import {Context} from "../../index";
 import {Messages} from "../../containers";
 import {observer} from "mobx-react-lite";
@@ -54,7 +54,7 @@ const Dialog = () => {
                             </div>
                         }
                     </div>
-                    <button className="messenger__dialog-header-more" />
+                    <DropDownMenu children={<></>} />
                 </div>
                 <div className="messenger__dialog-messages">
                     <Messages />

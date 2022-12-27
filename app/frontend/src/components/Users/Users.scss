@@ -1,0 +1,9 @@
+@import "../../assets/styles/variables";
+
+.users {
+  &-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}

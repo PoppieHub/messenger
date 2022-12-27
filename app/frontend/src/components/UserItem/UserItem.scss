@@ -1,0 +1,82 @@
+@import "../../assets/styles/variables";
+
+.users__item {
+  $self: &;
+  display: flex;
+  margin-bottom: 20px;
+  cursor: pointer;
+  padding: 2px 0;
+  z-index: 100;
+
+  &:hover, &--active {
+    opacity: 0.9;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 4%);
+    border-radius: 50px 20px 20px 50px;
+    background-color: lighten($lightBlue, 0.2);
+  }
+
+  &--avatar {
+    flex: 0 0 50px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 1;
+
+    &-top {
+      display: flex;
+
+      #{$self}-name {
+        font-weight: 700;
+        font-size: 14px;
+        flex: 1 1;
+        margin-bottom: 6px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 200px;
+        white-space: nowrap;
+      }
+    }
+
+    &-bottom {
+      position: relative;
+      display: flex;
+
+      p {
+        font-size: 14px;
+        opacity: 0.7;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 220px;
+        height: 1.2em;
+        white-space: nowrap;
+      }
+
+      p:before {
+        content: "@ ";
+        color: grey;
+      }
+    }
+
+  }
+
+  &--online {
+    #{$self}--avatar::before {
+      display: block;
+      position: relative;
+      z-index: 4;
+      margin-bottom: -13px;
+      content: '';
+      background-color: $green;
+      border-radius: 50px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid $white;
+    }
+  }
+}

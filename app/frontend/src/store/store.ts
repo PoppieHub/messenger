@@ -13,6 +13,9 @@ import ProfileRequest from "../models/request/ProfileRequest";
 import {ContentListItem} from "../models/response/ContentListItem";
 import ContentService from "../services/ContentService";
 import {ContentListResponse} from "../models/response/ContentListResponse";
+import {ContactListResponse} from "../models/response/ContactListResponse";
+import ContactService from "../services/ContactService";
+import {ContactListItem} from "../models/response/ContactListItem";
 
 export default class Store {
     private isAuth: boolean = false;
@@ -20,6 +23,9 @@ export default class Store {
     public chats = {} as ChatsListResponse;
     public currentDialog = {} as ChatsListItem;
     public viewedDialogId: number | null = null;
+    public contacts = {} as ContactListResponse;
+    private viewedUserProfile = {} as UserListItem;
+    public viewedUserProfileId: string | null = null;
     private isLoading: boolean = false;
     private isError: boolean = false;
 
@@ -67,6 +73,30 @@ export default class Store {
         this.viewedDialogId = viewedDialogId;
     }
 
+    public getContacts(): ContactListResponse {
+        return this.contacts;
+    }
+
+    public setContacts(contacts: ContactListResponse): void {
+        this.contacts = contacts;
+    }
+
+    public getViewedUserProfile(): UserListItem {
+        return this.viewedUserProfile;
+    }
+
+    public setViewedUserProfile(viewedUserProfile: UserListItem): void {
+        this.viewedUserProfile = viewedUserProfile;
+    }
+
+    public getViewedUserProfileId(): string | null {
+        return this.viewedUserProfileId;
+    }
+
+    public setViewedUserProfileId(viewedUserProfileId: string | null): void {
+        this.viewedUserProfileId = viewedUserProfileId;
+    }
+
     private setLoading(bool: boolean): void {
         this.isLoading = bool;
     }
@@ -99,7 +129,7 @@ export default class Store {
         localStorage.removeItem(`${process.env.REACT_APP_NAME_REFRESH_TOKEN}`);
     }
 
-    private async getProfileFromAPI() {
+    public async getProfileFromAPI() {
         try {
             const response = await UserService.profile();
             this.setProfile(response.data);
@@ -303,6 +333,99 @@ export default class Store {
                 }
             });
 
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async getContactsFromAPI() {
+        try {
+            await ContactService.getContacts().then((res: any) => {
+                if (res.status === 200) {
+                    this.setContacts({
+                        ...this.getContacts(),
+                        ...res.data
+                    });
+                }
+            });
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async addContactFromAPI(contactId: string) {
+        try {
+            await ContactService.addContact(contactId).then((res) => {
+                if (res.status === 200) {
+                    const contactsList: ContactListResponse = {
+                        items: this.getContacts().items.slice() || []
+                    };
+
+                    // @ts-ignore
+                    contactsList.items.push(res.data);
+
+                    this.setContacts({
+                        ...this.getContacts(),
+                        ...contactsList
+                    });
+                }
+            });
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async acceptContactFromAPI(contact: ContactListItem, index: number) {
+        try {
+            if (contact.id) {
+                await ContactService.acceptContact(contact.id).then((res) => {
+                    if (res.status === 200) {
+                        const contactsList: ContactListResponse = {
+                            items: this.getContacts().items.slice() || []
+                        };
+
+                        if (contactsList.items[index]) {
+                            contactsList.items[index].status = true;
+                        }
+
+                       this.setContacts({
+                            ...this.getContacts(),
+                            ...contactsList
+                        });
+                    }
+                });
+            }
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteContactFromAPI(contact: ContactListItem, index: number) {
+        try {
+            if (contact.id) {
+                await ContactService.deleteContact(contact.id).then((res) => {
+                    if (res.status === 200) {
+                        const contactsList: ContactListResponse = {
+                            items: this.getContacts().items.slice() || []
+                        };
+
+                        contactsList.items.splice(index, 1);
+
+                        this.setContacts({
+                            ...this.getContacts(),
+                            ...contactsList
+                        });
+                    }
+                });
+            }
         } catch (e: any) {
             if (e.response?.data?.message!) {
                 console.error(e.response.data.message);

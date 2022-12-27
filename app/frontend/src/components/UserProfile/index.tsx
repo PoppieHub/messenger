@@ -1,6 +1,6 @@
 import React from "react";
 import {UserProfileProps} from "../../models/props/UserProfileProps";
-import {Avatar, Name, UserStatus} from "../index";
+import {Avatar, Name, UserStatus, ContactControl} from "../index";
 import {getUserName} from "../../utils/User";
 import {ContentListResponse} from "../../models/response/ContentListResponse";
 import './UserProfile.scss';
@@ -17,6 +17,7 @@ const UserProfile: React.FC<UserProfileProps> = (props) => {
                 }
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props]);
 
     return (
@@ -41,6 +42,7 @@ const UserProfile: React.FC<UserProfileProps> = (props) => {
                 </div>
             </div>
             <div className="profile__body">
+                <ContactControl profile={props.profile} selfProfile={props.selfProfile} />
                 <div className="profile__body-profile">
                     {
                         ((props.profile.hideEmail === false ||

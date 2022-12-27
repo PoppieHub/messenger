@@ -63,7 +63,7 @@ class ContactRepository extends ServiceEntityRepository
     public function findByContactIdAndFromUser(string $contactId, string $userId): Contact|null
     {
         $db = $this->createQueryBuilder('contact')
-            ->where('contact.from_user = :userId AND contact.id = :contactId')
+            ->where('contact.to_user = :userId AND contact.id = :contactId')
             ->setParameter('userId', $userId)
             ->setParameter('contactId', $contactId)
         ;

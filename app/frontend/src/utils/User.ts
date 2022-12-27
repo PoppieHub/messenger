@@ -34,7 +34,7 @@ export const profileCompletionPercentage = (profile: UserListItem): number => {
     let pointer: number = 0;
 
     Object.values(profile).forEach((item) => {
-        if (typeof item !== null && typeof item !== undefined) {
+        if (item !== null && typeof item !== 'undefined') {
             pointer++;
         }
     });

@@ -23,8 +23,25 @@ const Avatar: React.FC<AvatarProps> = ({
     const {colors} = generateAvatarByNickname(stringForGenerateColor);
     const firstChar = stringForFirstCharacter[0].toUpperCase();
 
+    const changeHandler = React.useCallback( (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file: File = e.target.files[0];
+            e.target.value = '';
+
+            return store.uploadAvatar(file);
+        }
+    }, [store]);
+
+    const deleteHandler = React.useCallback((data: ContentListItem, index: number) => {
+            if (chat && chat.id) {
+                return store.deleteChatAvatarFromAPI(data, index, chat);
+            } else {
+                return store.deleteUserAvatarFromAPI(data, index);
+            }
+    }, [chat, store]);
+
     React.useEffect(() => {
-        if (!shortAvatar && contentList?.items.length!) {
+        if (!shortAvatar && contentList?.items && contentList?.items.length > 0) {
             if (selfProfile) {
                 setCollection(
                     contentList.items.map((item, index) => {
@@ -68,27 +85,10 @@ const Avatar: React.FC<AvatarProps> = ({
                 );
             }
         }
-    }, [contentList]);
-
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file: File = e.target.files[0];
-            e.target.value = '';
-
-            return store.uploadAvatar(file);
-        }
-    }
-
-    const deleteHandler = (data: ContentListItem, index: number) => {
-        if (chat && chat.id) {
-            return store.deleteChatAvatarFromAPI(data, index, chat);
-        } else {
-            return store.deleteUserAvatarFromAPI(data, index);
-        }
-    }
+    }, [contentList, alt, deleteHandler, selfProfile, shortAvatar]);
 
     if (shortAvatar) {
-        if (contentList && contentList.items && contentList.items.length > 0) {
+        if (contentList && contentList.items.length > 0) {
             return (
                 <img
                     className='avatar'
@@ -108,7 +108,7 @@ const Avatar: React.FC<AvatarProps> = ({
         }
     } else {
         if (selfProfile) {
-            if (contentList?.items.length && collection) {
+            if (contentList?.items && contentList?.items.length && collection) {
                 return (
                     <div className="avatar__block">
                         <Carousel width={210} >
