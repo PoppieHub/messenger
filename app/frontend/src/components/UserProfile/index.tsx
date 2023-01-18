@@ -1,6 +1,7 @@
 import React from "react";
 import {UserProfileProps} from "../../models/props/UserProfileProps";
 import {Avatar, Name, UserStatus, ContactControl} from "../index";
+import {GetUserDialog} from "../../containers";
 import {getUserName} from "../../utils/User";
 import {ContentListResponse} from "../../models/response/ContentListResponse";
 import './UserProfile.scss';
@@ -43,6 +44,7 @@ const UserProfile: React.FC<UserProfileProps> = (props) => {
             </div>
             <div className="profile__body">
                 <ContactControl profile={props.profile} selfProfile={props.selfProfile} />
+                <GetUserDialog  profile={props.profile} selfProfile={props.selfProfile} />
                 <div className="profile__body-profile">
                     {
                         ((props.profile.hideEmail === false ||

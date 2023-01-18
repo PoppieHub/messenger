@@ -142,15 +142,24 @@ class MessageService
         $this->messageReturnException->checkExistsMessage($message);
 
         if ($user->getId() !== $message->getUser()->getId()) {
-            $this->membershipReturnException->checkEqualityOfTwoMembership(
-                firstMembershipId: $user->getId(),
-                secondMembershipId: $this->membershipRepository->findFirstMembershipByChatId(
-                    chatId: $message->getChat()->getId()
-                )->getUser()->getId()
-            );
+            if (!$message->getChat()->isMultiChat()) {
+                foreach ($message->getChat()->getMemberships()->toArray() as $value) {
+                    if ($value->getUser()->getId() === $user->getId()) {
+                        $this->em->remove($message);
+                    }
+                }
+            } else {
+                $this->membershipReturnException->checkEqualityOfTwoMembership(
+                    firstMembershipId: $user->getId(),
+                    secondMembershipId: $this->membershipRepository->findFirstMembershipByChatId(
+                        chatId: $message->getChat()->getId()
+                    )->getUser()->getId()
+                );
+                $this->em->remove($message);
+            }
+        } else {
+            $this->em->remove($message);
         }
-
-        $this->em->remove($message);
 
         return true;
     }

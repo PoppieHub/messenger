@@ -5,7 +5,12 @@ import {MessageDate, MessageStatus, AudioMessage, Avatar, Name} from "../index";
 import {getUserName} from "../../utils/User";
 import {Context} from "../../index";
 import {isMe, checkMimeType} from "../../utils/Message";
+import reactStringReplace from 'react-string-replace';
+import data from '@emoji-mart/data/sets/14/apple.json';
+import { init } from 'emoji-mart';
 import './Message.scss';
+
+init({ data });
 
 const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
     const [isMyMessage, setIsMyMessage] = React.useState<boolean>(false);
@@ -46,7 +51,13 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                             (message.reply && message.reply.items && message.reply.items.length !== 0)) &&
                         <div className='message__bubble'>
                             {message.bodyMessage && message.bodyMessage?.message &&
-                                <p className='message__text'>{message.bodyMessage?.message}</p>
+                                <p className='message__text'>
+                                    {reactStringReplace(message.bodyMessage?.message, /:(.+?):/g, (match: string, i: number) => (
+                                        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                                        /* @ts-ignore */
+                                        <em-emoji key={i} set="apple" id={match} size="20px"/>
+                                    ))}
+                                </p>
                             }
                             {
                                 message.reply && message.reply.items && message.reply.items.length > 0 &&
@@ -63,20 +74,20 @@ const Message: React.FC<MessageProps> = ({message, replyStatus = false}) => {
                                         {
                                             (message.bodyMessage.content.items.length !== 1 &&
                                             message.bodyMessage.content.items.map((item) =>
-                                                (checkMimeType(item, 'audio') &&
+                                                (checkMimeType(item, 'webm') &&
                                                     <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/>) ||
                                                 (checkMimeType(item, 'image') &&
                                                     <div className='message__attachments-item' key={item.id}>
-                                                        <img src={item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
+                                                        <img src={process.env.REACT_APP_BACKEND_URL + item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
                                                     </div>)
                                             )) || (
                                             message.bodyMessage.content.items.length === 1 &&
                                             message.bodyMessage.content.items.map((item) =>
-                                                (checkMimeType(item, 'audio') &&
+                                                (checkMimeType(item, 'webm') &&
                                                     <AudioMessage content={item} isMe={isMyMessage} replyStatus={replyStatus} key={item.id}/>) ||
                                                 (checkMimeType(item, 'image') &&
                                                     <div className='message__attachments-item--onlyOneItem' key={item.id}>
-                                                        <img src={item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
+                                                        <img src={process.env.REACT_APP_BACKEND_URL + item.link} alt={item.id ? item.id : 'attachments ' + item.link}/>
                                                     </div>)
                                             ))
                                         }

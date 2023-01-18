@@ -29,7 +29,7 @@ const Dialogs:React.FC = () => {
             ...store.getChats()
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [store.getChats(), flag]);
+    }, [store.chats, flag]);
 
     React.useEffect(() => {
         setSort(chatsList);

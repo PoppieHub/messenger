@@ -65,4 +65,20 @@ class MembershipRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    /**
+     * @return Membership[]
+     */
+    public function getMembershipsForChat(string $chatId): array
+    {
+        $db = $this->createQueryBuilder('membership')
+            ->select('membership')
+            ->where('membership.chat = :chatId')
+            ->setParameter('chatId', $chatId)
+            ->orderBy('membership.id', 'ASC')
+            ->groupBy('membership.id');
+
+        $query = $db->getQuery();
+        return $query->execute();
+    }
 }

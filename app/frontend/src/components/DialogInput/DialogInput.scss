@@ -1,6 +1,15 @@
 @import "../../assets/styles/variables";
 
 .dialogInput {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+
+  &-upload {
+    padding: 0 10px 0 10px;
+    position: absolute;
+    bottom: 100px;
+  }
 
   &__emoji-picker {
     position: absolute;
@@ -11,9 +20,9 @@
   &-form {
     display: flex;
     align-items: center;
-    padding: 7px 10px;
     position: relative;
     width: 100%;
+    padding: 7px 10px;
     background-color: $lightBlue !important;
     box-shadow: unset !important;
     justify-content: center;
@@ -26,7 +35,7 @@
       }
 
       fieldset {
-        border-color: $lightGray;
+        border-color: $lightGray !important;
       }
 
       .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
@@ -41,9 +50,14 @@
       }
     }
 
+    &-info {
+      opacity: 0.6;
+      font-size: 15px;
+      font-weight: 300;
+    }
 
     &-microphone {
-      padding: 10px;
+      padding: 0 !important;
       width: 40px;
       height: 40px;
       background-image: url("../../assets/img/microphone.svg");
@@ -52,25 +66,37 @@
       background-size: 80%;
     }
 
+    &-stop {
+      padding: 0 !important;
+      width: 40px;
+      height: 40px;
+      background-image: url("../../assets/img/stop.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 80%;
+      animation: glowing 1900ms infinite;
+    }
+
     &-image {
-      margin-left: 10px !important;
-      padding: 10px;
+      padding: 0 !important;
       width: 40px;
       height: 40px;
       background-image: url("../../assets/img/image.svg");
       background-position: center;
       background-repeat: no-repeat;
       background-size: 80%;
-    }
 
-    &-document {
-      padding: 10px;
-      width: 40px;
-      height: 40px;
-      background-image: url("../../assets/img/document.svg");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: 80%;
+      input[type=file] {
+        opacity: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Focus */
+      input[type=file]:focus + span {
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+      }
     }
 
     &-smile {
@@ -81,7 +107,7 @@
       background-image: url("../../assets/img/smile.svg");
       background-position: center;
       background-repeat: no-repeat;
-      background-size: cover;
+      background-size: 80%;
     }
 
     &-send {
@@ -93,5 +119,43 @@
       background-repeat: no-repeat;
       background-size: 80%;
     }
+
+    &-audio {
+      display: flex;
+      align-items: center;
+
+      > div {
+        margin: 0 10px;
+      }
+
+      &__delete {
+        background-image: url("../../assets/img/plus.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-color: rgba(255, 17, 0, 0.62);
+        rotate: 45deg;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      &__delete:hover {
+        transform: scale(1.1);
+      }
+
+      .message__audio--isMe {
+        border: none;
+        box-shadow: none;
+        border-radius: 22px;
+      }
+    }
   }
+}
+
+@keyframes glowing {
+  0% { background-color: rgba(255, 17, 0, 0.31);}
+  50% { background-color: rgba(255, 17, 0, 0.62);}
+  100% { background-color: transparent;}
 }

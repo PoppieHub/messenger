@@ -53,7 +53,7 @@ const Avatar: React.FC<AvatarProps> = ({
                                 <img
                                     key={index}
                                     className='avatar'
-                                    src={process.env.REACT_APP_BACKEND_URL + '/' + item.link}
+                                    src={process.env.REACT_APP_BACKEND_URL + item.link}
                                     alt={'Avatar ' + alt}
                                 />
                                 <div
@@ -76,7 +76,7 @@ const Avatar: React.FC<AvatarProps> = ({
                                 <img
                                     key={index}
                                     className='avatar'
-                                    src={process.env.REACT_APP_BACKEND_URL + '/' + item.link}
+                                    src={process.env.REACT_APP_BACKEND_URL + item.link}
                                     alt={'Avatar ' + alt}
                                 />
                             </div>
@@ -92,7 +92,7 @@ const Avatar: React.FC<AvatarProps> = ({
             return (
                 <img
                     className='avatar'
-                    src={process.env.REACT_APP_BACKEND_URL + '/' + contentList.items[0].link}
+                    src={process.env.REACT_APP_BACKEND_URL + contentList.items[0].link}
                     alt={'Avatar ' + alt}
                 />
             );
@@ -149,7 +149,7 @@ const Avatar: React.FC<AvatarProps> = ({
                     return (
                         <img
                             className='avatar'
-                            src={process.env.REACT_APP_BACKEND_URL + '/' + contentList.items[0].link}
+                            src={process.env.REACT_APP_BACKEND_URL + contentList.items[0].link}
                             alt={'Avatar ' + alt}
                         />
                     );

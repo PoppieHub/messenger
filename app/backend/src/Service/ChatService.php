@@ -48,9 +48,20 @@ class ChatService
 
             $this->membershipService->setMembershipForChat(userWhoIsChatting: $currentUser, addedUser: $currentUser, chat: $chat, isNewChat: true);
             $this->membershipService->setMembershipForChat(userWhoIsChatting: $otherUser, addedUser: $otherUser, chat: $chat, isNewChat: true);
+
         }
 
-        return $this->getChat(chat: $chat, currentUser: $currentUser);
+        $membership = $this->membershipRepository->getMembershipsForChat($chat->getId());
+        $chatModel = $this->getChat(chat: $chat, currentUser: $currentUser);
+
+        $chatModel->setMembership(
+            (!empty($membership))?
+                $this->membershipService->getCollectionMembership(
+                    $membership
+                ) : null
+        );
+
+        return $chatModel;
     }
 
     public function getListChats(User $user): ChatsListResponse
@@ -69,7 +80,17 @@ class ChatService
 
         $this->membershipService->setMembershipForChat(userWhoIsChatting: $currentUser, addedUser: $currentUser, chat: $chat, isNewChat: true);
 
-        return $this->getChat(chat: $chat, currentUser: $currentUser);
+        $membership = $this->membershipRepository->getMembershipsForChat($chat->getId());
+        $chatModel = $this->getChat(chat: $chat, currentUser: $currentUser);
+
+        $chatModel->setMembership(
+            (!empty($membership))?
+                $this->membershipService->getCollectionMembership(
+                    $membership
+                ) : null
+        );
+
+        return $chatModel;
     }
 
     public function updateMultiChat(User $currentUser, string $chatId, string $name = null, string $description = null): ChatsListItem

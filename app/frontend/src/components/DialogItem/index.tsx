@@ -1,7 +1,7 @@
 import React from 'react';
 import {DialogsItemProps} from "../../models/props/DialogsItemProps";
 import {getLastMessage, getUserNameLastMessage} from "../../utils/Chat";
-import {getHelloMessage} from "../../utils/Message";
+import {getHelloMessage, checkMimeType} from "../../utils/Message";
 import {getOtherUserForNotMultiChat} from "../../utils/Membership";
 import {getUserName} from "../../utils/User";
 import {MessageDate, MessageStatus, Avatar, Name} from "../";
@@ -10,7 +10,12 @@ import {UserListItem} from "../../models/response/UserListItem";
 import {Context} from "../../index";
 import classNames from "classnames";
 import {observer} from "mobx-react-lite";
+import reactStringReplace from "react-string-replace";
+import data from '@emoji-mart/data/sets/14/apple.json';
+import { init } from 'emoji-mart';
 import './Dialog.scss';
+
+init({ data });
 
 const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
     const {store} = React.useContext(Context);
@@ -85,7 +90,27 @@ const DialogItem: React.FC<DialogsItemProps> = ({chat}) => {
                     </div>
                 }
                 <div className="dialogs__item-info-bottom">
-                    <p>{lastMessage?.bodyMessage?.message}</p>
+                    <p>
+                        {(lastMessage?.bodyMessage?.message && lastMessage.bodyMessage.message.length > 0 &&
+                            reactStringReplace(lastMessage.bodyMessage.message, /:(.+?):/g, (match: string, i: number) => (
+                                /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                                /* @ts-ignore */
+                                <em-emoji key={i} set="apple" id={match} size="16px"/>
+                            ))) || (
+                            (lastMessage?.bodyMessage?.content.items && lastMessage.bodyMessage.content.items.length > 0 &&
+                                (
+                                    (lastMessage.bodyMessage.content.items.length === 1 &&
+                                        (
+                                            (checkMimeType(lastMessage.bodyMessage.content.items[0], 'webm') &&
+                                                <span className="dialogs__item-info-bottom-detectedElement">Аудиосообщение</span>
+                                            ) || <span className="dialogs__item-info-bottom-detectedElement">Картинка</span>
+                                        )
+                                    ) || <span className="dialogs__item-info-bottom-detectedElement">Вложенные элементы</span>
+                                )
+                            ) || <span className="dialogs__item-info-bottom-detectedElement">Пересланное сообщение</span>
+                        )
+                        }
+                    </p>
                     {lastMessage && <MessageStatus message={lastMessage} store={store} dialog={true} />}
                     {chat.unreadMessageCounter !== 0 &&
                         <div className="dialogs__item-info-bottom-count">

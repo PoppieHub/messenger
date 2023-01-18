@@ -25,7 +25,6 @@ const App: FC = () => {
         if (store.getAuth() && store.getProfile().verified) {
             navigate(browserRouteIm);
             store.getContactsFromAPI();
-        } else if (store.getAuth() && !store.getProfile().verified) {
         } else {
             navigate(browserRouteAuth);
         }
@@ -33,7 +32,7 @@ const App: FC = () => {
     }, [store.getAuth(), store.profile.verified]);
 
     React.useEffect(() => {
-        if (store.getProfile() && !store.getProfile().verified) {
+        if (store.getAuth() && store.getProfile() && !store.getProfile().verified) {
             setShowModal(true);
         } else {
             setShowModal(false);

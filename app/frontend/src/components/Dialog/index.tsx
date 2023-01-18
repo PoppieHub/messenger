@@ -1,21 +1,18 @@
 import React from 'react';
-import {DialogInput, DropDownMenu, Name, UserStatus} from "../";
+import {DropDownMenu, Name, UserStatus} from "../";
+import {DialogInput} from "../../containers";
 import {Context} from "../../index";
 import {Messages} from "../../containers";
 import {observer} from "mobx-react-lite";
 import {UserListItem} from "../../models/response/UserListItem";
 import {getOtherUserForNotMultiChat} from "../../utils/Membership";
+import {ChatsListItem} from "../../models/response/ChatsListItem";
 import './Dialog.scss';
+
 const Dialog = () => {
     const {store} = React.useContext(Context);
-    const [chatId, setChatId] = React.useState<number | null>(null);
+    const [chat, setChat] = React.useState<ChatsListItem>();
     const [otherUser, setOtherUser] = React.useState<UserListItem>();
-
-    React.useEffect(() => {
-        if (store.viewedDialogId!) {
-            setChatId(store.viewedDialogId);
-        }
-    }, [store.viewedDialogId]);
 
     React.useEffect(() => {
 
@@ -27,6 +24,13 @@ const Dialog = () => {
             setOtherUser(
                 getOtherUserForNotMultiChat(store, store.currentDialog.membership)
             );
+        }
+
+        if (store.currentDialog.id) {
+            setChat({
+                ...chat,
+                ...store.currentDialog
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store.currentDialog]);
@@ -59,9 +63,11 @@ const Dialog = () => {
                 <div className="messenger__dialog-messages">
                     <Messages />
                 </div>
-                <div className="messenger__dialog-input">
-                    <DialogInput chatId={chatId! && chatId} />
-                </div>
+                {chat &&
+                    <div className="messenger__dialog-input">
+                        <DialogInput chat={chat} />
+                    </div>
+                }
             </div>
         );
     } else {

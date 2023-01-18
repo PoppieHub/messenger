@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import SignInRequest from "../models/request/SignInRequest";
 import SignUpRequest from "../models/request/SignUpRequest";
-import {UserService, AuthService, ChatService} from "../services/";
+import {UserService, AuthService, ChatService, MessageService} from "../services/";
 import {UserListItem} from "../models/response/UserListItem";
 import axios, {AxiosResponse} from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
@@ -16,6 +16,11 @@ import {ContentListResponse} from "../models/response/ContentListResponse";
 import {ContactListResponse} from "../models/response/ContactListResponse";
 import ContactService from "../services/ContactService";
 import {ContactListItem} from "../models/response/ContactListItem";
+import {ShortChatList} from "../models/uploadedStoreModel/ShortChatList";
+import {InputTextList} from "../models/inputDialogModel/InputTextList";
+import MessageRequest from "../models/request/MessageRequest";
+import UpdateMessageItem from "../models/request/UpdateMessageItem";
+import {MessagesShortListRequest} from "../models/request/MessagesShortListRequest";
 
 export default class Store {
     private isAuth: boolean = false;
@@ -26,6 +31,8 @@ export default class Store {
     public contacts = {} as ContactListResponse;
     private viewedUserProfile = {} as UserListItem;
     public viewedUserProfileId: string | null = null;
+    public uploadedContentForChats = {} as ShortChatList;
+    public dialogInput = {} as InputTextList;
     private isLoading: boolean = false;
     private isError: boolean = false;
 
@@ -73,12 +80,20 @@ export default class Store {
         this.viewedDialogId = viewedDialogId;
     }
 
-    public getContacts(): ContactListResponse {
-        return this.contacts;
+    public getUploadedContentForChats(): ShortChatList {
+        return this.uploadedContentForChats;
     }
 
-    public setContacts(contacts: ContactListResponse): void {
-        this.contacts = contacts;
+    public setUploadedContentForChats(uploaded: ShortChatList): void {
+        this.uploadedContentForChats = uploaded;
+    }
+
+    public getDialogInput(): InputTextList {
+        return this.dialogInput;
+    }
+
+    public setDialogInput(dialogInput: InputTextList): void {
+        this.dialogInput = dialogInput;
     }
 
     public getViewedUserProfile(): UserListItem {
@@ -95,6 +110,14 @@ export default class Store {
 
     public setViewedUserProfileId(viewedUserProfileId: string | null): void {
         this.viewedUserProfileId = viewedUserProfileId;
+    }
+
+    public getContacts(): ContactListResponse {
+        return this.contacts;
+    }
+
+    public setContacts(contacts: ContactListResponse): void {
+        this.contacts = contacts;
     }
 
     private setLoading(bool: boolean): void {
@@ -426,6 +449,163 @@ export default class Store {
                     }
                 });
             }
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async getDialogOrNewFromAPI(otherUser: UserListItem) {
+        try {
+            let chat = {} as ChatsListItem;
+
+            await ChatService.getDialogOrNew(otherUser.id).then((res) => {
+                if (res.status === 200) {
+                    const chatsList: ChatsListResponse = {
+                        items: this.getChats().items.slice() || []
+                    };
+                    let flag: boolean = false;
+
+                    chatsList.items.forEach((item) => {
+                        if (item.id === res.data.id) {
+                            chat = item;
+                            flag = true;
+                        }
+                    });
+
+                    if (!flag) {
+                        // @ts-ignore
+                        chatsList.items.push(res.data);
+                        this.setChats({
+                            ...this.getChats(),
+                            ...chatsList
+                        });
+                        chat = res.data;
+                    }
+                }
+            });
+            return chat;
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async uploadFiles(collectionFiles: File[]) {
+        try {
+            const chatId: number = this.getViewedDialogId() || 0;
+
+            let chatsWithUploaded = {
+                items: (this.getUploadedContentForChats().items)?
+                    this.getUploadedContentForChats().items.slice():
+                    []
+            } as ShortChatList;
+
+            if (!chatsWithUploaded.items[chatId]) {
+                chatsWithUploaded.items[chatId] = {
+                    uploadedContent: {
+                        items: []
+                    }
+                }
+            }
+
+            collectionFiles.map(async (file: File) => {
+                const formData: FormData = new FormData();
+
+                if (file.type.includes("image")) {
+                    formData.append('image', file);
+
+                    await ContentService.uploadImage(formData).then((res) => {
+                        if (res.status === 200) {
+                            // @ts-ignore
+                            chatsWithUploaded.items[chatId].uploadedContent.items.push(res.data);
+
+                            this.setUploadedContentForChats({
+                                ...this.getUploadedContentForChats(),
+                                ...chatsWithUploaded
+                            });
+                        }
+                    });
+                } else {
+                    formData.append('file', file);
+
+                    await ContentService.uploadFile(formData).then((res) => {
+                        if (res.status === 200) {
+                            // @ts-ignore
+                            chatsWithUploaded.items[chatId].uploadedContent.items.push(res.data);
+
+                            this.setUploadedContentForChats({
+                                ...this.getUploadedContentForChats(),
+                                ...chatsWithUploaded
+                            });
+                        }
+                    });
+                }
+            });
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteUploadedContent(chatId: number, contentId: string) {
+        let contentListItem = {} as ContentListItem;
+        const tempUploadedContent: ShortChatList = (this.getUploadedContentForChats())?
+            {...this.getUploadedContentForChats()}:
+            {items: []};
+
+        if (tempUploadedContent.items[chatId]) {
+            tempUploadedContent.items[chatId].uploadedContent.items.forEach((item: ContentListItem, index) => {
+                if (item.id === contentId) {
+                    contentListItem = {...item};
+                    tempUploadedContent.items[chatId].uploadedContent.items.splice(index, 1);
+                }
+            });
+        }
+
+        this.setUploadedContentForChats({
+            ...this.getUploadedContentForChats(),
+            ...tempUploadedContent
+        });
+
+        if (contentListItem) {
+            try {
+                await ContentService.deleteContent(contentListItem).then();
+
+            } catch (e: any) {
+                if (e.response?.data?.message!) {
+                    console.error(e.response.data.message);
+                }
+            }
+        }
+    }
+
+    public async addMessageAPI(message: MessageRequest) {
+        try {
+            await MessageService.addMessage(message).then();
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async updateMessageAPI(message: UpdateMessageItem) {
+        try {
+            await MessageService.updateMessage(message).then();
+        } catch (e: any) {
+            if (e.response?.data?.message!) {
+                console.error(e.response.data.message);
+            }
+        }
+    }
+
+    public async deleteMessagesAPI(shortMessagesCollection: MessagesShortListRequest) {
+        try {
+            await MessageService.deleteMessages(shortMessagesCollection).then();
         } catch (e: any) {
             if (e.response?.data?.message!) {
                 console.error(e.response.data.message);

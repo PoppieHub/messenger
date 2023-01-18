@@ -27,3 +27,5 @@ export { default as ContactsBlock } from "./ContactsBlock";
 export { default as EmptySelectedUser } from "./EmptySelectedUser";
 export { default as DropDownMenu } from "./DropDownMenu";
 export { default as ContactControl } from "./ContactControl";
+export { default as GetUserDialog } from "./GetUserDialog";
+export { default as UploadFiles } from "./UploadFiles";

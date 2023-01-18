@@ -50,7 +50,7 @@ const AudioMessage: React.FC<AudioMessageProps> = ({content, isMe = false, reply
 
     return (
         <div className={classNames('message__audio', {'message__audio--isMe': isMe && !replyStatus})}>
-            <audio ref={audioElem} src={content.link} preload='auto'/>
+            <audio ref={audioElem} src={process.env.REACT_APP_BACKEND_URL + content.link} preload='auto'/>
             <div className="message__audio-progress"  style={{width: progress + '%'}}/>
             <div className="message__audio-info">
                 <div className="message__audio-btn">
